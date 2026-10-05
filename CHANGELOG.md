@@ -15,6 +15,7 @@ Todas as alterações relevantes deste projeto serão documentadas neste arquivo
   - publish.yml: Publica imagem no GitHub Container Registry
   - release.yml: Criação automática de releases baseado no CHANGELOG.md
 
+  
 ## [v1.0.0-beta]
 
 ### Adicionado
