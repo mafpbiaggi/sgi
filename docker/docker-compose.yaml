@@ -1,0 +1,43 @@
+services:
+  sgi_db:
+    image: mariadb:12.2
+    container_name: sgi_db
+    environment:
+      - TZ=America/Sao_Paulo
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    volumes:
+      - sgi_db:/var/lib/mysql
+    restart: always
+    networks:
+      - sgi
+
+  sgi_app:
+    image: sgi:1.0
+    container_name: sgi_app
+    env_file:
+      - .env
+    volumes:
+        - sgi_profiles:/var/www/html/app/webroot/files/profile
+        - sgi_images:/var/www/html/app/webroot/images
+    ports:
+      - ${PORT_MAPPING}:80
+    restart: always
+    networks:
+      - sgi
+    depends_on:
+      - sgi_db
+
+networks:
+  sgi:
+    name: sgi
+
+volumes:
+  sgi_db:
+    name: sgi_db
+  sgi_profiles:
+    name: sgi_profiles
+  sgi_images:
+    name: sgi_images
