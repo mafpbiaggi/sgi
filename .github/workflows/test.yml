@@ -59,7 +59,7 @@ jobs:
           printf '%s\n' \
             'IMAGE_NAME=${IMAGE}' \
             'MYSQL_ROOT_PASSWORD=test' \
-            'MYSQL_HOST=sgi_test' \
+            'MYSQL_HOST=sgi_db' \
             'MYSQL_DATABASE=sgi_test' \
             'MYSQL_USER=test' \
             'MYSQL_PASSWORD=test' \
@@ -75,6 +75,11 @@ jobs:
       - name: Wait for container
         run: bash tests/container_status.sh ${{ github.event.repository.name }}_app
 
+      - name: Import database schema
+        run: |
+          docker cp schema/schema.sql sgi_db:/var/lib/mysql
+          docker exec -i sgi_db bash -c 'mariadb -u$MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE < /var/lib/mysql/schema.sql'
+          
       - name: Check application health
         run: bash tests/health_check_app.sh
 
