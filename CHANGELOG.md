@@ -2,6 +2,14 @@
 
 Todas as alterações relevantes deste projeto serão documentadas neste arquivo. O formato baseia-se no [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), e este projeto segue o [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.1]
+
+### Adicinoado
+- Variável para utilização de imagem no arquivo .env.examples
+
+### Corrigido
+- Definição da imagem usada pelo docker-compose.yaml
+
 ## [v1.0.0]
 
 ### Adicionado
@@ -65,3 +73,5 @@ Todas as alterações relevantes deste projeto serão documentadas neste arquivo
 
 [Unreleased]: https://github.com/mafpbiaggi/sgi/compare/1.0.0...HEAD
 [v1.0.0-beta]: https://github.com/mafpbiaggi/sgi/releases/tag/v1.0.0-beta
+[v1.0.0]: https://github.com/mafpbiaggi/sgi/releases/tag/v1.0.0
+[v1.0.1]: https://github.com/mafpbiaggi/sgi/releases/tag/v1.0.1
