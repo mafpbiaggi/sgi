@@ -67,7 +67,7 @@ jobs:
             'PAGE_TITLE=test' \
             'REPORT_TOP=test' \
             'SGI_BRAND=test' \
-            'PORT_MAPPING=80' > .env
+            'PORT_MAPPING=80' > docker/.env
 
       - name: Start containers
         run: docker compose -f docker/docker-compose.yaml up -d
