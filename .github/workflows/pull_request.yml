@@ -1,0 +1,36 @@
+name: Pull request validation
+
+on:
+  pull_request:
+    branches: [ '**' ]
+    paths:
+      - 'build/**'
+      - 'docker/**'
+
+concurrency:
+  group: pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/build.yml
+    permissions:
+      contents: read
+  
+  scan:
+    needs: build
+    uses: ./.github/workflows/scan.yml
+    with:
+      image: ${{ github.event.repository.name }}:${{ needs.build.outputs.tag }}
+      artifact_name: ${{ needs.build.outputs.artifact }}
+    permissions:
+      contents: read
+
+  test:
+    needs: [ build, scan ]
+    uses: ./.github/workflows/test.yml
+    with:
+      image: ${{ github.event.repository.name }}:${{ needs.build.outputs.tag }}
+      artifact_name: ${{ needs.build.outputs.artifact }}
+    permissions:
+      contents: read

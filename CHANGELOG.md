@@ -1,7 +1,20 @@
 # Changelog
 
 Todas as alterações relevantes deste projeto serão documentadas neste arquivo. O formato baseia-se no [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), e este projeto segue o [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-  
+
+## [v1.0.0]
+
+### Adicionado
+- Adiciona pipeline completo de CI/CD com GitHub Actions:
+  - pull_request.yml: Validação de PRs (build, scan, test)
+  - push_main.yml: CI/CD completo para branch main (build, scan, test, publish e release)
+  - build.yml: Build da imagem Docker a partir do diretório build/
+  - changes.yml: Filtro para detectar mudanças em build/** e docker/**
+  - scan.yml: Scanner de vulnerabilidades com Trivy
+  - test.yml: Testes de integração com container e verificação de estado da aplicação
+  - publish.yml: Publica imagem no GitHub Container Registry
+  - release.yml: Criação automática de releases baseado no CHANGELOG.md
+
 ## [v1.0.0-beta]
 
 ### Adicionado
@@ -43,7 +56,7 @@ Todas as alterações relevantes deste projeto serão documentadas neste arquivo
 - Atualização de função de busca, considerando membros com situação diferente (2025-10-21)
 - Atualização do arquivo .gitignore (2025-10-21)
 
-## Removido
+### Removido
 - Remove campos de adição de parente/relacionamento das views de membros (2026-08-26)
 - Remove função search não utilizada e arquivos órfãos (2026-08-26)
 - Remove função teste de botão (2025-11-14)
@@ -52,3 +65,4 @@ Todas as alterações relevantes deste projeto serão documentadas neste arquivo
 
 [Unreleased]: https://github.com/mafpbiaggi/sgi/compare/1.0.0...HEAD
 [v1.0.0-beta]: https://github.com/mafpbiaggi/sgi/releases/tag/v1.0.0-beta
+[v1.0.0]: https://github.com/mafpbiaggi/sgi/releases/tag/v1.0.0
