@@ -718,7 +718,8 @@ DROP TABLE IF EXISTS `membros`;
 /*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `membros` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ativo` int(11) NOT NULL DEFAULT 1,
+  `tipo` int(11) DEFAULT NULL,
+  `situacao` int(11) NOT NULL DEFAULT 1,
   `ordemadmissao` varchar(10) DEFAULT NULL,
   `meioadmissao` int(11) DEFAULT NULL,
   `ataadmissao` int(11) DEFAULT NULL,
@@ -765,7 +766,6 @@ CREATE TABLE `membros` (
   `user_id` int(11) NOT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
-  `tipo` enum('Membro','Visitante') DEFAULT NULL COMMENT 'Tipo de cadastro. 1 => Membro, 2 => Visitante',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cadastro de membros';
 /*!40101 SET character_set_client = @saved_cs_client */;

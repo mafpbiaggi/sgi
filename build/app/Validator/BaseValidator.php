@@ -3,6 +3,8 @@ class BaseValidator {
 
     private $errors = [];
     private $rules = [
+        'ordemadmissao' => ['required' => true],
+        
         'nome' => ['required' => true],
         'email' => ['required' => true],
         'naturalidade' => ['required' => true],

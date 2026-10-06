@@ -25,17 +25,14 @@
 		</header>
 
 		<ul class="nav nav-tabs">
-			<li id="tabComungantes" class="active">
-				<a class="nav-link" data-toggle="tab" href="#tab1">Comungantes</a>
-			</li>
-			<li id="tabNaoComungantes" class="nav-item">
-				<a class="nav-link" data-toggle="tab" href="#tab2">Não Comungantes</a>
+			<li id="tabAtivos" class="active">
+				<a class="nav-link" data-toggle="tab" href="#tab1">Ativos</a>
 			</li>
 			<li id="tabRolSeparado" class="nav-item">
-				<a class="nav-link" data-toggle="tab" href="#tab3">Rol Separado</a>
+				<a class="nav-link" data-toggle="tab" href="#tab2">Rol Separado</a>
 			</li>
 			<li id="tabExcluidos" class="nav-item">
-				<a class="nav-link" data-toggle="tab" href="#tab4">Demitidos</a>
+				<a class="nav-link" data-toggle="tab" href="#tab3">Demitidos</a>
 			</li>
 		</ul>
 
@@ -55,7 +52,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<?php foreach ($resultados['comungantes']['dados'] as $membro) { ?>
+							<?php foreach ($resultados['ativos']['dados'] as $membro) { ?>
 								<tr class="tr-visitantes-click" id="<?php echo 'dados_' . $membro['Membro']['id']; ?>">
 									<td><input type="checkbox" value="<?php echo $membro['Membro']['id']; ?>"></td>
 									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['ordemadmissao']; ?></td>
@@ -66,45 +63,13 @@
 								</tr>
 							<?php } ?>
 							<label>Total de Membros</label>
-							<input type="text" class="form-control form-group col-md-12" value="<?php echo $resultados['comungantes']['total']; ?>" readonly />
+							<input type="text" class="form-control form-group col-md-12" value="<?php echo $resultados['ativos']['total']; ?>" readonly />
 						</tbody>
 					</table>
 				</div>
 			</div>
 
 			<div class="tab-pane" id="tab2">
-				<div class="panel-body">
-					<table class="table table-bordered table-striped table-condensed" id="tableData">
-						<thead>
-							<tr>
-								<!-- CAMPO QUE CHECA TODOS OS CHECKBOX -->
-								<th><input type="checkbox" onclick="MarcarTodos('tableData', this.checked);"></th>
-								<th>Ordem</th>
-								<th>Nome</th>
-								<th>Data de Nascimento</th>
-								<th>Celular</th>
-								<th>E-mail</th>
-							</tr>
-						</thead>
-						<tbody>
-							<?php foreach ($resultados['n_comungantes']['dados'] as $membro) { ?>
-								<tr class="tr-visitantes-click" id="<?php echo 'dados_' . $membro['Membro']['id']; ?>">
-									<td><input type="checkbox" value="<?php echo $membro['Membro']['id']; ?>"></td>
-									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['ordemadmissao']; ?></td>
-									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['nome']; ?></td>
-									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo date("d/m/Y", strtotime($membro['Membro']['datanascimento'])) ?></td>
-									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['cel']; ?></td>
-									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['email']; ?></td>
-								</tr>
-							<?php } ?>
-							<label>Total de Membros</label>
-							<input type="text" class="form-control form-group col-md-12" value="<?php echo $resultados['n_comungantes']['total']; ?>" readonly />
-						</tbody>
-					</table>
-				</div>
-			</div>
-
-			<div class="tab-pane" id="tab3">
 				<div class="panel-body">
 					<table class="table table-bordered table-striped table-condensed" id="tableData">
 						<thead>
@@ -136,7 +101,7 @@
 				</div>
 			</div>
 
-			<div class="tab-pane" id="tab4">
+			<div class="tab-pane" id="tab3">
 				<div class="panel-body">
 					<table class="table table-bordered table-striped table-condensed" id="tableData">
 						<thead>
@@ -156,7 +121,7 @@
 									<td><input type="checkbox" value="<?php echo $membro['Membro']['id']; ?>"></td>
 									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['ordemadmissao']; ?></td>
 									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['nome']; ?></td>
-									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo date("d/m/Y", strtotime($membro['Membro']['datanascimento']))?></td>
+									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo date("d/m/Y", strtotime($membro['Membro']['datanascimento'])) ?></td>
 									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['cel']; ?></td>
 									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['email']; ?></td>
 								</tr>

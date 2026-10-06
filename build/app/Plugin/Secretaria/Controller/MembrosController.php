@@ -17,10 +17,9 @@ class MembrosController extends SecretariaAppController
 		$this->Membro->recursive = -1;
 
 		$statusMap = array(
-			'comungantes' => '1',
-			'demitidos' => '0',
+			'ativos' => '1',
 			'rol_separado' => '2',
-			'n_comungantes' => '3',
+			'demitidos' => '0',
 		);
 
 		$filtro = isset($this->request->data['filtro']) ? trim($this->request->data['filtro']) : '';
@@ -38,10 +37,9 @@ class MembrosController extends SecretariaAppController
 		}
 
 		$resultados = array();
-		foreach ($statusMap as $group => $ativo) {
+		foreach ($statusMap as $group => $situacao) {
 			$conditions = array(
-				'Membro.tipo'  => 'Membro',
-				'Membro.ativo' => $ativo,
+				'Membro.situacao' => $situacao,
 			);
 
 			if (!empty($searchConditions)) {
@@ -67,7 +65,6 @@ class MembrosController extends SecretariaAppController
 			$this->request->data['Membro']['datacasamento'] = implode('-', array_reverse(explode('/', $this->request->data['Membro']['datacasamento'])));
 			$this->request->data['Membro']['databatismo'] = implode('-', array_reverse(explode('/', $this->request->data['Membro']['databatismo'])));
 			$this->request->data['Membro']['dataprofe'] = implode('-', array_reverse(explode('/', $this->request->data['Membro']['dataprofe'])));
-			$this->request->data['Membro']['tipo'] = '1';
 
 			if ($_FILES['arquivo']['tmp_name'] != null) {
 				// Pasta onde o arquivo vai ser salvo
@@ -120,7 +117,6 @@ class MembrosController extends SecretariaAppController
 			$this->request->data['Membro']['datacasamento'] = implode('-', array_reverse(explode('/', $this->request->data['Membro']['datacasamento'])));
 			$this->request->data['Membro']['databatismo'] = implode('-', array_reverse(explode('/', $this->request->data['Membro']['databatismo'])));
 			$this->request->data['Membro']['dataprofe'] = implode('-', array_reverse(explode('/', $this->request->data['Membro']['dataprofe'])));
-			$this->request->data['Membro']['tipo'] = '1';
 
 			// Apagar arquivo anterior antes de substituir
 			if ($_FILES['arquivo']['name'] != null) {
