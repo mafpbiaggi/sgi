@@ -15,7 +15,7 @@
     ?>
 
     <!-- Prepara div para centralização da imagem -->
-    <div class="col-md-12" align="center">
+    <div class="row" align="center">
         <?php // Verifica se a foi feito upload da foto. Caso não haja upload (NULL), exibe foto blank_profile
         if ($this->request->data['Membro']['foto_exibicao'] != null) {
             echo $this->Html->image($this->request->data['Membro']['foto_exibicao'], array('class' => 'img-rounded', 'width' => '260px', 'height' => '200px'));
@@ -25,33 +25,36 @@
     </div>
 
     <div class="row">
+        <?php echo $this->Form->input('arquivo', array('type' => 'file', 'name' => 'arquivo', 'id' => 'arquivo', 'onblur' => 'validaExtensao();', 'label' => 'Foto (.jpg | .bmp | .png)', 'class' => 'form-control', 'div' => array('class' => 'form-group col-md-12'))); ?>
+    </div>
+
+    <div class="row">
         <?php
-            echo $this->Form->input('tipo', array('type' => 'hidden', 'value' => '0'));
-            echo $this->Form->input('arquivo', array('type' => 'file', 'name' => 'arquivo', 'id' => 'arquivo', 'onblur' => 'validaExtensao();', 'label' => 'Foto (.jpg | .bmp | .png)', 'class' => 'form-control', 'div' => array('class' => 'form-group col-md-12')));
-
-            echo $this->Form->input('ordemadmissao', array('type' => 'text','id' => 'ordemadmissao', 'label' => 'Ordem' ,'class' => 'form-control', 'div' => array('class' => 'form-group col-md-2')));
-                
-            $options = array('1' => 'Comungante', '3' => 'Não Comungante', '2' => 'Rol Separado', '0' => 'Demitido');
-            echo $this->Form->input('ativo', array('id' => 'situacao' ,'label' => 'Situação' ,'class' => 'form-control', 'options' => $options, 'required', 'div' => array('class' => 'form-group col-md-3')));
-
-            echo $this->Form->input('datamembro', array('type' => 'text','id' => 'datamembro', 'label' => 'Admitido em' ,'class' => 'form-control datepicker', 'div' => array('class' => 'form-group col-md-2'), 'data-date-format' => 'dd/mm/yyyy'));
-            echo $this->Form->input('ataadmissao', array('ataadmissao' => 'ataadmissao', 'label' => 'Ata de Admissão', 'class' => 'form-control', 'div' => array('class' => 'form-group col-md-2')));
+            echo $this->Form->input('ordemadmissao', array('type' => 'text','id' => 'ordemadmissao', 'label' => 'Ordem', 'required' => 'required', 'class' => 'form-control', 'div' => array('class' => 'form-group col-md-3')));
             
-            $optMeioAdmissao = array('' => 'Selecione' ,'0' => 'Batismo', '1' => 'Profissão de Fé', '2' => 'Batismo e Profissão de Fé', '3' => 'Transferência', '4' => 'Transferência de Responsáveis', '5' => 'Restauração', '6' => 'Jurisdição Ex-ofício', '7' => 'Jurisdição a Pedido', '8' => 'Jurisdição sobre os Responsáveis', '9' => 'Designação do Presbitério');
-            echo $this->Form->input('meioadmissao', array('id' => 'meioadmissao' ,'label' => 'Meio de Admissão' ,'class' => 'form-control' ,'options' => $optMeioAdmissao, 'div' => array('class' => 'form-group col-md-3')));
+            $optionsTipo = array('' => 'Selecione', '1' => 'Comungante', '2' => 'Não comungante');
+            echo $this->Form->input('tipo', array('id' => 'tipo' ,'label' => 'Tipo' ,'class' => 'form-control', 'options' => $optionsTipo, 'required', 'div' => array('class' => 'form-group col-md-3')));
+            
+            $options = array('1' => 'Ativo', '2' => 'Rol Separado', '0' => 'Demitido');
+            echo $this->Form->input('situacao', array('id' => 'situacao' ,'label' => 'Situação' ,'class' => 'form-control', 'options' => $options, 'required', 'div' => array('class' => 'form-group col-md-3')));
+
+            echo $this->Form->input('disciplina', array('id' => 'disciplina' ,'label' => 'Em disciplina?' ,'class' => 'form-control', 'options' => array('' => 'Selecione', '1' => 'Sim', '0' => 'Não'), 'div' => array('class' => 'form-group col-md-3')));
         ?>
     </div>
 
     <div class="row">
         <?php
-            echo $this->Form->input('disciplina', array('id' => 'disciplina' ,'label' => 'Em disciplina?' ,'class' => 'form-control', 'options' => array('' => 'Selecione', '1' => 'Sim', '0' => 'Não'), 'div' => array('class' => 'form-group col-md-2')));
+            echo $this->Form->input('datamembro', array('type' => 'text','id' => 'datamembro', 'label' => 'Admitido em' ,'class' => 'form-control datepicker', 'div' => array('class' => 'form-group col-md-2'), 'data-date-format' => 'dd/mm/yyyy'));
+            echo $this->Form->input('ataadmissao', array('ataadmissao' => 'ataadmissao', 'label' => 'Ata de Admissão', 'class' => 'form-control', 'div' => array('class' => 'form-group col-md-2')));
             
+            $optMeioAdmissao = array('' => 'Selecione' ,'0' => 'Batismo', '1' => 'Profissão de Fé', '2' => 'Batismo e Profissão de Fé', '3' => 'Transferência', '4' => 'Transferência de Responsáveis', '5' => 'Restauração', '6' => 'Jurisdição Ex-ofício', '7' => 'Jurisdição a Pedido', '8' => 'Jurisdição sobre os Responsáveis', '9' => 'Designação do Presbitério');
+            echo $this->Form->input('meioadmissao', array('id' => 'meioadmissao' ,'label' => 'Meio de Admissão' ,'class' => 'form-control' ,'options' => $optMeioAdmissao, 'div' => array('class' => 'form-group col-md-3')));
+
             echo $this->Form->input('atademissao', array('id' => 'atademissao', 'label' => 'Ata de Demissao', 'class' => 'form-control', 'disabled' => 'disabled', 'div' => array('class' => 'form-group col-md-2')));
             $optMotivoDemissao = array('' => 'Selecione' ,'0' => 'Transferência', '1' => 'Falecimento', '2' => 'Exclusão', '3' => 'Ordenação');
             echo $this->Form->input('motivodemissao', array('id' => 'motivodemissao' ,'label' => 'Motivo de Demissão' ,'class' => 'form-control', 'disabled' => 'disabled' ,'options' => $optMotivoDemissao, 'div' => array('class' => 'form-group col-md-3'))); 
         ?>
     </div>
-
   
     <div class="row">
         <?php
