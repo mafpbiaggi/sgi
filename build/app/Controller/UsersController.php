@@ -96,6 +96,8 @@ class UsersController extends AppController {
 			$this->User->create();
 			$existe = array();
 			$corretas = array();
+			$this->request->data['User']['church_id'] = $this->Session->read('choosed');
+
 			foreach ($this->request->data['Permission'] as $key => $permission) {
 				if ($permission['allowed'] == '1') {
 					if (empty($existe[$permission['plugin'].'-'.$permission['controller'].'-'.$permission['action']])) {
