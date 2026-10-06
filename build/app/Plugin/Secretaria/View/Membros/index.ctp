@@ -47,7 +47,7 @@
 							<tr>
 								<!-- CAMPO QUE CHECA TODOS OS CHECKBOX -->
 								<th><input type="checkbox" onclick="MarcarTodos('tableData', this.checked);"></th>
-								<th>ID</th>
+								<th>Ordem</th>
 								<th>Nome</th>
 								<th>Data de Nascimento</th>
 								<th>Celular</th>
@@ -58,7 +58,7 @@
 							<?php foreach ($resultados['comungantes']['dados'] as $membro) { ?>
 								<tr class="tr-visitantes-click" id="<?php echo 'dados_' . $membro['Membro']['id']; ?>">
 									<td><input type="checkbox" value="<?php echo $membro['Membro']['id']; ?>"></td>
-									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['id']; ?></td>
+									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['ordemadmissao']; ?></td>
 									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['nome']; ?></td>
 									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo date("d/m/Y", strtotime($membro['Membro']['datanascimento'])) ?></td>
 									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['cel']; ?></td>
@@ -79,7 +79,7 @@
 							<tr>
 								<!-- CAMPO QUE CHECA TODOS OS CHECKBOX -->
 								<th><input type="checkbox" onclick="MarcarTodos('tableData', this.checked);"></th>
-								<th>ID</th>
+								<th>Ordem</th>
 								<th>Nome</th>
 								<th>Data de Nascimento</th>
 								<th>Celular</th>
@@ -90,7 +90,7 @@
 							<?php foreach ($resultados['n_comungantes']['dados'] as $membro) { ?>
 								<tr class="tr-visitantes-click" id="<?php echo 'dados_' . $membro['Membro']['id']; ?>">
 									<td><input type="checkbox" value="<?php echo $membro['Membro']['id']; ?>"></td>
-									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['id']; ?></td>
+									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['ordemadmissao']; ?></td>
 									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['nome']; ?></td>
 									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo date("d/m/Y", strtotime($membro['Membro']['datanascimento'])) ?></td>
 									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['cel']; ?></td>
@@ -111,7 +111,7 @@
 							<tr>
 								<!-- CAMPO QUE CHECA TODOS OS CHECKBOX -->
 								<th><input type="checkbox" onclick="MarcarTodos('tableData', this.checked);"></th>
-								<th>ID</th>
+								<th>Ordem</th>
 								<th>Nome</th>
 								<th>Data de Nascimento</th>
 								<th>Celular</th>
@@ -122,7 +122,7 @@
 							<?php foreach ($resultados['rol_separado']['dados'] as $membro) { ?>
 								<tr class="tr-visitantes-click" id="<?php echo 'dados_' . $membro['Membro']['id']; ?>">
 									<td><input type="checkbox" value="<?php echo $membro['Membro']['id']; ?>"></td>
-									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['id']; ?></td>
+									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['ordemadmissao']; ?></td>
 									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['nome']; ?></td>
 									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo date("d/m/Y", strtotime($membro['Membro']['datanascimento'])) ?></td>
 									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['cel']; ?></td>
@@ -143,7 +143,7 @@
 							<tr>
 								<!-- CAMPO QUE CHECA TODOS OS CHECKBOX -->
 								<th><input type="checkbox" onclick="MarcarTodos('tableData', this.checked);"></th>
-								<th>ID</th>
+								<th>Ordem</th>
 								<th>Nome</th>
 								<th>Data de Nascimento</th>
 								<th>Celular</th>
@@ -154,7 +154,7 @@
 							<?php foreach ($resultados['demitidos']['dados'] as $membro) { ?>
 								<tr class="tr-visitantes-click" id="<?php echo 'dados_' . $membro['Membro']['id']; ?>">
 									<td><input type="checkbox" value="<?php echo $membro['Membro']['id']; ?>"></td>
-									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['id']; ?></td>
+									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['ordemadmissao']; ?></td>
 									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['nome']; ?></td>
 									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo date("d/m/Y", strtotime($membro['Membro']['datanascimento']))?></td>
 									<td onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'edit', $membro['Membro']['id'])); ?>');"><?php echo $membro['Membro']['cel']; ?></td>
