@@ -26,6 +26,7 @@ $('#futuro-salvar').on('click', function() {
 
 $('#situacao').on('change', function() {
     toggleField('#situacao', ['0'], '#motivodemissao');
+    toggleField('#situacao', ['0'], '#atademissao');
 });
 
 $('#estadocivil').on('change', function() {
