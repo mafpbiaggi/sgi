@@ -639,6 +639,33 @@ COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
+-- Table structure for table `historico_membros`
+--
+DROP TABLE IF EXISTS `historico_membros`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `historico_membros` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `membro_id` int(11) NOT NULL UNIQUE,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cadastro de histórico do membro';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `historico_membros`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `historico_membros` WRITE;
+/*!40000 ALTER TABLE `historico_membros` DISABLE KEYS */;
+/*!40000 ALTER TABLE `historico_membros` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
 -- Table structure for table `itens`
 --
 
@@ -812,6 +839,37 @@ SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `movimentacao_bens` WRITE;
 /*!40000 ALTER TABLE `movimentacao_bens` DISABLE KEYS */;
 /*!40000 ALTER TABLE `movimentacao_bens` ENABLE KEYS */;
+UNLOCK TABLES;
+COMMIT;
+SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
+
+--
+-- Table structure for table `movimentacao_historico`
+--
+DROP TABLE IF EXISTS `movimentacao_historico`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8mb4 */;
+CREATE TABLE `movimentacao_historico` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ataadmissao` int(11) DEFAULT NULL,
+  `tipo_antigo` int(11) DEFAULT NULL,
+  `tipo_novo` int(11) NOT NULL,
+  `historico_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_movimentacao_historico` (`historico_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cadastro de movimentações no histórico do membro';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `movimentacao_historico`
+--
+
+SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
+LOCK TABLES `movimentacao_historico` WRITE;
+/*!40000 ALTER TABLE `movimentacao_historico` DISABLE KEYS */;
+/*!40000 ALTER TABLE `movimentacao_historico` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;

@@ -2,6 +2,33 @@
 
 Todas as alterações relevantes deste projeto serão documentadas neste arquivo. O formato baseia-se no [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), e este projeto segue o [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.2.0]
+
+### Adicionado
+- Sistema de histórico de movimentações de membros
+  - Cria tabelas `historico_membros` e `movimentacao_historico`
+  - Registra automaticamente mudanças de tipo (Comungante/Não comungante)
+  - Exibe histórico de movimentações na view de edição de membros
+  - Armazena usuário responsável e data da alteração
+- Campos de ordem e ata de admissão/demissão nos formulários de membros
+  - Adiciona campos `ordemadmissao`, `ataadmissao` e `atademissao`
+  - Exibe número de ordem de admissão na listagem de membros (index)
+  - Toggle JavaScript para campo `atademissao` em membros inúmeros
+
+### Corrigido
+- Ortografia na mensagem de exceção de membro inválido
+- Inconsistência nos IDs de usuários, churchs e permissões no schema
+- Criação de usuário com `church_id` NULL no método `add()`
+
+### Alterado
+- Substitui campo `ativo` por `situacao` para melhor clareza
+- Campo `tipo` de ENUM para INT
+- Remove aba "Não Comungantes" da listagem na view index
+- Padroniza uso de `empty` nos selects de formulários de membros
+
+### Removido
+- Condição de exibição de membros no model
+
 ## [v1.0.1]
 
 ### Adicinoado

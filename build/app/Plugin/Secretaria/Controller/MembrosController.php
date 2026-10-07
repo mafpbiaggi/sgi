@@ -57,6 +57,7 @@ class MembrosController extends SecretariaAppController
 	public function add()
 	{
 		$this->Membro->create();
+		
 		if ($this->request->is('post') || $this->request->is('put')) {
 			$this->sanitize();
 
@@ -81,8 +82,12 @@ class MembrosController extends SecretariaAppController
 				// Salvar o arquivo no diretório (upload efetivo)
 				move_uploaded_file($_FILES['arquivo']['tmp_name'], $uploadfile);
 			}
-
-			if ($this->Membro->saveAll($this->request->data)) {
+			
+			$ata = $this->request->data['Membro']['ataadmissao'];
+			$tipo = $this->request->data['Membro']['tipo'];
+			$associated = $this->addMovimentacaoHistorico($ata, $tipo);
+			
+			if ($this->Membro->saveAll($this->request->data, $associated)) {
 				json_encode('Membro Salvo com Sucesso!');
 			} else {
 				json_encode('Membro Não Salvo!');
@@ -106,12 +111,12 @@ class MembrosController extends SecretariaAppController
 	{
 		$this->Membro->id = $id;
 		if (!$this->Membro->exists()) {
-			throw new NotFoundException(__('Membro inválidó.'));
+			throw new NotFoundException(__('Membro inválido.'));
 		}
 
 		if ($this->request->is('post') || $this->request->is('put')) {
 			$this->sanitize();
-
+			
 			$this->request->data['Membro']['datamembro'] = implode('-', array_reverse(explode('/', $this->request->data['Membro']['datamembro'])));
 			$this->request->data['Membro']['datanascimento'] = implode('-', array_reverse(explode('/', $this->request->data['Membro']['datanascimento'])));
 			$this->request->data['Membro']['datacasamento'] = implode('-', array_reverse(explode('/', $this->request->data['Membro']['datacasamento'])));
@@ -137,8 +142,18 @@ class MembrosController extends SecretariaAppController
 				move_uploaded_file($_FILES['arquivo']['tmp_name'], $uploadfile);
 			}
 
-			if ($this->Membro->saveAll($this->request->data)) {
-				echo 'Membro Salvo com Sucesso!';
+			$result_tipo = $this->Membro->find('first', array('conditions' => array('Membro.id' => $id), 'fields' => 'Membro.tipo', 'recursive' => -1));
+			$tipo_antigo = $result_tipo['Membro']['tipo'];
+			$tipo_novo = $this->request->data['Membro']['tipo'];
+			
+			$associated = "";
+			if ($tipo_novo != $tipo_antigo) {
+				$ata = $this->request->data['Membro']['ataadmissao'];
+				$associated = $this->addMovimentacaoHistorico($ata, $tipo_novo, $tipo_antigo, $id);
+			}
+
+			if ($this->Membro->saveAll($this->request->data, $associated)) {
+				$this->Session->setFlash(__('Membro editado com sucesso.'));
 			} else {
 				echo 'Membro Não Salvo!';
 			}
@@ -151,12 +166,16 @@ class MembrosController extends SecretariaAppController
 			$parentes = $this->Membro->find('list', array('fields' => array('id', 'nome')));
 			$relacionamentos = $this->Tiporelacionamento->find('list', array('fields' => array('id', 'descricao')));
 			$escolaridades = $this->Membro->Escolaridade->find('list', array('fields' => array('id', 'descricao')));
+			
+			$historico = $this->getMovimentacaoHistorico($id);
+			$movimentacoes = $historico['MovimentacaoHistorico'];
 
 			$this->set('cargos', $cargos);
 			$this->set('profissoes', $profissoes);
 			$this->set('parentes', $parentes);
 			$this->set('relacionamentos', $relacionamentos);
 			$this->set('escolaridades', $escolaridades);
+			$this->set('movimentacoes', $movimentacoes);
 
 			$this->request->data['Membro']['datamembro'] = implode('/', array_reverse(explode('-', $this->request->data['Membro']['datamembro'])));
 			$this->request->data['Membro']['datanascimento'] = implode('/', array_reverse(explode('-', $this->request->data['Membro']['datanascimento'])));
@@ -181,9 +200,53 @@ class MembrosController extends SecretariaAppController
 		}
 		if ($this->Membro->delete()) {
 			unlink($this->request->data['Membro']['foto_caminho']);
-			$this->Endereco->delete();
 			$this->Session->setFlash(__('Membro deletado com sucesso.'));
 		}
 		$this->Session->setFlash(__('O Membro não pôde ser deletado.'));
+	}
+
+	private function addMovimentacaoHistorico($ata, $tipo_novo, $tipo_antigo = null, $id = null)
+	{
+		$this->request->data['HistoricoMembro'] = array(
+			'id' => $this->getHistoricoId($id),
+			'modified' => date("Y-m-d H:i:s"),
+			'MovimentacaoHistorico' => array(
+				array(
+					'ataadmissao' => $ata,
+					'tipo_antigo' => $tipo_antigo,
+					'tipo_novo' => $tipo_novo,
+					'user_id' => $this->Auth->user('id'),
+				),
+			),
+		);
+
+		return array(
+			'associated' => array(
+				'HistoricoMembro',
+				'HistoricoMembro.MovimentacaoHistorico',
+			),
+			'deep' => true,
+		);
+	}
+
+	private function getMovimentacaoHistorico($membro_id)
+	{
+		return $this->Membro->HistoricoMembro->find('first', array(
+				'conditions' => array('HistoricoMembro.membro_id' => $membro_id),
+				'contains' => 'HistoricoMembro.MovimentacaoHistorico',
+				'recursive' => 2,
+			)
+		);
+	}
+
+	private function getHistoricoId($membro_id = null)
+	{
+		$historico = $this->Membro->HistoricoMembro->find('first', array(
+				'conditions' => array('HistoricoMembro.membro_id' => $membro_id),
+				'fields' => 'HistoricoMembro.id',
+				'recursive' => -1,
+			)
+		);
+		return $historico['HistoricoMembro']['id'];
 	}
 }
