@@ -8,7 +8,16 @@ class Membro extends SecretariaAppModel {
 	);
 
 	public $hasOne = array(
-		'Endereco'
+		'Endereco' => array(
+			'className' => 'Secretaria.Endereco',
+			'foreignKey' => 'membro_id',
+			'dependent' => true,
+		),
+		'HistoricoMembro' => array(
+			'className' => 'Secretaria.HistoricoMembro',
+			'foreignKey' => 'membro_id',
+			'dependent' => true,
+		),
 	);
 
 	public $all = false;
