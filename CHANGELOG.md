@@ -2,6 +2,18 @@
 
 Todas as alterações relevantes deste projeto serão documentadas neste arquivo. O formato baseia-se no [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), e este projeto segue o [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0]
+
+### Adicionado
+- Script `db_container_status.sh` para verificação específica do
+container de banco de dados
+
+### Alterado
+- Separa verificação de container de banco e aplicação no workflow de
+testes
+- Renomeia scripts de verificação para nomenclatura mais descritiva
+(`app_container_status.sh`, `app_health_check.sh`)
+
 ## [v1.2.0]
 
 ### Adicionado
@@ -102,3 +114,5 @@ Todas as alterações relevantes deste projeto serão documentadas neste arquivo
 [v1.0.0-beta]: https://github.com/mafpbiaggi/sgi/releases/tag/v1.0.0-beta
 [v1.0.0]: https://github.com/mafpbiaggi/sgi/releases/tag/v1.0.0
 [v1.0.1]: https://github.com/mafpbiaggi/sgi/releases/tag/v1.0.1
+[v1.2.0]: https://github.com/mafpbiaggi/sgi/releases/tag/v1.2.0
+[v1.3.0]: https://github.com/mafpbiaggi/sgi/releases/tag/v1.3.0

@@ -72,8 +72,11 @@ jobs:
       - name: Start containers
         run: docker compose -f docker/docker-compose.yaml up -d
 
-      - name: Wait for container
-        run: bash tests/container_status.sh ${{ github.event.repository.name }}_app
+      - name: Wait for database container
+        run: bash tests/db_container_status.sh ${{ github.event.repository.name }}_db
+
+      - name: Wait for application container
+        run: bash tests/app_container_status.sh ${{ github.event.repository.name }}_app
 
       - name: Import database schema
         run: |
@@ -81,7 +84,7 @@ jobs:
           docker exec -i sgi_db bash -c 'mariadb -u$MYSQL_USER -p$MYSQL_PASSWORD $MYSQL_DATABASE < /var/lib/mysql/schema.sql'
           
       - name: Check application health
-        run: bash tests/health_check_app.sh
+        run: bash tests/app_health_check.sh
 
       - name: Clean up temporary resources
         if: always()
