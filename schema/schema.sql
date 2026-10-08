@@ -643,8 +643,6 @@ CREATE TABLE `membros` (
   `nomeconjuge` varchar(100) DEFAULT NULL,
   `nomepai` varchar(100) DEFAULT NULL,
   `nomemae` varchar(100) DEFAULT NULL,
-  `latitude` varchar(50) DEFAULT NULL,
-  `longitude` varchar(50) DEFAULT NULL,
   `rg` varchar(20) DEFAULT NULL,
   `cpf` varchar(20) DEFAULT NULL,
   `email` varchar(150) DEFAULT NULL,
@@ -836,7 +834,7 @@ CREATE TABLE `permissao_padraos` (
   `church_id` int(11) DEFAULT NULL,
   `allowed` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -916,13 +914,12 @@ INSERT INTO `permissao_padraos` VALUES
 (67,'Secretaria','Relatorios','eventos','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
 (68,'Secretaria','Relatorios','departamentos','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
 (69,'Secretaria','Relatorios','congregacoes','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(70,'Secretaria','Relatorios','mapa_membros','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(71,'Secretaria','Relatorios','grafico_membros','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(72,'Secretaria','Visitantes','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(73,'Secretaria','Visitantes','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(74,'Secretaria','Visitantes','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(75,'Secretaria','Visitantes','view','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(76,'Secretaria','Visitantes','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1);
+(70,'Secretaria','Relatorios','grafico_membros','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(71,'Secretaria','Visitantes','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(72,'Secretaria','Visitantes','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(73,'Secretaria','Visitantes','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(74,'Secretaria','Visitantes','view','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(75,'Secretaria','Visitantes','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1);
 /*!40000 ALTER TABLE `permissao_padraos` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
@@ -945,7 +942,7 @@ CREATE TABLE `permissions` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1025,13 +1022,12 @@ INSERT INTO `permissions` VALUES
 (67,1,'Secretaria','Relatorios','eventos',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
 (68,1,'Secretaria','Relatorios','departamentos',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
 (69,1,'Secretaria','Relatorios','congregacoes',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(70,1,'Secretaria','Relatorios','mapa_membros',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(71,1,'Secretaria','Relatorios','grafico_membros',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(72,1,'Secretaria','Visitantes','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(73,1,'Secretaria','Visitantes','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(74,1,'Secretaria','Visitantes','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(75,1,'Secretaria','Visitantes','view',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(76,1,'Secretaria','Visitantes','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11');
+(70,1,'Secretaria','Relatorios','grafico_membros',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(71,1,'Secretaria','Visitantes','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(72,1,'Secretaria','Visitantes','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(73,1,'Secretaria','Visitantes','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(74,1,'Secretaria','Visitantes','view',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(75,1,'Secretaria','Visitantes','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11');
 /*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
