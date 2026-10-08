@@ -651,7 +651,6 @@ CREATE TABLE `membros` (
   `cel` varchar(20) DEFAULT NULL,
   `escolaridade_id` int(11) DEFAULT NULL,
   `profissao_id` int(11) DEFAULT NULL,
-  `empresa` varchar(150) DEFAULT NULL,
   `batizado` int(11) DEFAULT NULL,
   `databatismo` date DEFAULT NULL,
   `profissaofe` int(11) DEFAULT NULL,
