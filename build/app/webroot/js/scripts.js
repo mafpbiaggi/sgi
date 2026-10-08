@@ -727,7 +727,10 @@ function apagaRelacionamento(campo, div, url) {
 }
 
 function addMasks() {
-	$('input[name*=telefone], input[name*=celular], input[name*=fone], input[name*=cel]').mask('(99) 9999-9999?9');
+	$.mask.definitions['x'] = '[0-9Xx]';
+	$('input[name*=telefone], input[name*=fone]').mask('(99) 9999-9999');
+	$('input[name*=celular], input[name*=cel]').mask('(99) 99999-999?9');
+	$('input[name*=rg]').mask('99.999.999?-x');
 	$('input[name*=cpf]').mask('999.999.999-99');
 	$('input[name*=cnpj]').mask('99.999.999/9999-99');
 	$('input[name*=cep]').mask('99999-999');
