@@ -261,11 +261,6 @@
 				$this->response->type('application/pdf');
 				$this->set('congregacoes', $congregacoes);
 				$this->render('congregacoes_result');
-			} else {
-				$this->loadModel('Estado');
-
-				$estados = $this->Estado->find('list', array('fields' => array('sigla', 'nome')));
-				$this->set('estados', $estados);
 			}
 		}
 

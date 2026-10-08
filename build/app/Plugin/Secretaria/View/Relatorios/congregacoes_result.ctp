@@ -33,7 +33,7 @@
 	foreach ($congregacoes as $key => $value) {
 		
 		$pdf->SetFont('Helvetica', '', 8);
-		$pdf->Row(array(utf8_decode($value['Congregacao']['nome']), utf8_decode($value['CongregacaoEndereco']['logradouro'].', '.$value['CongregacaoEndereco']['numero'].' - '.$value['CongregacaoEndereco']['bairro']), utf8_decode($value['CongregacaoEndereco']['cep']), utf8_decode($value['CongregacaoEndereco']['cidade']), utf8_decode($value['CongregacaoEndereco']['estado_id']), utf8_decode($value['Congregacao']['telefone']), utf8_decode($value['Congregacao']['email'])));
+		$pdf->Row(array(utf8_decode($value['Congregacao']['nome']), utf8_decode($value['CongregacaoEndereco']['logradouro'].', '.$value['CongregacaoEndereco']['numero'].' - '.$value['CongregacaoEndereco']['bairro']), utf8_decode($value['CongregacaoEndereco']['cep']), utf8_decode($value['CongregacaoEndereco']['cidade']), utf8_decode($value['Congregacao']['telefone']), utf8_decode($value['Congregacao']['email'])));
 	}
 	$pdf->Output();
 ?>

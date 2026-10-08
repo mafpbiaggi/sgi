@@ -182,7 +182,7 @@
       // use as many markers as you need – I've test with over 100
       var addresses = new Array(""<?php foreach ($membros as $membro) {
             if(empty($membro['Membro']['latitude']) || empty($membro['Membro']['longitude'])){
-              echo ',"'.$membro['Membro']['tipo'].'-'.$membro['Membro']['ativo'].'||'.$membro['Endereco']['logradouro'].', '.$membro['Endereco']['numero'].' - '.$membro['Endereco']['bairro'].' - '.$membro['Endereco']['cidade'].' - '.$UFList[$membro['Endereco']['estado_id']].'||'.$membro['Membro']['nome'].'"';
+              echo ',"'.$membro['Membro']['tipo'].'-'.$membro['Membro']['ativo'].'||'.$membro['Endereco']['logradouro'].', '.$membro['Endereco']['numero'].' - '.$membro['Endereco']['bairro'].' - '.$membro['Endereco']['cidade'].' - '.'||'.$membro['Membro']['nome'].'"';
             }
         } ?>
         );
