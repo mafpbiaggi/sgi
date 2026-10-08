@@ -45,7 +45,7 @@ class AppController extends Controller {
         if ($this->request->isAjax()) {
             $this->layout = false;
         }
-    	$this->Auth->allow(array('login', 'logout', 'teste', 'fblogin', 'addUser'));
+    	$this->Auth->allow(array('login', 'logout', 'teste', 'addUser'));
 
     	$this->pluginT = array(
 			'Patrimonio' => 'Patrimônio',

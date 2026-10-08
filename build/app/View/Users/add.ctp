@@ -43,7 +43,6 @@
 				<div class="tab-content">
 					<?php
 						$hiddens = array(
-							'fblogin',
 							'logout',
 							'login',
 							'searchItem',

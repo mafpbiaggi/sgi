@@ -1368,7 +1368,6 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `facebook_id` bigint(20) DEFAULT NULL,
   `username` varchar(45) NOT NULL,
   `password` varchar(45) NOT NULL,
   `nome` varchar(45) DEFAULT NULL,
@@ -1390,7 +1389,7 @@ SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES
-(1,NULL,'master@master','09067eb9cbc3f279cba20f4ccf70f42a3a882810','master','(11) 1111-11111','(11) 1111-11111','111.111.111-11','2026-03-11 21:22:37','2026-03-11 21:40:10',1);
+(1,'master@master','09067eb9cbc3f279cba20f4ccf70f42a3a882810','master','(11) 1111-11111','(11) 1111-11111','111.111.111-11','2026-03-11 21:22:37','2026-03-11 21:40:10',1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;

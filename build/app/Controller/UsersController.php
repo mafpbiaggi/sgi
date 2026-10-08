@@ -1,19 +1,12 @@
-<?php 
-App::import('Vendor', 'facebook', array('file' => 'Facebook/autoload.php'));
-
-use Facebook\FacebookSession;
-use Facebook\FacebookRequest;
-use Facebook\GraphUser;
-use Facebook\FacebookRequestException;
-
+<?php
 App::uses('AppController', 'Controller');
 
 class UsersController extends AppController {
 
-	public function beforeFilter() 
+	public function beforeFilter()
 	{
 		parent::beforeFilter();
-		$this->Auth->allow(array('login', 'logout', 'teste', 'fblogin', 'addUser'));
+		$this->Auth->allow(array('login', 'logout', 'teste', 'addUser'));
 	}
 
 	public function cascade($plugin, $controller, $action) {
@@ -177,7 +170,6 @@ class UsersController extends AppController {
 					}
 				}
 			}
-
 
 			$path1 = APP.'Controller/';
 			$controll = glob($path1.'*') or die("Erro ao acessar " . $path1);
