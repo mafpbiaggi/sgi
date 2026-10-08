@@ -88,7 +88,8 @@
             echo $this->Form->input('nomepai', array('id' => 'nomepai', 'label' => 'Nome do Pai', 'class' => 'form-control', 'div' => array('class' => 'form-group col-md-6')));
             echo $this->Form->input('nomemae', array('id' => 'nomemae', 'label' => 'Nome da Mãe', 'class' => 'form-control', 'div' => array('class' => 'form-group col-md-6')));
 
-            echo $this->Form->input('escolaridade_id', array('label' => 'Escolaridade' ,'class' => 'form-control', 'div' => array('class' => 'form-group col-md-5'), 'options' => array ('1' => 'Ensino Fundamental Incompleto', '2' => 'Ensino Fundamental Completo', '3' => 'Ensino Médio Incompleto', '4' => 'Ensino Médio Completo', '5' => 'Graduação Incompleto', '6' => 'Graduação Completa', '7' => 'Pós-Graduação'), 'empty' => 'Selecione'));
+            $optEscolaridade = array ('1' => 'Ensino Fundamental Incompleto', '2' => 'Ensino Fundamental Completo', '3' => 'Ensino Médio Incompleto', '4' => 'Ensino Médio Completo', '5' => 'Graduação Incompleto', '6' => 'Graduação Completa', '7' => 'Pós-Graduação');
+            echo $this->Form->input('escolaridade_id', array('label' => 'Escolaridade' ,'class' => 'form-control', 'div' => array('class' => 'form-group col-md-5'), 'options' => $optEscolaridade, 'empty' => 'Selecione'));
             echo $this->Form->input('profissao_id', array('label' => 'Profissão', 'id' => 'autocomplete', 'class' => 'form-control', 'options' => $profissoes, 'empty' => 'Selecione', 'div' => array('class' => 'form-group col-md-6')));
         ?>
 
