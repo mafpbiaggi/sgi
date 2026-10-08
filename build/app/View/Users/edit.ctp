@@ -50,7 +50,6 @@ echo $this->Form->input('cpf', array('type' => 'text', 'class' => 'form-control'
             <div class="tab-content">
                 <?php
                     $hiddens = array(
-                        'fblogin',
                         'logout',
                         'login',
                         'searchItem',
