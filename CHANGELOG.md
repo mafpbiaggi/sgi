@@ -2,6 +2,26 @@
 
 Todas as alterações relevantes deste projeto serão documentadas neste arquivo. O formato baseia-se no [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), e este projeto segue o [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.4.0]
+
+### Removido
+- Integração completa com Facebook (SDK, plugin, autenticação OAuth)
+  - Remove plugin Facebook, vendor e bibliotecas
+  - Remove provedores de autenticação Facebook, Google e Twitter
+  - Remove campo facebook_id da tabela users
+- Módulo de Escolaridades (controller, model, views, tabela)
+- Módulo de Estados (tabela estados, campo estado_id de membros e endereços)
+- Módulo de Dons (controller, views, tabela)
+- Relatório "Mapa de Membros" (controller, views)
+- Campo empresa da tabela membros
+
+### Alterado
+- Remove referência a fblogin nos controllers AppController e UsersController
+- Remove referência a estado_id nos controllers
+- Extrai opções de escolaridade para variável em formulários de membros
+- Limpa referências ao modelo Estado nos controllers de Congregações e Relatórios
+- Reorganiza menu principal com novos em ordem alfabética
+
 ## [v1.3.1]
 
 ### Alterado
@@ -123,3 +143,4 @@ testes
 [v1.2.0]: https://github.com/mafpbiaggi/sgi/releases/tag/v1.2.0
 [v1.3.0]: https://github.com/mafpbiaggi/sgi/releases/tag/v1.3.0
 [v1.3.1]: https://github.com/mafpbiaggi/sgi/releases/tag/v1.3.1
+[v1.4.0]: https://github.com/mafpbiaggi/sgi/releases/tag/v1.4.0
