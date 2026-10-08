@@ -453,37 +453,6 @@ COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
--- Table structure for table `dons`
---
-
-DROP TABLE IF EXISTS `dons`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `dons` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(150) NOT NULL,
-  `observacoes` text DEFAULT NULL,
-  `user_id` int(11) NOT NULL,
-  `church_id` int(11) NOT NULL,
-  `created` datetime NOT NULL,
-  `modified` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cadastro de Dons';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `dons`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `dons` WRITE;
-/*!40000 ALTER TABLE `dons` DISABLE KEYS */;
-/*!40000 ALTER TABLE `dons` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
 -- Table structure for table `editoras`
 --
 
@@ -867,7 +836,7 @@ CREATE TABLE `permissao_padraos` (
   `church_id` int(11) DEFAULT NULL,
   `allowed` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -928,36 +897,32 @@ INSERT INTO `permissao_padraos` VALUES
 (48,'Secretaria','Departamentos','view','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
 (49,'Secretaria','Departamentos','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
 (50,'Secretaria','Departamentos','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(51,'Secretaria','Dons','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(52,'Secretaria','Dons','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(53,'Secretaria','Dons','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(54,'Secretaria','Dons','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(55,'Secretaria','Membros','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(56,'Secretaria','Membros','search','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(57,'Secretaria','Membros','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(58,'Secretaria','Membros','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(59,'Secretaria','Membros','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(60,'Secretaria','Profissaos','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(61,'Secretaria','Profissaos','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(62,'Secretaria','Profissaos','view','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(63,'Secretaria','Profissaos','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(64,'Secretaria','Profissaos','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(65,'Secretaria','Relatorios','membros','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(66,'Secretaria','Relatorios','lista_presenca','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(67,'Secretaria','Relatorios','usuarios','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(68,'Secretaria','Relatorios','visitantes','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(69,'Secretaria','Relatorios','cargos','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(70,'Secretaria','Relatorios','profissao','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(71,'Secretaria','Relatorios','eventos','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(72,'Secretaria','Relatorios','departamentos','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(73,'Secretaria','Relatorios','congregacoes','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(74,'Secretaria','Relatorios','mapa_membros','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(75,'Secretaria','Relatorios','grafico_membros','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(76,'Secretaria','Visitantes','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(77,'Secretaria','Visitantes','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(78,'Secretaria','Visitantes','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(79,'Secretaria','Visitantes','view','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(80,'Secretaria','Visitantes','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1);
+(51,'Secretaria','Membros','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(52,'Secretaria','Membros','search','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(53,'Secretaria','Membros','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(54,'Secretaria','Membros','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(55,'Secretaria','Membros','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(56,'Secretaria','Profissaos','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(57,'Secretaria','Profissaos','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(58,'Secretaria','Profissaos','view','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(59,'Secretaria','Profissaos','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(60,'Secretaria','Profissaos','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(61,'Secretaria','Relatorios','membros','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(62,'Secretaria','Relatorios','lista_presenca','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(63,'Secretaria','Relatorios','usuarios','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(64,'Secretaria','Relatorios','visitantes','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(65,'Secretaria','Relatorios','cargos','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(66,'Secretaria','Relatorios','profissao','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(67,'Secretaria','Relatorios','eventos','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(68,'Secretaria','Relatorios','departamentos','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(69,'Secretaria','Relatorios','congregacoes','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(70,'Secretaria','Relatorios','mapa_membros','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(71,'Secretaria','Relatorios','grafico_membros','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(72,'Secretaria','Visitantes','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(73,'Secretaria','Visitantes','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(74,'Secretaria','Visitantes','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(75,'Secretaria','Visitantes','view','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(76,'Secretaria','Visitantes','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1);
 /*!40000 ALTER TABLE `permissao_padraos` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
@@ -980,7 +945,7 @@ CREATE TABLE `permissions` (
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=77 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1041,68 +1006,33 @@ INSERT INTO `permissions` VALUES
 (48,1,'Secretaria','Departamentos','view',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
 (49,1,'Secretaria','Departamentos','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
 (50,1,'Secretaria','Departamentos','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(51,1,'Secretaria','Dons','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(52,1,'Secretaria','Dons','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(53,1,'Secretaria','Dons','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(54,1,'Secretaria','Dons','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(55,1,'Secretaria','Membros','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(56,1,'Secretaria','Membros','search',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(57,1,'Secretaria','Membros','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(58,1,'Secretaria','Membros','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(59,1,'Secretaria','Membros','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(60,1,'Secretaria','Profissaos','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(61,1,'Secretaria','Profissaos','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(62,1,'Secretaria','Profissaos','view',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(63,1,'Secretaria','Profissaos','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(64,1,'Secretaria','Profissaos','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(65,1,'Secretaria','Relatorios','membros',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(66,1,'Secretaria','Relatorios','lista_presenca',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(67,1,'Secretaria','Relatorios','usuarios',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(68,1,'Secretaria','Relatorios','visitantes',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(69,1,'Secretaria','Relatorios','cargos',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(70,1,'Secretaria','Relatorios','profissao',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(71,1,'Secretaria','Relatorios','eventos',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(72,1,'Secretaria','Relatorios','departamentos',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(73,1,'Secretaria','Relatorios','congregacoes',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(74,1,'Secretaria','Relatorios','mapa_membros',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(75,1,'Secretaria','Relatorios','grafico_membros',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(76,1,'Secretaria','Visitantes','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(77,1,'Secretaria','Visitantes','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(78,1,'Secretaria','Visitantes','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(79,1,'Secretaria','Visitantes','view',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(80,1,'Secretaria','Visitantes','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11');
+(51,1,'Secretaria','Membros','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(52,1,'Secretaria','Membros','search',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(53,1,'Secretaria','Membros','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(54,1,'Secretaria','Membros','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(55,1,'Secretaria','Membros','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(56,1,'Secretaria','Profissaos','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(57,1,'Secretaria','Profissaos','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(58,1,'Secretaria','Profissaos','view',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(59,1,'Secretaria','Profissaos','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(60,1,'Secretaria','Profissaos','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(61,1,'Secretaria','Relatorios','membros',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(62,1,'Secretaria','Relatorios','lista_presenca',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(63,1,'Secretaria','Relatorios','usuarios',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(64,1,'Secretaria','Relatorios','visitantes',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(65,1,'Secretaria','Relatorios','cargos',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(66,1,'Secretaria','Relatorios','profissao',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(67,1,'Secretaria','Relatorios','eventos',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(68,1,'Secretaria','Relatorios','departamentos',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(69,1,'Secretaria','Relatorios','congregacoes',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(70,1,'Secretaria','Relatorios','mapa_membros',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(71,1,'Secretaria','Relatorios','grafico_membros',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(72,1,'Secretaria','Visitantes','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(73,1,'Secretaria','Visitantes','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(74,1,'Secretaria','Visitantes','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(75,1,'Secretaria','Visitantes','view',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(76,1,'Secretaria','Visitantes','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11');
 /*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `pessoa_dons`
---
-
-DROP TABLE IF EXISTS `pessoa_dons`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `pessoa_dons` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `dom_id` int(11) NOT NULL,
-  `pessoa_id` int(11) NOT NULL,
-  `church_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `created` datetime NOT NULL,
-  `modified` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `pessoa_dons`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `pessoa_dons` WRITE;
-/*!40000 ALTER TABLE `pessoa_dons` DISABLE KEYS */;
-/*!40000 ALTER TABLE `pessoa_dons` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
