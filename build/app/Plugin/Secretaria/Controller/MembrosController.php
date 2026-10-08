@@ -98,8 +98,6 @@ class MembrosController extends SecretariaAppController
 			$parentes = $this->Membro->find('list', array('fields' => array('id', 'nome')));
 			$this->loadModel('Secretaria.Tiporelacionamento');
 			$relacionamentos = $this->Tiporelacionamento->find('list', array('fields' => array('id', 'descricao')));
-			$escolaridades = $this->Membro->Escolaridade->find('list', array('fields' => array('id', 'descricao')));
-			$this->set('escolaridades', $escolaridades);
 			$this->set('relacionamentos', $relacionamentos);
 			$this->set('parentes', $parentes);
 			$this->set('cargos', $cargos);
@@ -165,7 +163,6 @@ class MembrosController extends SecretariaAppController
 			$cargos = $this->Membro->Cargo->find('list', array('fields' => array('id', 'nome')));
 			$parentes = $this->Membro->find('list', array('fields' => array('id', 'nome')));
 			$relacionamentos = $this->Tiporelacionamento->find('list', array('fields' => array('id', 'descricao')));
-			$escolaridades = $this->Membro->Escolaridade->find('list', array('fields' => array('id', 'descricao')));
 			
 			$historico = $this->getMovimentacaoHistorico($id);
 			$movimentacoes = $historico['MovimentacaoHistorico'];
@@ -174,7 +171,6 @@ class MembrosController extends SecretariaAppController
 			$this->set('profissoes', $profissoes);
 			$this->set('parentes', $parentes);
 			$this->set('relacionamentos', $relacionamentos);
-			$this->set('escolaridades', $escolaridades);
 			$this->set('movimentacoes', $movimentacoes);
 
 			$this->request->data['Membro']['datamembro'] = implode('/', array_reverse(explode('-', $this->request->data['Membro']['datamembro'])));

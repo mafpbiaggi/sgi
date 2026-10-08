@@ -4,7 +4,6 @@ class Membro extends SecretariaAppModel {
 		'Secretaria.Estado',
 		'Secretaria.Profissao',
 		'Secretaria.Cargo',
-		'Secretaria.Escolaridade',
 	);
 
 	public $hasOne = array(
