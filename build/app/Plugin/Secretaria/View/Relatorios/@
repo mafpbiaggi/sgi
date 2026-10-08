@@ -218,10 +218,6 @@
 					$conditions['CongregacaoEndereco.cidade'] = $this->request->data['Congregacao']['cidade'];
 				}
 
-				if (!empty($this->request->data['Congregacao']['estado'])) {
-					$conditions['CongregacaoEndereco.estado_id'] = $this->request->data['Congregacao']['estado'];
-				}
-
 				if (empty($conditions)) {
 					$congregacoes = $this->Congregacao->CongregacaoEndereco->find('all');
 				} else {
@@ -236,11 +232,6 @@
 				$this->response->type('application/pdf');
 				$this->set('congregacoes', $congregacoes);
 				$this->render('congregacoes_result');
-			} else {
-				$this->loadModel('Estado');
-
-				$estados = $this->Estado->find('list', array('fields' => array('sigla', 'nome')));
-				$this->set('estados', $estados);
 			}
 		}
 

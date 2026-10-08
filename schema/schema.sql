@@ -334,7 +334,6 @@ CREATE TABLE `congregacao_enderecos` (
   `cep` varchar(10) NOT NULL,
   `cidade` varchar(100) NOT NULL,
   `estado` varchar(2) NOT NULL,
-  `estado_id` varchar(2) NOT NULL,
   `congregacao_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `church_id` int(11) DEFAULT NULL,
@@ -552,62 +551,6 @@ COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
--- Table structure for table `estados`
---
-
-DROP TABLE IF EXISTS `estados`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `estados` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `sigla` varchar(2) DEFAULT NULL,
-  `codibge` int(11) DEFAULT NULL,
-  `nome` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_uca1400_ai_ci COMMENT='Tabela com código, sigla e nome dos estados do Brasil';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `estados`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `estados` WRITE;
-/*!40000 ALTER TABLE `estados` DISABLE KEYS */;
-INSERT INTO `estados` VALUES
-(1,'AC',12,'Acre'),
-(2,'AL',27,'Alagoas'),
-(3,'AM',13,'Amazonas'),
-(4,'AP',16,'Amapá'),
-(5,'BA',29,'Bahia'),
-(6,'CE',23,'Ceará'),
-(7,'DF',53,'Distrito Federal'),
-(8,'ES',32,'Espírito Santo'),
-(9,'GO',52,'Goiás'),
-(10,'MA',21,'Maranhão'),
-(11,'MG',31,'Minas Gerais'),
-(12,'MS',50,'Mato Grosso do Sul'),
-(13,'MT',51,'Mato Grosso'),
-(14,'PA',15,'Pará'),
-(15,'PB',25,'Paraíba'),
-(16,'PE',26,'Pernambuco'),
-(17,'PI',22,'Piauí'),
-(18,'PR',41,'Paraná'),
-(19,'RJ',33,'Rio de Janeiro'),
-(20,'RN',24,'Rio Grande do Norte'),
-(21,'RO',11,'Rondônia'),
-(22,'RR',14,'Roraima'),
-(23,'RS',43,'Rio Grande do Sul'),
-(24,'SC',42,'Santa Catarina'),
-(25,'SE',28,'Sergipe'),
-(26,'SP',35,'São Paulo'),
-(27,'TO',17,'Tocantis');
-/*!40000 ALTER TABLE `estados` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
 -- Table structure for table `historico_membros`
 --
 DROP TABLE IF EXISTS `historico_membros`;
@@ -727,7 +670,6 @@ CREATE TABLE `membros` (
   `datanascimento` date DEFAULT NULL,
   `datacasamento` date DEFAULT NULL,
   `naturalidade` varchar(100) DEFAULT NULL,
-  `estado_id` int(11) DEFAULT NULL,
   `estadocivil` int(11) DEFAULT NULL,
   `nomeconjuge` varchar(100) DEFAULT NULL,
   `nomepai` varchar(100) DEFAULT NULL,

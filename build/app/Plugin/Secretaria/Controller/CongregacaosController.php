@@ -7,7 +7,7 @@
 	    	{
 	    		//condições para pesquisa
 	    		//campos para não entrar na pesquisa
-	    		$excludes = array('id', 'sexo', 'estado_id', 'estadocivil', 'escolaridade', 'profissao_id', 'igrejasanteriores', 'created', 'modified', 'uid', 'church_id', 'user_id', 'tipo');
+	    		$excludes = array('id', 'sexo', 'estadocivil', 'escolaridade', 'profissao_id', 'igrejasanteriores', 'created', 'modified', 'uid', 'church_id', 'user_id', 'tipo');
 	    		//pega campos da model
 	    		$fields = $this->Congregacao->schema();
 	    		foreach ($fields as $key => $value) {
@@ -46,8 +46,6 @@
 				}
 				$this->redirect(array('action' => 'index'));
 			}
-			$this->loadModel('Estado');
-			$this->set('estados', $this->Estado->find('list', array('fields' => array('sigla', 'nome'))));
 		}
 
 		public function edit($id = null){
@@ -87,8 +85,7 @@
 				$this->redirect(array('action' => 'index'));
 			} else {
 				$this->request->data = $this->Congregacao->read(null, $id);
-				$this->loadModel('Estado');
-				$this->set('estados', $this->Estado->find('list', array('fields' => array('sigla', 'nome'))));
+
 			}
 		}
 
