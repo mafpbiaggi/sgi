@@ -8,6 +8,8 @@ class BaseValidator {
         'nome' => ['required' => true],
         'email' => ['required' => true],
         'naturalidade' => ['required' => true],
+        'rg' => ['required' => false],
+        
         'nomeconjuge' => ['required' => true],
         'nomepai' => ['required' => true],
         'nomemae' => ['required' => true],
