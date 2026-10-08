@@ -246,31 +246,30 @@
                             <span>Secretaria</span>
                         </a>
                         <ul class="sub">
-                            <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => '', 'controller' => 'users', 'action' => 'index')); ?>');" href="javascript:;" >Usuários</a></li>
-                            <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'atas', 'action' => 'index')); ?>');" href="javascript:;" >Atas</a></li>
+                            <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'atas', 'action' => 'index')); ?>');" href="javascript:;">Atas</a></li>
+                            <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'cargos', 'action' => 'index')); ?>');" href="javascript:;">Cargos</a></li>
+                            <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'congregacaos', 'action' => 'index')); ?>'); "href="javascript:;">Congregações</a></li>
+                            <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'departamentos', 'action' => 'index')); ?>'); "href="javascript:;">Departamentos</a></li>
+                            <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'calendarios', 'action' => 'index')); ?>'); "href="javascript:;">Eventos</a></li>
                             <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'membros', 'action' => 'index')); ?>');" href="javascript:;" >Membros</a></li>
-                            <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'congregacaos', 'action' => 'index')); ?>');" href="javascript:;" >Congregações</a></li>
-                            <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'visitantes', 'action' => 'index')); ?>');" href="javascript:;" >Visitantes</a></li>
-                            <li><a href="javascript:;" onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'profissaos', 'action' => 'index')); ?>');">Profissões</a></li>
-                            <li><a href="javascript:;" onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'departamentos', 'action' => 'index')); ?>');">Departamentos</a></li>
-                            <li><a href="javascript:;" onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'cargos', 'action' => 'index')); ?>');">Cargos</a></li>
-                            <li><a href="javascript:;" onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'calendarios', 'action' => 'index')); ?>');">Eventos</a></li>
+                            <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'profissaos', 'action' => 'index')); ?>');" href="javascript:;">Profissões</a></li>
+                            <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => '', 'controller' => 'users', 'action' => 'index')); ?>');" href="javascript:;">Usuários</a></li>
+                            <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'visitantes', 'action' => 'index')); ?>');" href="javascript:;">Visitantes</a></li>
                             <li><a href="javascript:;">
                                     <i class="fa fa-bar-chart"></i>
                                     <span>Relatórios</span>
                                 </a>
                                 <ul class="sub de-sub">
-                                    <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'relatorios', 'action' => 'membros')); ?>');" href="javascript:;">Membros</a></li>
-                                    <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'relatorios', 'action' => 'lista_presenca')); ?>');" href="javascript:;">Lista de Presença</a></li>
-                                    <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'relatorios', 'action' => 'mapa_membros')); ?>');" href="javascript:;">Mapa</a></li>
+                                    <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'relatorios', 'action' => 'cargos')); ?>');" href="javascript:;">Cargos</a></li>
+                                    <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'relatorios', 'action' => 'congregacoes')); ?>');" href="javascript:;">Congregações</a></li>
+                                    <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'relatorios', 'action' => 'departamentos')); ?>');" href="javascript:;">Departamentos</a></li>
+                                    <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'relatorios', 'action' => 'eventos')); ?>');" href="javascript:;">Eventos</a></li>
                                     <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'relatorios', 'action' => 'grafico_membros')); ?>');" href="javascript:;">Gráfico de Visitantes</a></li>
+                                    <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'relatorios', 'action' => 'lista_presenca')); ?>');" href="javascript:;">Lista de Presença</a></li>
+                                    <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'relatorios', 'action' => 'membros')); ?>');" href="javascript:;">Membros</a></li>
+                                    <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'relatorios', 'action' => 'profissao')); ?>');" href="javascript:;">Profissões</a></li>
                                     <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'relatorios', 'action' => 'usuarios')); ?>');" href="javascript:;">Usuários</a></li>
                                     <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'relatorios', 'action' => 'visitantes')); ?>');" href="javascript:;">Visitantes</a></li>
-                                    <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'relatorios', 'action' => 'cargos')); ?>');" href="javascript:;">Cargos</a></li>
-                                    <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'relatorios', 'action' => 'profissao')); ?>');" href="javascript:;">Profissões</a></li>
-                                    <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'relatorios', 'action' => 'eventos')); ?>');" href="javascript:;">Eventos</a></li>
-                                    <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'relatorios', 'action' => 'departamentos')); ?>');" href="javascript:;">Departamentos</a></li>
-                                    <li><a onclick="ajaxload('<?php echo $this->Html->url(array('plugin' => 'secretaria', 'controller' => 'relatorios', 'action' => 'congregacoes')); ?>');" href="javascript:;">Congregações</a></li>
                                 </ul>
                             </li>
                         </ul>

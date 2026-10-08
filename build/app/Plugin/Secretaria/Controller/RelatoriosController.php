@@ -124,18 +124,22 @@
 				if (!empty($this->request->data['Relatorio']['datamembro'])) {
 					$conditions['Membro.datamembro'] = $this->request->data['Relatorio']['datamembro'];
 				}
+				
 				if (!empty($this->request->data['Relatorio']['nome'])) {
 					$conditions['Membro.nome LIKE'] = '%'.$this->request->data['Relatorio']['nome'].'%';
 				}
+
 				if (!empty($this->request->data['Relatorio']['sexo'])) {
 					$conditions['Membro.sexo'] = $this->request->data['Relatorio']['sexo'];
 				}
+
 				if (!empty($this->request->data['Relatorio']['estadocivil'])) {
 					$conditions['Membro.estadocivil'] = $this->request->data['Relatorio']['estadocivil'];
 				}
+				
 				if (!empty($this->request->data['Relatorio']['mes'])) {
 					$conditions['Membro.datanascimento LIKE'] = '%-'.$this->request->data['Relatorio']['mes'].'-%';
-                                }
+                }
 
 				$membros = $this->Membro->find('all', array('conditions' => array($conditions)));
 
@@ -149,7 +153,7 @@
 			}
 		}
 
-		public function cargos() 
+		public function cargos()
 		{
 			$this->loadModel('Cargo');
 			if ($this->request->is('post') || $this->request->is('put')) {
@@ -181,7 +185,7 @@
 		public function eventos()
 		{
 			if ($this->request->is('post') || $this->request->is('put')) {
-				$this->loadModel('Calendario');				
+				$this->loadModel('Calendario');
 
 				$conditions['Calendario.church_id'] = $this->Session->read('choosed');
 
@@ -212,7 +216,7 @@
 			}
 		}
 
-		public function departamentos() 
+		public function departamentos()
 		{
 			$this->loadModel('Departamento');
 			if ($this->request->is('post') || $this->request->is('put')) {
@@ -226,7 +230,7 @@
 			}
 		}
 
-		public function congregacoes() 
+		public function congregacoes()
 		{
 					
 			if ($this->request->is('post') || $this->request->is('put')) {
@@ -253,38 +257,12 @@
 					$congregacoes = $this->Congregacao->CongregacaoEndereco->find('all', array('conditions' => $conditions));
 				}
 
-				
-
 				$this->layout = 'pdf'; //this will use the pdf.ctp layout
 				$pdf = new NFPDF();
 				$this->set('pdf', $pdf);
 				$this->response->type('application/pdf');
 				$this->set('congregacoes', $congregacoes);
 				$this->render('congregacoes_result');
-			}
-		}
-
-		public function mapa_membros()
-		{
-			if ($this->request->is('post') || $this->request->is('put')) {
-
-				$this->loadModel('Secretaria.Membro');
-
-				$conditions = array();
-
-				$this->layout = false;
-				if (!empty($this->request->data['Relatorio']['ativo'])) {
-					$conditions['Membro.ativo'] = $this->request->data['Relatorio']['ativo'];
-					$conditions['Membro.tipo'] = 'Membro';					
-				}
-
-				$conditions['Endereco.logradouro !='] = null;
-
-				$this->Membro->all = true;
-
-				$membros = $this->Membro->find('all', array('conditions' => array($conditions)));
-				$this->set('membros', $membros);
-				$this->render('mapa_membros_result');
 			}
 		}
 
