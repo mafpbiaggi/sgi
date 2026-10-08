@@ -2,7 +2,7 @@
 
 Todas as alterações relevantes deste projeto serão documentadas neste arquivo. O formato baseia-se no [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), e este projeto segue o [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.3.0]
+## [v1.3.0]
 
 ### Adicionado
 - Script `db_container_status.sh` para verificação específica do
