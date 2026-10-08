@@ -2,6 +2,12 @@
 
 Todas as alterações relevantes deste projeto serão documentadas neste arquivo. O formato baseia-se no [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), e este projeto segue o [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.3.1]
+
+### Alterado
+- Scripts de teste de estado de container `app_container_status.sh` e `db_container_status.sh`
+  - Adicionada validação de parâmetro <nome_do_container> para verificar se o nome do container foi passado
+
 ## [v1.3.0]
 
 ### Adicionado
@@ -116,3 +122,4 @@ testes
 [v1.0.1]: https://github.com/mafpbiaggi/sgi/releases/tag/v1.0.1
 [v1.2.0]: https://github.com/mafpbiaggi/sgi/releases/tag/v1.2.0
 [v1.3.0]: https://github.com/mafpbiaggi/sgi/releases/tag/v1.3.0
+[v1.3.1]: https://github.com/mafpbiaggi/sgi/releases/tag/v1.3.1

@@ -1,6 +1,11 @@
 #!/bin/bash
 
 CONTAINER=$1
+if [[ -z $CONTAINER ]]; then
+    echo "Usage: app_container_status.sh <container_name>"
+    exit 1
+fi
+
 for i in {1..10}; do
     STATUS=$(docker inspect --format='{{ .State.Status }}' $CONTAINER)
     if [ "$STATUS" == "running" ]; then
