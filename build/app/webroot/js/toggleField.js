@@ -1,18 +1,19 @@
 function toggleField(triggerSelector, valuesEnable, targetSelector) {
     const trigger = $(triggerSelector);
     const target = $(targetSelector);
-    if (trigger.length == 0 || target.length == 0) return;
+    if (trigger.length === 0 || target.length === 0) return;
 
-    const currentValue = trigger.val();
-    const enable = Array.isArray(valuesEnable)
-        ? valuesEnable.includes(currentValue)
-        : currentValue == valuesEnable;
+    const currentValue = trigger.val() ?? '';
+    const allowed = []
+        .concat(valuesEnable)
+        .map(v => String(v));
+
+    const enable = allowed.includes(String(currentValue));
 
     if (enable) {
         target.prop('disabled', false);
     } else {
-        target.val('');
-        target.prop('disabled', true);
+        target.val('').prop('disabled', true);
     }
 }
 
