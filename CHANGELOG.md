@@ -2,6 +2,22 @@
 
 Todas as alterações relevantes deste projeto serão documentadas neste arquivo. O formato baseia-se no [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), e este projeto segue o [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.4.1]
+
+### Corrigido
+- Erro de digitação no model Contato.php
+- Função toggleField.js que permitia valores fora das opções explícitas nos selects
+- Máscaras de telefone (adicina máscara para fixo e celular) e RG
+- BaseValidator que gerava campos não utilizados e erros silenciosos
+  - Remove métodos de validação complexos (validateEmail, validatePhone, validateAllFields)
+  - Mantém apenas método sanitizeFields() para sanitização
+- Módulo Congregações com nomenclatura inconsistente
+  - Renomeia controller de CongregacaosController para CongregacoesController
+  - Renomeia model CongregacaoEndereco para EnderecoCongregacao
+  - Renomeia tabela congregacao_enderecos para enderecos_congregacoes
+  - Altera relacionamento de hasMany para hasOne na model Congregacao
+  - Atualiza referências em AppController e views
+
 ## [v1.4.0]
 
 ### Removido
