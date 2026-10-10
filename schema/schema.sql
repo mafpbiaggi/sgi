@@ -319,22 +319,22 @@ COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
--- Table structure for table `congregacao_enderecos`
+-- Table structure for table `enderecos_congregacoes`
 --
 
-DROP TABLE IF EXISTS `congregacao_enderecos`;
+DROP TABLE IF EXISTS `enderecos_congregacoes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `congregacao_enderecos` (
+CREATE TABLE `enderecos_congregacoes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `logradouro` varchar(70) NOT NULL,
-  `numero` varchar(10) NOT NULL,
+  `numero` varchar(10) DEFAULT NULL,
   `complemento` varchar(70) DEFAULT NULL,
   `bairro` varchar(45) NOT NULL,
   `cep` varchar(10) NOT NULL,
   `cidade` varchar(100) NOT NULL,
   `estado` varchar(2) NOT NULL,
-  `congregacao_id` int(11) DEFAULT NULL,
+  `congregacao_id` int(11) DEFAULT NULL UNIQUE,
   `user_id` int(11) DEFAULT NULL,
   `church_id` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
@@ -344,32 +344,30 @@ CREATE TABLE `congregacao_enderecos` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `congregacao_enderecos`
+-- Dumping data for table `enderecos_congregacoes`
 --
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `congregacao_enderecos` WRITE;
-/*!40000 ALTER TABLE `congregacao_enderecos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `congregacao_enderecos` ENABLE KEYS */;
+LOCK TABLES `enderecos_congregacoes` WRITE;
+/*!40000 ALTER TABLE `enderecos_congregacoes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `enderecos_congregacoes` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
--- Table structure for table `congregacaos`
+-- Table structure for table `congregacoes`
 --
 
-DROP TABLE IF EXISTS `congregacaos`;
+DROP TABLE IF EXISTS `congregacoes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `congregacaos` (
+CREATE TABLE `congregacoes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(150) DEFAULT NULL,
-  `cnpj` varchar(14) DEFAULT NULL,
-  `telefone` varchar(45) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
+  `cnpj` varchar(18) DEFAULT NULL,
   `church_id` int(11) DEFAULT NULL,
-  `user_id` varchar(45) DEFAULT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
@@ -377,13 +375,13 @@ CREATE TABLE `congregacaos` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `congregacaos`
+-- Dumping data for table `congregacoes`
 --
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `congregacaos` WRITE;
-/*!40000 ALTER TABLE `congregacaos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `congregacaos` ENABLE KEYS */;
+LOCK TABLES `congregacoes` WRITE;
+/*!40000 ALTER TABLE `congregacoes` DISABLE KEYS */;
+/*!40000 ALTER TABLE `congregacoes` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
@@ -399,8 +397,9 @@ CREATE TABLE `contatos` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(45) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
-  `telefone` varchar(20) DEFAULT NULL,
-  `congregacao_id` int(11) DEFAULT NULL,
+  `telefone` varchar(14) DEFAULT NULL,
+  `celular` varchar(15) DEFAULT NULL,
+  `congregacao_id` int(11) DEFAULT NULL UNIQUE,
   `church_id` int(11) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `created` datetime DEFAULT NULL,
@@ -885,10 +884,10 @@ INSERT INTO `permissao_padraos` VALUES
 (39,'Secretaria','Cargos','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
 (40,'Secretaria','Cargos','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
 (41,'Secretaria','Cargos','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(42,'Secretaria','Congregacaos','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(43,'Secretaria','Congregacaos','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(44,'Secretaria','Congregacaos','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(45,'Secretaria','Congregacaos','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(42,'Secretaria','Congregacoes','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(43,'Secretaria','Congregacoes','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(44,'Secretaria','Congregacoes','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
+(45,'Secretaria','Congregacoes','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
 (46,'Secretaria','Departamentos','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
 (47,'Secretaria','Departamentos','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
 (48,'Secretaria','Departamentos','view','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
@@ -993,10 +992,10 @@ INSERT INTO `permissions` VALUES
 (39,1,'Secretaria','Cargos','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
 (40,1,'Secretaria','Cargos','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
 (41,1,'Secretaria','Cargos','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(42,1,'Secretaria','Congregacaos','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(43,1,'Secretaria','Congregacaos','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(44,1,'Secretaria','Congregacaos','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(45,1,'Secretaria','Congregacaos','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(42,1,'Secretaria','Congregacoes','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(43,1,'Secretaria','Congregacoes','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(44,1,'Secretaria','Congregacoes','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
+(45,1,'Secretaria','Congregacoes','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
 (46,1,'Secretaria','Departamentos','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
 (47,1,'Secretaria','Departamentos','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
 (48,1,'Secretaria','Departamentos','view',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),

@@ -57,7 +57,7 @@ class AppController extends Controller {
 			'Relatorios' => 'Relatórios',
 			'TipoBem' => 'Tipo de Bem',
 			'Calendarios' => 'Eventos',
-			'Congregacaos' => 'Congregações',
+			'Congregacoes' => 'Congregações',
 			'Profissaos' => 'Profissões',
 			'Tiporelacionamentos' => 'Tipo de Relacionamentos',
 		);
