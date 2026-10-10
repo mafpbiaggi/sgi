@@ -5,11 +5,11 @@ class MembrosController extends SecretariaAppController
 	{
 		$validator = new BaseValidator;
 
-		$resultMembro = $validator->validateAllFields($this->request->data['Membro']);
-		$resultEndereco = $validator->validateAllFields($this->request->data['Endereco']);
+		$resultMembro = $validator->sanitizeFields($this->request->data['Membro']);
+		$resultEndereco = $validator->sanitizeFields($this->request->data['Endereco']);
 		
-		$this->request->data['Membro'] = $resultMembro['sanitized'];
-		$this->request->data['Endereco'] = $resultEndereco['sanitized'];
+		$this->request->data['Membro'] = $resultMembro;
+		$this->request->data['Endereco'] = $resultEndereco;
 	}
 
 	public function index()
