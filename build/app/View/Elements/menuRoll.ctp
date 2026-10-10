@@ -3,7 +3,7 @@
 		<div class="panel-body row">
 
 			<!-- form -->
-			<?php echo $this->Form->create(array('Pesquisa', 'action' => 'index', 'role' => 'form')); ?>
+			 <?php echo $this->Form->create(array('Pesquisa', 'url' => array('plugin' => $this->request->params['plugin'], 'controller' => $this->request->params['controller'], 'action' => 'index'), 'role' => 'form')); ?>
 			<div class="form-group col-md-4">
 				<a class="btn btn-success form-control btnModal" onclick="modalLoad('<?php echo $this->Html->url(array('action' => 'add')); ?>');"><i class="fa fa-plus"></i> Adicionar</a>
 			</div>
