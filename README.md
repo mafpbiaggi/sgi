@@ -1,8 +1,8 @@
 # Sistema de Gestão de Igreja (SGI)
 
 [![Full CI/CD](https://github.com/mafpbiaggi/sgi/actions/workflows/push_main.yml/badge.svg?branch=main)](https://github.com/mafpbiaggi/sgi/actions/workflows/push_main.yml)
-[![Release](https://img.shields.io/badge/Release-v1.4.0-blue)](https://github.com/mafpbiaggi/sgi/releases/tag/v1.4.0)
-[![Imagem Docker](https://img.shields.io/badge/Imagem%20Docker-2026--10--08a-orange)](https://github.com/mafpbiaggi/sgi/pkgs/container/sgi)
+[![Release](https://img.shields.io/badge/Release-v1.4.1-blue)](https://github.com/mafpbiaggi/sgi/releases/tag/v1.4.1)
+[![Imagem Docker](https://img.shields.io/badge/Imagem%20Docker-2026--10--10-orange)](https://github.com/mafpbiaggi/sgi/pkgs/container/sgi)
 
 Este repositório contém o Sistema de Gestão da Igreja (SGI). O projeto é um fork do sistema [NFChurch](https://github.com/nfservice/NFChurchWeb), adaptado e mantido pela Igreja Presbiteriana de Vila Prudente (IPVP) para uso interno e operacional.
 
