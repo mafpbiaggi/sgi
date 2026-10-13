@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { LayoutGrid, User } from 'lucide-react';
+import { LayoutGrid, FileCog, User, Users, ShieldCheck } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -16,6 +16,7 @@ import {
 import { dashboard } from '@/routes';
 import type { NavItem } from '@/types';
 
+
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
@@ -23,9 +24,14 @@ const mainNavItems: NavItem[] = [
         icon: LayoutGrid,
     },
     {
-        title: 'Usuários',
-        href: '/users',
-        icon: User,
+        title: 'Identidade & Acesso',
+        href: '#',
+        icon: FileCog,
+        children: [
+            { title: 'Usuários', href: '/users', icon: User },
+            { title: 'Grupos', href: '/roles', icon: Users },
+            { title: 'Permissões', href: '/permissions', icon: ShieldCheck },
+        ],
     },
 ];
 

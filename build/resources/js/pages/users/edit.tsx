@@ -3,26 +3,41 @@ import InputError from '@/components/input-error';
 import PasswordInput from '@/components/password-input';
 import { update, index } from '@/actions/App/Http/Controllers/UserController';
 
+type Role = {
+    id: number;
+    name: string;
+};
+
 type User = {
     id: number;
     name: string;
     email: string;
+    roles: Role[];
 };
 
 type Props = {
     readonly user: User;
+    readonly roles: Role[];
 };
 
-export default function Edit({ user }: Props) {
+export default function Edit({ user, roles }: Props) {
     const { data, setData, put, processing, errors } = useForm({
         name: user.name,
         email: user.email,
         password: '',
+        roles: user.roles.map((r) => r.name),
     });
 
     function submit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault();
         put(update(user.id).url);
+    }
+
+    function toggleRole(name: string) {
+        setData('roles', data.roles.includes(name)
+            ? data.roles.filter((r) => r !== name)
+            : [...data.roles, name],
+        );
     }
 
     return (
@@ -71,11 +86,31 @@ export default function Edit({ user }: Props) {
                             autoComplete="new-password"
                             value={data.password}
                             onChange={(e) => setData('password', e.target.value)}
-                            placeholder='Deixe em branco para manter a mesma senha'
+                            placeholder="Deixe em branco para manter a mesma senha"
                             className="mt-1 p-5"
                         />
                         <InputError message={errors.password} />
                     </div>
+                </div>
+
+                <div>
+                    <p className="mb-3 text-sm font-medium">Grupos</p>
+                    <div className="flex flex-wrap gap-2">
+                        {roles.map((role) => (
+                            <label
+                                key={role.id}
+                                className="flex cursor-pointer items-center gap-2 rounded-md border p-3 text-sm"
+                            >
+                                <input
+                                    type="checkbox"
+                                    checked={data.roles.includes(role.name)}
+                                    onChange={() => toggleRole(role.name)}
+                                />
+                                {role.name}
+                            </label>
+                        ))}
+                    </div>
+                    <InputError message={errors.roles} />
                 </div>
 
                 <div className="flex gap-4 py-3">

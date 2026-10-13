@@ -8,12 +8,15 @@ use App\Http\Requests\UpdateUserRequest;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
     public function index(): Response
     {
-        $users = User::orderBy('name')->paginate(15);
+        $this->authorize('users.index');
+
+        $users = User::with('roles')->orderBy('id')->paginate(15);
 
         return Inertia::render('users/index', [
             'users' => $users,
@@ -22,12 +25,21 @@ class UserController extends Controller
 
     public function create(): Response
     {
-        return Inertia::render('users/create');
+        $this->authorize('users.create');
+
+        $roles = Role::orderBy('name')->get(['id', 'name']);
+
+        return Inertia::render('users/create', [
+            'roles' => $roles,
+        ]);
     }
 
     public function store(StoreUserRequest $request): RedirectResponse
     {
-        User::create($request->validated());
+        $this->authorize('users.store');
+
+        $user = User::create($request->safe()->except('roles'));
+        $user->syncRoles($request->validated('roles', []));
 
         return redirect()
             ->route('users.index')
@@ -36,21 +48,28 @@ class UserController extends Controller
 
     public function edit(User $user): Response
     {
+        $this->authorize('users.edit');
+
+        $roles = Role::orderBy('name')->get(['id', 'name']);
+
         return Inertia::render('users/edit', [
-            'user' => $user,
+            'user'  => $user->load('roles'),
+            'roles' => $roles,
         ]);
     }
 
     public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
-        $data = $request->validated();
+        $this->authorize('users.update');
 
-        // Só atualiza a senha se foi enviada
+        $data = $request->safe()->except('roles');
+
         if (empty($data['password'])) {
             unset($data['password']);
         }
 
         $user->update($data);
+        $user->syncRoles($request->validated('roles', []));
 
         return redirect()
             ->route('users.index')
@@ -59,6 +78,8 @@ class UserController extends Controller
 
     public function destroy(User $user): RedirectResponse
     {
+        $this->authorize('users.destroy');
+
         $user->delete();
 
         return redirect()

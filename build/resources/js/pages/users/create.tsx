@@ -3,16 +3,33 @@ import InputError from '@/components/input-error';
 import PasswordInput from '@/components/password-input';
 import { store, index } from '@/actions/App/Http/Controllers/UserController';
 
-export default function Create() {
+type Role = {
+    id: number;
+    name: string;
+};
+
+type Props = {
+    readonly roles: Role[];
+};
+
+export default function Create({ roles }: Props) {
     const { data, setData, post, processing, errors } = useForm({
         name: '',
         email: '',
         password: '',
+        roles: [] as string[],
     });
 
     function submit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault();
         post(store().url);
+    }
+
+    function toggleRole(name: string) {
+        setData('roles', data.roles.includes(name)
+            ? data.roles.filter((r) => r !== name)
+            : [...data.roles, name],
+        );
     }
 
     return (
@@ -37,10 +54,7 @@ export default function Create() {
 
                 <div className="grid grid-cols-2 gap-4">
                     <div>
-                        <label
-                            htmlFor="email"
-                            className="block text-sm font-medium"
-                        >
+                        <label htmlFor="email" className="block text-sm font-medium">
                             E-mail
                         </label>
                         <input
@@ -55,10 +69,7 @@ export default function Create() {
                     </div>
 
                     <div>
-                        <label
-                            htmlFor="password"
-                            className="block text-sm font-medium"
-                        >
+                        <label htmlFor="password" className="block text-sm font-medium">
                             Senha
                         </label>
                         <PasswordInput
@@ -67,13 +78,31 @@ export default function Create() {
                             required
                             autoComplete="new-password"
                             value={data.password}
-                            onChange={(e) =>
-                                setData('password', e.target.value)
-                            }
+                            onChange={(e) => setData('password', e.target.value)}
                             className="mt-1 p-5"
                         />
                         <InputError message={errors.password} />
                     </div>
+                </div>
+
+                <div>
+                    <p className="mb-3 text-sm font-medium">Grupos</p>
+                    <div className="flex flex-wrap gap-2">
+                        {roles.map((role) => (
+                            <label
+                                key={role.id}
+                                className="flex cursor-pointer items-center gap-2 rounded-md border p-3 text-sm"
+                            >
+                                <input
+                                    type="checkbox"
+                                    checked={data.roles.includes(role.name)}
+                                    onChange={() => toggleRole(role.name)}
+                                />
+                                {role.name}
+                            </label>
+                        ))}
+                    </div>
+                    <InputError message={errors.roles} />
                 </div>
 
                 <div className="flex gap-4 py-3">
