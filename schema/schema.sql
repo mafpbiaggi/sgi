@@ -1,7 +1,7 @@
 /*M!999999\- enable the sandbox mode */ 
 -- MariaDB dump 10.19-12.2.2-MariaDB, for debian-linux-gnu (x86_64)
 --
--- Host: localhost    Database: db_sgi
+-- Host: localhost    Database: sgi_db
 -- ------------------------------------------------------
 -- Server version	12.2.2-MariaDB-ubu2404
 
@@ -17,1171 +17,246 @@
 /*M!100616 SET @OLD_NOTE_VERBOSITY=@@NOTE_VERBOSITY, NOTE_VERBOSITY=0 */;
 
 --
--- Table structure for table `ata_arquivos`
+-- Table structure for table `cache`
 --
 
-DROP TABLE IF EXISTS `ata_arquivos`;
+DROP TABLE IF EXISTS `cache`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `ata_arquivos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ata_id` int(11) DEFAULT NULL,
-  `nome` varchar(60) DEFAULT NULL,
-  `dataupload` date DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `church_id` int(11) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabela Responsavel por armazenar os arquivos das atas e rela';
+CREATE TABLE `cache` (
+  `key` varchar(255) NOT NULL,
+  `value` mediumtext NOT NULL,
+  `expiration` bigint(20) NOT NULL,
+  PRIMARY KEY (`key`),
+  KEY `cache_expiration_index` (`expiration`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `ata_arquivos`
+-- Dumping data for table `cache`
 --
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `ata_arquivos` WRITE;
-/*!40000 ALTER TABLE `ata_arquivos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `ata_arquivos` ENABLE KEYS */;
+LOCK TABLES `cache` WRITE;
+/*!40000 ALTER TABLE `cache` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cache` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
--- Table structure for table `atas`
+-- Table structure for table `cache_locks`
 --
 
-DROP TABLE IF EXISTS `atas`;
+DROP TABLE IF EXISTS `cache_locks`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `atas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `num` int(11) DEFAULT NULL,
-  `data` date DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `church_id` int(11) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cadastro de Todas as Atas do Sistema';
+CREATE TABLE `cache_locks` (
+  `key` varchar(255) NOT NULL,
+  `owner` varchar(255) NOT NULL,
+  `expiration` bigint(20) NOT NULL,
+  PRIMARY KEY (`key`),
+  KEY `cache_locks_expiration_index` (`expiration`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `atas`
+-- Dumping data for table `cache_locks`
 --
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `atas` WRITE;
-/*!40000 ALTER TABLE `atas` DISABLE KEYS */;
-/*!40000 ALTER TABLE `atas` ENABLE KEYS */;
+LOCK TABLES `cache_locks` WRITE;
+/*!40000 ALTER TABLE `cache_locks` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cache_locks` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
--- Table structure for table `autores`
+-- Table structure for table `failed_jobs`
 --
 
-DROP TABLE IF EXISTS `autores`;
+DROP TABLE IF EXISTS `failed_jobs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `autores` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(150) DEFAULT NULL,
-  `church_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cadastro de autores da biblioteca';
+CREATE TABLE `failed_jobs` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) NOT NULL,
+  `connection` varchar(255) NOT NULL,
+  `queue` varchar(255) NOT NULL,
+  `payload` longtext NOT NULL,
+  `exception` longtext NOT NULL,
+  `failed_at` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`),
+  KEY `failed_jobs_connection_queue_failed_at_index` (`connection`,`queue`,`failed_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `autores`
+-- Dumping data for table `failed_jobs`
 --
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `autores` WRITE;
-/*!40000 ALTER TABLE `autores` DISABLE KEYS */;
-/*!40000 ALTER TABLE `autores` ENABLE KEYS */;
+LOCK TABLES `failed_jobs` WRITE;
+/*!40000 ALTER TABLE `failed_jobs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `failed_jobs` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
--- Table structure for table `bens`
+-- Table structure for table `job_batches`
 --
 
-DROP TABLE IF EXISTS `bens`;
+DROP TABLE IF EXISTS `job_batches`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `bens` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(100) NOT NULL DEFAULT '0',
-  `identificacao` varchar(100) DEFAULT NULL,
-  `num_serie` varchar(100) DEFAULT NULL,
-  `num_ativo` varchar(100) DEFAULT NULL,
-  `garantia` varchar(100) DEFAULT NULL,
-  `descricao` varchar(150) DEFAULT NULL,
-  `observacao` text DEFAULT NULL,
-  `data_compra` date DEFAULT NULL,
-  `valor_unitario` decimal(18,2) DEFAULT NULL,
-  `quantidade` int(11) DEFAULT NULL,
-  `departamento_id` int(11) DEFAULT NULL,
-  `congregacao_id` int(11) DEFAULT NULL,
-  `membro_id` int(11) DEFAULT NULL,
-  `tipo_bem_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `church_id` int(11) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cadastro de Bens do sistema.';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `bens`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `bens` WRITE;
-/*!40000 ALTER TABLE `bens` DISABLE KEYS */;
-/*!40000 ALTER TABLE `bens` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `calendarios`
---
-
-DROP TABLE IF EXISTS `calendarios`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `calendarios` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `datainicio` datetime DEFAULT NULL,
-  `assunto` varchar(50) DEFAULT NULL,
-  `datafim` datetime DEFAULT NULL,
-  `descricao` text DEFAULT NULL,
-  `church_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `diatodo` int(11) DEFAULT NULL,
-  `cor` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabela para guardar os eventos da igreja';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `calendarios`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `calendarios` WRITE;
-/*!40000 ALTER TABLE `calendarios` DISABLE KEYS */;
-/*!40000 ALTER TABLE `calendarios` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `cargos`
---
-
-DROP TABLE IF EXISTS `cargos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `cargos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(45) DEFAULT NULL,
-  `descricao` text DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `church_id` int(11) DEFAULT NULL,
-  `created` varchar(45) DEFAULT NULL,
-  `modified` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cadastro de Cargos do sistema.';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `cargos`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `cargos` WRITE;
-/*!40000 ALTER TABLE `cargos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cargos` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `cascades`
---
-
-DROP TABLE IF EXISTS `cascades`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `cascades` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `plugin_de` varchar(150) DEFAULT '0',
-  `controller_de` varchar(150) DEFAULT '0',
-  `action_de` varchar(150) DEFAULT '0',
-  `plugin_para` varchar(150) DEFAULT '0',
-  `controller_para` varchar(150) DEFAULT '0',
-  `action_para` varchar(150) DEFAULT '0',
+CREATE TABLE `job_batches` (
+  `id` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `total_jobs` int(11) NOT NULL,
+  `pending_jobs` int(11) NOT NULL,
+  `failed_jobs` int(11) NOT NULL,
+  `failed_job_ids` longtext NOT NULL,
+  `options` mediumtext DEFAULT NULL,
+  `cancelled_at` int(11) DEFAULT NULL,
+  `created_at` int(11) NOT NULL,
+  `finished_at` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `cascades`
+-- Dumping data for table `job_batches`
 --
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `cascades` WRITE;
-/*!40000 ALTER TABLE `cascades` DISABLE KEYS */;
-/*!40000 ALTER TABLE `cascades` ENABLE KEYS */;
+LOCK TABLES `job_batches` WRITE;
+/*!40000 ALTER TABLE `job_batches` DISABLE KEYS */;
+/*!40000 ALTER TABLE `job_batches` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
--- Table structure for table `categorias`
+-- Table structure for table `jobs`
 --
 
-DROP TABLE IF EXISTS `categorias`;
+DROP TABLE IF EXISTS `jobs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `categorias` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(150) DEFAULT NULL,
-  `church_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPACT COMMENT='Cadastro de editoras da biblioteca';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `categorias`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `categorias` WRITE;
-/*!40000 ALTER TABLE `categorias` DISABLE KEYS */;
-/*!40000 ALTER TABLE `categorias` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `churchs`
---
-
-DROP TABLE IF EXISTS `churchs`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `churchs` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(150) DEFAULT NULL,
-  `cnpj` varchar(14) DEFAULT NULL,
-  `telefone` varchar(15) DEFAULT NULL,
-  `endereco` varchar(150) DEFAULT NULL,
-  `numero` varchar(5) DEFAULT NULL,
-  `complemento` varchar(50) DEFAULT NULL,
-  `bairro` varchar(45) DEFAULT NULL,
-  `cidade` varchar(45) DEFAULT NULL,
-  `uf` varchar(2) DEFAULT NULL,
-  `email` varchar(150) DEFAULT NULL,
-  `matriz_id` varchar(5) DEFAULT NULL,
-  `tipo` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cadastro das igrejas no sistema. ';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `churchs`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `churchs` WRITE;
-/*!40000 ALTER TABLE `churchs` DISABLE KEYS */;
-INSERT INTO `churchs` VALUES
-(1,'Master',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL);
-/*!40000 ALTER TABLE `churchs` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `enderecos_congregacoes`
---
-
-DROP TABLE IF EXISTS `enderecos_congregacoes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `enderecos_congregacoes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `logradouro` varchar(70) NOT NULL,
-  `numero` varchar(10) DEFAULT NULL,
-  `complemento` varchar(70) DEFAULT NULL,
-  `bairro` varchar(45) NOT NULL,
-  `cep` varchar(10) NOT NULL,
-  `cidade` varchar(100) NOT NULL,
-  `estado` varchar(2) NOT NULL,
-  `congregacao_id` int(11) DEFAULT NULL UNIQUE,
-  `user_id` int(11) DEFAULT NULL,
-  `church_id` int(11) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cadastro Endereços';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `enderecos_congregacoes`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `enderecos_congregacoes` WRITE;
-/*!40000 ALTER TABLE `enderecos_congregacoes` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enderecos_congregacoes` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `congregacoes`
---
-
-DROP TABLE IF EXISTS `congregacoes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `congregacoes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(150) DEFAULT NULL,
-  `cnpj` varchar(18) DEFAULT NULL,
-  `church_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabela que armazena as informações de todas as congregações.';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `congregacoes`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `congregacoes` WRITE;
-/*!40000 ALTER TABLE `congregacoes` DISABLE KEYS */;
-/*!40000 ALTER TABLE `congregacoes` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `contatos`
---
-
-DROP TABLE IF EXISTS `contatos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `contatos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(45) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `telefone` varchar(14) DEFAULT NULL,
-  `celular` varchar(15) DEFAULT NULL,
-  `congregacao_id` int(11) DEFAULT NULL UNIQUE,
-  `church_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Armazena contatos das congregações';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `contatos`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `contatos` WRITE;
-/*!40000 ALTER TABLE `contatos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `contatos` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `departamentos`
---
-
-DROP TABLE IF EXISTS `departamentos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `departamentos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(80) NOT NULL,
-  `descricao` text DEFAULT NULL,
-  `church_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `created` datetime NOT NULL,
-  `modified` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cadastro Departamentos';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `departamentos`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `departamentos` WRITE;
-/*!40000 ALTER TABLE `departamentos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `departamentos` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `editoras`
---
-
-DROP TABLE IF EXISTS `editoras`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `editoras` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(150) DEFAULT NULL,
-  `church_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPACT COMMENT='Cadastro de categorias da biblioteca';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `editoras`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `editoras` WRITE;
-/*!40000 ALTER TABLE `editoras` DISABLE KEYS */;
-/*!40000 ALTER TABLE `editoras` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `enderecos`
---
-
-DROP TABLE IF EXISTS `enderecos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `enderecos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `logradouro` varchar(70) NOT NULL,
-  `numero` varchar(10) NOT NULL,
-  `complemento` varchar(70) DEFAULT NULL,
-  `bairro` varchar(45) NOT NULL,
-  `cep` varchar(10) NOT NULL,
-  `cidade` varchar(100) NOT NULL,
-  `estado` varchar(2) DEFAULT NULL,
-  `membro_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `church_id` int(11) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cadastro Endereços';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `enderecos`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `enderecos` WRITE;
-/*!40000 ALTER TABLE `enderecos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `enderecos` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `historico_membros`
---
-DROP TABLE IF EXISTS `historico_membros`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `historico_membros` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `membro_id` int(11) NOT NULL UNIQUE,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cadastro de histórico do membro';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `historico_membros`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `historico_membros` WRITE;
-/*!40000 ALTER TABLE `historico_membros` DISABLE KEYS */;
-/*!40000 ALTER TABLE `historico_membros` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `itens`
---
-
-DROP TABLE IF EXISTS `itens`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `itens` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `isbn` varchar(50) DEFAULT NULL,
-  `titulo` varchar(150) DEFAULT NULL,
-  `foto` varchar(150) DEFAULT NULL,
-  `paginas` int(11) DEFAULT NULL,
-  `preco` decimal(18,2) DEFAULT NULL,
-  `comentarios` text DEFAULT NULL,
-  `estoque` int(11) DEFAULT NULL,
-  `autor_id` int(11) DEFAULT NULL,
-  `categoria_id` int(11) DEFAULT NULL,
-  `editora_id` int(11) DEFAULT NULL,
-  `tipo_id` int(11) DEFAULT NULL,
-  `church_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cadastro de itens da biblioteca (livros, cds, dvds, etc)';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `itens`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `itens` WRITE;
-/*!40000 ALTER TABLE `itens` DISABLE KEYS */;
-/*!40000 ALTER TABLE `itens` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `membro_cargos`
---
-
-DROP TABLE IF EXISTS `membro_cargos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `membro_cargos` (
-  `id` int(11) NOT NULL,
-  `membro_id` int(11) DEFAULT NULL,
-  `cargo_id` int(11) DEFAULT NULL,
-  `group_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabela que relaciona os cargos com os membros. Ela é editada';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `membro_cargos`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `membro_cargos` WRITE;
-/*!40000 ALTER TABLE `membro_cargos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `membro_cargos` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `membros`
---
-
-DROP TABLE IF EXISTS `membros`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `membros` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tipo` int(11) DEFAULT NULL,
-  `situacao` int(11) NOT NULL DEFAULT 1,
-  `ordemadmissao` varchar(10) DEFAULT NULL,
-  `meioadmissao` int(11) DEFAULT NULL,
-  `ataadmissao` int(11) DEFAULT NULL,
-  `disciplina` int(11) DEFAULT NULL,
-  `motivodemissao` int(11) DEFAULT NULL,
-  `atademissao` int(11) DEFAULT NULL,
-  `nome` varchar(100) DEFAULT NULL,
-  `sexo` int(11) DEFAULT NULL,
-  `datanascimento` date DEFAULT NULL,
-  `datacasamento` date DEFAULT NULL,
-  `naturalidade` varchar(100) DEFAULT NULL,
-  `estadocivil` int(11) DEFAULT NULL,
-  `nomeconjuge` varchar(100) DEFAULT NULL,
-  `nomepai` varchar(100) DEFAULT NULL,
-  `nomemae` varchar(100) DEFAULT NULL,
-  `rg` varchar(20) DEFAULT NULL,
-  `cpf` varchar(20) DEFAULT NULL,
-  `email` varchar(150) DEFAULT NULL,
-  `fone` varchar(20) DEFAULT NULL,
-  `fone2` varchar(20) DEFAULT NULL,
-  `cel` varchar(20) DEFAULT NULL,
-  `escolaridade_id` int(11) DEFAULT NULL,
-  `profissao_id` int(11) DEFAULT NULL,
-  `batizado` int(11) DEFAULT NULL,
-  `databatismo` date DEFAULT NULL,
-  `profissaofe` int(11) DEFAULT NULL,
-  `dataprofe` date DEFAULT NULL,
-  `igrejabatismo` varchar(100) DEFAULT NULL,
-  `pastorbatismo` varchar(100) DEFAULT NULL,
-  `igrejaprofe` varchar(100) DEFAULT NULL,
-  `pastorprofe` varchar(100) DEFAULT NULL,
-  `areainteresse` text DEFAULT NULL,
-  `ultimaigreja` varchar(100) DEFAULT NULL,
-  `datamembro` date DEFAULT NULL,
-  `igrejasanteriores` text DEFAULT NULL,
-  `foto_caminho` varchar(255) DEFAULT NULL,
-  `foto_exibicao` varchar(255) DEFAULT NULL,
-  `cargo_id` int(11) DEFAULT NULL,
-  `church_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cadastro de membros';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `membros`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `membros` WRITE;
-/*!40000 ALTER TABLE `membros` DISABLE KEYS */;
-/*!40000 ALTER TABLE `membros` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `movimentacao_bens`
---
-
-DROP TABLE IF EXISTS `movimentacao_bens`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `movimentacao_bens` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `tipo` int(11) DEFAULT NULL,
-  `quantidade` int(11) DEFAULT NULL,
-  `saldo` int(11) DEFAULT NULL,
-  `motivo` varchar(50) DEFAULT NULL,
-  `bem_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `church_id` int(11) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabela que armazena o histórico de movimentação dos bens';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `movimentacao_bens`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `movimentacao_bens` WRITE;
-/*!40000 ALTER TABLE `movimentacao_bens` DISABLE KEYS */;
-/*!40000 ALTER TABLE `movimentacao_bens` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `movimentacao_historico`
---
-DROP TABLE IF EXISTS `movimentacao_historico`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `movimentacao_historico` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `ataadmissao` int(11) DEFAULT NULL,
-  `tipo_antigo` int(11) DEFAULT NULL,
-  `tipo_novo` int(11) NOT NULL,
-  `historico_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `created` datetime DEFAULT NULL,
+CREATE TABLE `jobs` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `queue` varchar(255) NOT NULL,
+  `payload` longtext NOT NULL,
+  `attempts` smallint(5) unsigned NOT NULL,
+  `reserved_at` int(10) unsigned DEFAULT NULL,
+  `available_at` int(10) unsigned NOT NULL,
+  `created_at` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `idx_movimentacao_historico` (`historico_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cadastro de movimentações no histórico do membro';
+  KEY `jobs_queue_index` (`queue`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `movimentacao_historico`
+-- Dumping data for table `jobs`
 --
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `movimentacao_historico` WRITE;
-/*!40000 ALTER TABLE `movimentacao_historico` DISABLE KEYS */;
-/*!40000 ALTER TABLE `movimentacao_historico` ENABLE KEYS */;
+LOCK TABLES `jobs` WRITE;
+/*!40000 ALTER TABLE `jobs` DISABLE KEYS */;
+/*!40000 ALTER TABLE `jobs` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
--- Table structure for table `movimentacao_itens`
+-- Table structure for table `migrations`
 --
 
-DROP TABLE IF EXISTS `movimentacao_itens`;
+DROP TABLE IF EXISTS `migrations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `movimentacao_itens` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `quantidade` int(11) DEFAULT NULL,
-  `devolvido` int(11) NOT NULL DEFAULT 0,
-  `membro_id` int(11) DEFAULT NULL,
-  `item_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `church_id` int(11) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
+CREATE TABLE `migrations` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) NOT NULL,
+  `batch` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPACT COMMENT='Tabela que armazena o histórico de empréstimo dos itens da biblioteca';
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `movimentacao_itens`
+-- Dumping data for table `migrations`
 --
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `movimentacao_itens` WRITE;
-/*!40000 ALTER TABLE `movimentacao_itens` DISABLE KEYS */;
-/*!40000 ALTER TABLE `movimentacao_itens` ENABLE KEYS */;
+LOCK TABLES `migrations` WRITE;
+/*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
+INSERT INTO `migrations` VALUES
+(1,'0001_01_01_000000_create_users_table',1),
+(2,'0001_01_01_000001_create_cache_table',1),
+(3,'0001_01_01_000002_create_jobs_table',1);
+/*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
--- Table structure for table `movimentacaoatas`
+-- Table structure for table `password_reset_tokens`
 --
 
-DROP TABLE IF EXISTS `movimentacaoatas`;
+DROP TABLE IF EXISTS `password_reset_tokens`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `movimentacaoatas` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `cargo_id` int(11) DEFAULT NULL,
-  `membro_id` int(11) DEFAULT NULL,
-  `ata_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `church_id` int(11) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Armazena a movimentação de cargos de acordo com as atas lanç';
+CREATE TABLE `password_reset_tokens` (
+  `email` varchar(255) NOT NULL,
+  `token` varchar(255) NOT NULL,
+  `created_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `movimentacaoatas`
+-- Dumping data for table `password_reset_tokens`
 --
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `movimentacaoatas` WRITE;
-/*!40000 ALTER TABLE `movimentacaoatas` DISABLE KEYS */;
-/*!40000 ALTER TABLE `movimentacaoatas` ENABLE KEYS */;
+LOCK TABLES `password_reset_tokens` WRITE;
+/*!40000 ALTER TABLE `password_reset_tokens` DISABLE KEYS */;
+/*!40000 ALTER TABLE `password_reset_tokens` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 
 --
--- Table structure for table `permissao_padraos`
+-- Table structure for table `sessions`
 --
 
-DROP TABLE IF EXISTS `permissao_padraos`;
+DROP TABLE IF EXISTS `sessions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `permissao_padraos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `plugin` varchar(150) DEFAULT NULL,
-  `controller` varchar(150) DEFAULT NULL,
-  `action` varchar(150) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  `church_id` int(11) DEFAULT NULL,
-  `allowed` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+CREATE TABLE `sessions` (
+  `id` varchar(255) NOT NULL,
+  `user_id` bigint(20) unsigned DEFAULT NULL,
+  `ip_address` varchar(45) DEFAULT NULL,
+  `user_agent` text DEFAULT NULL,
+  `payload` longtext NOT NULL,
+  `last_activity` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `sessions_user_id_index` (`user_id`),
+  KEY `sessions_last_activity_index` (`last_activity`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `permissao_padraos`
+-- Dumping data for table `sessions`
 --
 
 SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `permissao_padraos` WRITE;
-/*!40000 ALTER TABLE `permissao_padraos` DISABLE KEYS */;
-INSERT INTO `permissao_padraos` VALUES
-(1,'','Users','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(2,'','Users','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(3,'','Users','addUser','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(4,'','Users','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(5,'','Users','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(6,'','Users','permissao_padrao','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(7,'Biblioteca','Itens','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(8,'Biblioteca','Itens','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(9,'Biblioteca','Itens','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(10,'Biblioteca','Itens','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(11,'Biblioteca','Itens','consulta','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(12,'Biblioteca','Itens','emprestimo','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(13,'Biblioteca','Itens','devolucao','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(14,'Biblioteca','Itens','historico','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(15,'Biblioteca','Relatorios','itens','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(16,'Biblioteca','Relatorios','emprestimos','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(17,'Patrimonio','Bens','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(18,'Patrimonio','Bens','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(19,'Patrimonio','Bens','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(20,'Patrimonio','Bens','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(21,'Patrimonio','Bens','movimentar','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(22,'Patrimonio','Relatorios','bens','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(23,'Patrimonio','Relatorios','movimentacao_bens','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(24,'Secretaria','Atas','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(25,'Secretaria','Atas','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(26,'Secretaria','Atas','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(27,'Secretaria','Atas','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(28,'Secretaria','Atas','download','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(29,'Secretaria','Cadastros','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(30,'Secretaria','Cadastros','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(31,'Secretaria','Cadastros','view','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(32,'Secretaria','Cadastros','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(33,'Secretaria','Cadastros','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(34,'Secretaria','Calendarios','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(35,'Secretaria','Calendarios','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(36,'Secretaria','Calendarios','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(37,'Secretaria','Calendarios','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(38,'Secretaria','Cargos','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(39,'Secretaria','Cargos','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(40,'Secretaria','Cargos','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(41,'Secretaria','Cargos','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(42,'Secretaria','Congregacoes','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(43,'Secretaria','Congregacoes','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(44,'Secretaria','Congregacoes','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(45,'Secretaria','Congregacoes','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(46,'Secretaria','Departamentos','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(47,'Secretaria','Departamentos','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(48,'Secretaria','Departamentos','view','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(49,'Secretaria','Departamentos','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(50,'Secretaria','Departamentos','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(51,'Secretaria','Membros','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(52,'Secretaria','Membros','search','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(53,'Secretaria','Membros','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(54,'Secretaria','Membros','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(55,'Secretaria','Membros','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(56,'Secretaria','Profissaos','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(57,'Secretaria','Profissaos','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(58,'Secretaria','Profissaos','view','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(59,'Secretaria','Profissaos','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(60,'Secretaria','Profissaos','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(61,'Secretaria','Relatorios','membros','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(62,'Secretaria','Relatorios','lista_presenca','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(63,'Secretaria','Relatorios','usuarios','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(64,'Secretaria','Relatorios','visitantes','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(65,'Secretaria','Relatorios','cargos','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(66,'Secretaria','Relatorios','profissao','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(67,'Secretaria','Relatorios','eventos','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(68,'Secretaria','Relatorios','departamentos','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(69,'Secretaria','Relatorios','congregacoes','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(70,'Secretaria','Relatorios','grafico_membros','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(71,'Secretaria','Visitantes','index','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(72,'Secretaria','Visitantes','add','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(73,'Secretaria','Visitantes','edit','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(74,'Secretaria','Visitantes','view','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1),
-(75,'Secretaria','Visitantes','delete','2025-11-14 18:58:52','2025-11-14 18:58:52',1,1);
-/*!40000 ALTER TABLE `permissao_padraos` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `permissions`
---
-
-DROP TABLE IF EXISTS `permissions`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `permissions` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) DEFAULT 0,
-  `plugin` varchar(150) DEFAULT '0',
-  `controller` varchar(150) DEFAULT '0',
-  `action` varchar(150) DEFAULT '0',
-  `allowed` int(11) DEFAULT 0,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `permissions`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `permissions` WRITE;
-/*!40000 ALTER TABLE `permissions` DISABLE KEYS */;
-INSERT INTO `permissions` VALUES
-(1,1,'','Users','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(2,1,'','Users','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(3,1,'','Users','addUser',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(4,1,'','Users','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(5,1,'','Users','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(6,1,'','Users','permissao_padrao',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(7,1,'Biblioteca','Itens','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(8,1,'Biblioteca','Itens','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(9,1,'Biblioteca','Itens','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(10,1,'Biblioteca','Itens','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(11,1,'Biblioteca','Itens','consulta',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(12,1,'Biblioteca','Itens','emprestimo',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(13,1,'Biblioteca','Itens','devolucao',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(14,1,'Biblioteca','Itens','historico',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(15,1,'Biblioteca','Relatorios','itens',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(16,1,'Biblioteca','Relatorios','emprestimos',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(17,1,'Patrimonio','Bens','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(18,1,'Patrimonio','Bens','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(19,1,'Patrimonio','Bens','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(20,1,'Patrimonio','Bens','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(21,1,'Patrimonio','Bens','movimentar',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(22,1,'Patrimonio','Relatorios','bens',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(23,1,'Patrimonio','Relatorios','movimentacao_bens',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(24,1,'Secretaria','Atas','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(25,1,'Secretaria','Atas','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(26,1,'Secretaria','Atas','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(27,1,'Secretaria','Atas','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(28,1,'Secretaria','Atas','download',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(29,1,'Secretaria','Cadastros','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(30,1,'Secretaria','Cadastros','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(31,1,'Secretaria','Cadastros','view',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(32,1,'Secretaria','Cadastros','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(33,1,'Secretaria','Cadastros','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(34,1,'Secretaria','Calendarios','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(35,1,'Secretaria','Calendarios','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(36,1,'Secretaria','Calendarios','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(37,1,'Secretaria','Calendarios','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(38,1,'Secretaria','Cargos','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(39,1,'Secretaria','Cargos','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(40,1,'Secretaria','Cargos','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(41,1,'Secretaria','Cargos','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(42,1,'Secretaria','Congregacoes','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(43,1,'Secretaria','Congregacoes','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(44,1,'Secretaria','Congregacoes','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(45,1,'Secretaria','Congregacoes','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(46,1,'Secretaria','Departamentos','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(47,1,'Secretaria','Departamentos','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(48,1,'Secretaria','Departamentos','view',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(49,1,'Secretaria','Departamentos','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(50,1,'Secretaria','Departamentos','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(51,1,'Secretaria','Membros','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(52,1,'Secretaria','Membros','search',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(53,1,'Secretaria','Membros','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(54,1,'Secretaria','Membros','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(55,1,'Secretaria','Membros','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(56,1,'Secretaria','Profissaos','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(57,1,'Secretaria','Profissaos','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(58,1,'Secretaria','Profissaos','view',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(59,1,'Secretaria','Profissaos','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(60,1,'Secretaria','Profissaos','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(61,1,'Secretaria','Relatorios','membros',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(62,1,'Secretaria','Relatorios','lista_presenca',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(63,1,'Secretaria','Relatorios','usuarios',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(64,1,'Secretaria','Relatorios','visitantes',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(65,1,'Secretaria','Relatorios','cargos',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(66,1,'Secretaria','Relatorios','profissao',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(67,1,'Secretaria','Relatorios','eventos',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(68,1,'Secretaria','Relatorios','departamentos',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(69,1,'Secretaria','Relatorios','congregacoes',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(70,1,'Secretaria','Relatorios','grafico_membros',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(71,1,'Secretaria','Visitantes','index',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(72,1,'Secretaria','Visitantes','add',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(73,1,'Secretaria','Visitantes','edit',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(74,1,'Secretaria','Visitantes','view',1,'2026-03-11 21:30:24','2026-03-11 21:38:11'),
-(75,1,'Secretaria','Visitantes','delete',1,'2026-03-11 21:30:24','2026-03-11 21:38:11');
-/*!40000 ALTER TABLE `permissions` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `profissaos`
---
-
-DROP TABLE IF EXISTS `profissaos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `profissaos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(80) NOT NULL,
-  `descricao` text DEFAULT NULL,
-  `church_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `created` datetime NOT NULL,
-  `modified` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cadastro Profissão membros';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `profissaos`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `profissaos` WRITE;
-/*!40000 ALTER TABLE `profissaos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `profissaos` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `relacionamentos`
---
-
-DROP TABLE IF EXISTS `relacionamentos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `relacionamentos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `membro_id` int(11) NOT NULL,
-  `tiporelacionamento_id` int(11) DEFAULT NULL,
-  `membro2_id` int(11) DEFAULT NULL,
-  `church_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `created` datetime NOT NULL,
-  `modified` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cadastros do relacionamentos do sistema. guarda informações ';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `relacionamentos`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `relacionamentos` WRITE;
-/*!40000 ALTER TABLE `relacionamentos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `relacionamentos` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `tipo_bens`
---
-
-DROP TABLE IF EXISTS `tipo_bens`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tipo_bens` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(80) NOT NULL,
-  `descricao` text DEFAULT NULL,
-  `church_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `created` datetime NOT NULL,
-  `modified` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cadastro Tipo Bem';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tipo_bens`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `tipo_bens` WRITE;
-/*!40000 ALTER TABLE `tipo_bens` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tipo_bens` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `tipo_biblioteca`
---
-
-DROP TABLE IF EXISTS `tipo_biblioteca`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tipo_biblioteca` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `nome` varchar(150) DEFAULT NULL,
-  `church_id` int(11) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci ROW_FORMAT=COMPACT COMMENT='Cadastro de tipos da biblioteca';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tipo_biblioteca`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `tipo_biblioteca` WRITE;
-/*!40000 ALTER TABLE `tipo_biblioteca` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tipo_biblioteca` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `tiporelacionamentos`
---
-
-DROP TABLE IF EXISTS `tiporelacionamentos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `tiporelacionamentos` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `descricao` varchar(45) NOT NULL,
-  `obs` text DEFAULT NULL,
-  `church_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `created` datetime NOT NULL,
-  `modified` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cadastro de Tipo de Relacionamento. Responsável por armazena';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `tiporelacionamentos`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `tiporelacionamentos` WRITE;
-/*!40000 ALTER TABLE `tiporelacionamentos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `tiporelacionamentos` ENABLE KEYS */;
+LOCK TABLES `sessions` WRITE;
+/*!40000 ALTER TABLE `sessions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `sessions` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
@@ -1194,18 +269,17 @@ DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8mb4 */;
 CREATE TABLE `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(45) NOT NULL,
-  `password` varchar(45) NOT NULL,
-  `nome` varchar(45) DEFAULT NULL,
-  `telefone` varchar(45) DEFAULT NULL,
-  `celular` varchar(45) DEFAULT NULL,
-  `cpf` varchar(45) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  `church_id` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Todos os usuários do Sistema.';
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `email_verified_at` datetime DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1216,52 +290,13 @@ SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` VALUES
-(1,'master@master','09067eb9cbc3f279cba20f4ccf70f42a3a882810','master','(11) 1111-11111','(11) 1111-11111','111.111.111-11','2026-03-11 21:22:37','2026-03-11 21:40:10',1);
+(1,'master','master@master',NULL,'$2y$12$7ym.u962HVAwYju6zjuHlO4fcrCUng1iRNluuz1DqPX0PvmqcaDsq',NULL,'2026-10-10 00:00:00','2026-10-10 00:00:00');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 COMMIT;
 SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
---
--- Table structure for table `visitantes`
---
-
-DROP TABLE IF EXISTS `visitantes`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8mb4 */;
-CREATE TABLE `visitantes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `dataVisita` date NOT NULL,
-  `nome` varchar(50) NOT NULL,
-  `idade` int(11) NOT NULL,
-  `telefone` varchar(15) NOT NULL,
-  `email` varchar(30) NOT NULL,
-  `frequentaIgreja` varchar(70) DEFAULT NULL,
-  `pedidoOracao` varchar(70) DEFAULT NULL,
-  `origem` varchar(20) NOT NULL,
-  `redesSociaisComp` varchar(50) DEFAULT NULL,
-  `outroComp` varchar(50) DEFAULT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `church_id` int(11) DEFAULT NULL,
-  `created` datetime DEFAULT NULL,
-  `modified` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Cadastro de Visitantes';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `visitantes`
---
-
-SET @OLD_AUTOCOMMIT=@@AUTOCOMMIT, @@AUTOCOMMIT=0;
-LOCK TABLES `visitantes` WRITE;
-/*!40000 ALTER TABLE `visitantes` DISABLE KEYS */;
-/*!40000 ALTER TABLE `visitantes` ENABLE KEYS */;
-UNLOCK TABLES;
-COMMIT;
-SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
-
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
 /*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
@@ -1270,4 +305,4 @@ SET AUTOCOMMIT=@OLD_AUTOCOMMIT;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*M!100616 SET NOTE_VERBOSITY=@OLD_NOTE_VERBOSITY */;
 
--- Dump completed on 2026-03-11 21:51:40
+-- Dump completed on 2026-10-10 00:00:00
