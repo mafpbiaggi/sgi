@@ -1,5 +1,5 @@
 <?php
-  
+
 namespace Database\Seeders;
 
 use App\Models\User;
@@ -12,7 +12,7 @@ class RolesAndPermissionsSeeder extends Seeder
     public function run(): void
     {
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
-        
+
         $defaultPermissions = [
             'users.index',
             'users.create',
@@ -32,6 +32,12 @@ class RolesAndPermissionsSeeder extends Seeder
             'permissions.edit',
             'permissions.update',
             'permissions.destroy',
+            'visitors.index',
+            'visitors.create',
+            'visitors.store',
+            'visitors.edit',
+            'visitors.update',
+            'visitors.destroy',
         ];
 
         foreach ($defaultPermissions as $permission) {
