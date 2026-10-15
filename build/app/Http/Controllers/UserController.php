@@ -41,9 +41,9 @@ class UserController extends Controller
         $user = User::create($request->safe()->except('roles'));
         $user->syncRoles($request->validated('roles', []));
 
-        return redirect()
-            ->route('users.index')
-            ->with('success', 'Usuário cadastrado com sucesso.');
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Usuário cadastrado.')]);
+
+        return to_route('users.index');
     }
 
     public function edit(User $user): Response
@@ -71,9 +71,9 @@ class UserController extends Controller
         $user->update($data);
         $user->syncRoles($request->validated('roles', []));
 
-        return redirect()
-            ->route('users.index')
-            ->with('success', 'Usuário atualizado com sucesso.');
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Usuário editado.')]);
+
+        return to_route('users.index');
     }
 
     public function destroy(User $user): RedirectResponse
@@ -82,8 +82,8 @@ class UserController extends Controller
 
         $user->delete();
 
-        return redirect()
-            ->route('users.index')
-            ->with('success', 'Usuário excluído com sucesso.');
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Usuário excluído.')]);
+
+        return to_route('users.index');
     }
 }
