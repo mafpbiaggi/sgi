@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\User;
+use Exception;
 
 test('profile page is displayed', function () {
     $user = User::factory()->create();
@@ -50,8 +51,22 @@ test('email verification status is unchanged when the email address is unchanged
     expect($user->refresh()->email_verified_at)->not->toBeNull();
 });
 
-test('user can delete their account', function () {
-    $user = User::factory()->create();
+test('user master can not be deleted', function () {
+    $master = User::factory()->create([
+        'id' => 1,
+    ]);
+
+    $this->actingAs($master)
+        ->withoutExceptionHandling()
+        ->delete(route('profile.destroy'), [
+            'password' => 'password',
+        ]);
+})->throws(\Exception::class);
+
+test('common user can delete their account', function () {
+    $user = User::factory()->create([
+        'id' => 2,
+    ]);
 
     $response = $this
         ->actingAs($user)
