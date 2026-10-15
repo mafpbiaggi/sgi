@@ -33,7 +33,7 @@ export default function Create({ roles }: Props) {
     }
 
     return (
-        <div className="px-20 py-10">
+        <div className="space-y-6 p-6">
             <h1 className="mb-6 text-2xl font-semibold">Novo usuário</h1>
 
             <form onSubmit={submit} className="space-y-4">
