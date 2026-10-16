@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Concerns\HandlesToastFeedback;
 use App\Models\User;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
@@ -12,6 +13,11 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+    use HandlesToastFeedback;
+
+    /**
+     * Show the user's page.
+     */
     public function index(): Response
     {
         $this->authorize('users.index');
@@ -23,6 +29,9 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Show the user's create page.
+     */
     public function create(): Response
     {
         $this->authorize('users.create');
@@ -34,18 +43,28 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Stores the user information.
+     */
     public function store(StoreUserRequest $request): RedirectResponse
     {
         $this->authorize('users.store');
 
-        $user = User::create($request->safe()->except('roles'));
-        $user->syncRoles($request->validated('roles', []));
-
-        Inertia::flash('toast', ['type' => 'success', 'message' => __('Usuário cadastrado.')]);
-
-        return to_route('users.index');
+        return $this->withToastFeedback(
+            action: function () use ($request) {
+                $user = User::create($request->safe()->except('roles'));
+                $user->syncRoles($request->validated('roles', []));
+            },
+            successMessage: __('Usuário cadastrado.'),
+            errorMessage: __('Usuário não pôde ser cadastrado.'),
+            redirectRoute: 'users.index',
+            errorRoute: 'users.create',
+        );
     }
 
+    /**
+     * Show the user's edit page.
+     */
     public function edit(User $user): Response
     {
         $this->authorize('users.edit');
@@ -58,6 +77,9 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Update the user information.
+     */
     public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
         $this->authorize('users.update');
@@ -68,22 +90,33 @@ class UserController extends Controller
             unset($data['password']);
         }
 
-        $user->update($data);
-        $user->syncRoles($request->validated('roles', []));
-
-        Inertia::flash('toast', ['type' => 'success', 'message' => __('Usuário editado.')]);
-
-        return to_route('users.index');
+        return $this->withToastFeedback(
+            action: function () use ($request, $user, $data) {
+                $user->update($data);
+                $user->syncRoles($request->validated('roles', []));
+            },
+            successMessage: __('Usuário editado.'),
+            errorMessage: __('Usuário não pôde ser editado.'),
+            redirectRoute: 'users.index',
+            errorRoute: 'users.edit',
+        );
     }
 
+    /**
+     * Delete the user.
+     */
     public function destroy(User $user): RedirectResponse
     {
         $this->authorize('users.destroy');
 
-        $user->delete();
-
-        Inertia::flash('toast', ['type' => 'success', 'message' => __('Usuário excluído.')]);
-
-        return to_route('users.index');
+        return $this->withToastFeedback(
+            action: function () use ($user) {
+                $user->delete();
+            },
+            successMessage: __('Usuário deletado.'),
+            errorMessage: __('Usuário não pôde ser deletado.'),
+            redirectRoute: 'users.index',
+            errorRoute: 'users.index',
+        );
     }
 }
