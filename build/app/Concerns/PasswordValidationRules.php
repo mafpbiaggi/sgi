@@ -18,6 +18,16 @@ trait PasswordValidationRules
     }
 
     /**
+     * Get the validation rules used to validate passwords for user's update.
+     *
+     * @return array<int, Password|ValidationRule|array<mixed>|string>
+     */
+    protected function updatePasswordRules(): array
+    {
+        return ['nullable', 'string', Password::default(), 'confirmed'];
+    }
+
+    /**
      * Get the validation rules used to validate the current password.
      *
      * @return array<int, Password|ValidationRule|array<mixed>|string>

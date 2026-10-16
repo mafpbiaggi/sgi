@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Concerns\HandlesToastFeedback;
 use App\Models\User;
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\UserUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -46,7 +46,7 @@ class UserController extends Controller
     /**
      * Stores the user information.
      */
-    public function store(StoreUserRequest $request): RedirectResponse
+    public function store(UserStoreRequest $request): RedirectResponse
     {
         $this->authorize('users.store');
 
@@ -80,7 +80,7 @@ class UserController extends Controller
     /**
      * Update the user information.
      */
-    public function update(UpdateUserRequest $request, User $user): RedirectResponse
+    public function update(UserUpdateRequest $request, User $user): RedirectResponse
     {
         $this->authorize('users.update');
 

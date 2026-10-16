@@ -17,6 +17,7 @@ export default function Create({ roles }: Props) {
         name: '',
         email: '',
         password: '',
+        password_confirmation: '',
         roles: [] as string[],
     });
 
@@ -37,22 +38,22 @@ export default function Create({ roles }: Props) {
             <h1 className="mb-6 text-2xl font-semibold">Novo usuário</h1>
 
             <form onSubmit={submit} className="space-y-4">
-                <div>
-                    <label htmlFor="name" className="block text-sm font-medium">
-                        Nome
-                    </label>
-                    <input
-                        id="name"
-                        type="text"
-                        autoComplete="name"
-                        value={data.name}
-                        onChange={(e) => setData('name', e.target.value)}
-                        className="mt-1 w-full rounded-md border p-2"
-                    />
-                    <InputError message={errors.name} />
-                </div>
-
                 <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label htmlFor="name" className="block text-sm font-medium">
+                            Nome
+                        </label>
+                        <input
+                            id="name"
+                            type="text"
+                            autoComplete="name"
+                            value={data.name}
+                            onChange={(e) => setData('name', e.target.value)}
+                            className="mt-1 w-full rounded-md border p-2"
+                        />
+                        <InputError message={errors.name} />
+                    </div>
+
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium">
                             E-mail
@@ -67,7 +68,9 @@ export default function Create({ roles }: Props) {
                         />
                         <InputError message={errors.email} />
                     </div>
+                </div>
 
+                <div className="grid grid-cols-2 gap-4">
                     <div>
                         <label htmlFor="password" className="block text-sm font-medium">
                             Senha
@@ -82,6 +85,22 @@ export default function Create({ roles }: Props) {
                             className="mt-1 p-5"
                         />
                         <InputError message={errors.password} />
+                    </div>
+                    <div>
+                        <label htmlFor="password_confirmation" className="block text-sm font-medium">
+                            Confirmação de Senha
+                        </label>
+                        <PasswordInput
+                            id="password_confirmation"
+                            name="password_confirmation"
+                            required
+                            autoComplete="new-password"
+                            value={data.password_confirmation}
+                            onChange={(e) => setData('password_confirmation', e.target.value)}
+                            disabled={data.password === ''}
+                            className="mt-1 p-5"
+                        />
+                        <InputError message={errors.password_confirmation} />
                     </div>
                 </div>
 
@@ -121,7 +140,7 @@ export default function Create({ roles }: Props) {
                         Cancelar
                     </Link>
                 </div>
-            </form>
-        </div>
+            </form >
+        </div >
     );
 }

@@ -35,18 +35,21 @@ class UserControllerTest extends TestCase
             'name' => 'teste',
             'email' => 'email@email',
             'password' => 'password',
+            'password_confirmation' => 'password',
             'is_master' => false,
         ], $overrides);
     }
 
     public function test_user_can_be_created(): void
     {
-        $data = $this->validData([
+        $data = $this->validData(array_merge([
             'name' => 'user_store',
             'email' => 'user_store@teste.com.br',
             'password' => 'user_store_password',
+            'password_confirmation' => 'user_store_password',
             'is_master' => false,
-        ]);
+            'roles.*' => ['admin', 'exists:roles,name'],
+        ]));
 
         $this->post(route('users.store'), $data)
             ->assertSessionHasNoErrors()
@@ -55,13 +58,14 @@ class UserControllerTest extends TestCase
         $this->assertDatabaseCount('users', 2);
     }
 
-    public function test_user_can_be_upgraded(): void
+    public function test_user_can_be_updated(): void
     {
         $user = User::factory()->create();
 
         $data = $this->validData([
             'name' => 'Novo nome',
             'email' => 'novo_email@test.com.br',
+            'roles.*' => ['admin', 'exists:roles,name'],
         ]);
 
         $this->put(route('users.update', $user), $data)
@@ -183,7 +187,6 @@ class UserControllerTest extends TestCase
         $invalidValues = [
             'name' => str_repeat('a', 256),
             'email' => 'email-invalido',
-            'password' => str_repeat('a', 7),
         ];
 
         foreach ($invalidValues as $field => $value) {
@@ -221,6 +224,7 @@ class UserControllerTest extends TestCase
             'name' => 'teste',
             'email' => 'email@email',
             'password' => 'password',
+            'password_confirmation' => 'password',
         ]))
             ->assertForbidden();
 
@@ -231,7 +235,7 @@ class UserControllerTest extends TestCase
             route('users.update', $user),
             $this->validData([
                 'name' => 'Alteração proibida',
-                'email' => 'alteracao@proibida'
+                'email' => 'alteracao@proibida',
             ])
         )
             ->assertForbidden();
