@@ -10,8 +10,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
-use Illuminate\Database\Eloquent\Model;
-use Exception;
 
 /**
  * @property int $id
@@ -23,18 +21,37 @@ use Exception;
  * @property string|null $two_factor_recovery_codes
  * @property Carbon|null $two_factor_confirmed_at
  * @property string|null $remember_token
+ * @property boolean $is_master
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
-**/
+ **/
 
 #[Fillable(['name', 'email', 'password'])]
-#[Hidden(['password', 'remember_token'])]
+#[Hidden(['password', 'remember_token', 'is_master'])]
 
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
     use HasRoles;
+
+    public function delete(): bool
+    {
+        if ($this->is_master) {
+            return false;
+        }
+
+        return parent::delete();
+    }
+
+    public function forceDelete(): bool
+    {
+        if ($this->is_master) {
+            return false;
+        }
+
+        return parent::forceDelete();
+    }
 
     /**
      * Get the attributes that should be cast.
@@ -46,15 +63,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_master' => 'boolean',
         ];
-    }
-
-    protected static function booted(): void
-    {
-        static::deleting(function (User $user) {
-            if ($user->id === 1) {
-                throw new Exception("O usuário master não pode ser excluído.");
-            }
-        });
     }
 }

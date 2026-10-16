@@ -38,7 +38,7 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        Inertia::flash('toast', ['type' => 'success', 'message' => __('Profile updated.')]);
+        Inertia::flash('toast', ['type' => 'success', 'message' => __('Perfil editado.')]);
 
         return to_route('profile.edit');
     }
@@ -49,6 +49,11 @@ class ProfileController extends Controller
     public function destroy(ProfileDeleteRequest $request): RedirectResponse
     {
         $user = $request->user();
+
+        if ($user->is_master) {
+            Inertia::flash('toast', ['type' => 'error', 'message' => __('Perfil master não pode ser excluído.')]);
+            return to_route('profile.edit');
+        }
 
         Auth::logout();
 

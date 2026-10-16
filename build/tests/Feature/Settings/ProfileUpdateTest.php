@@ -53,20 +53,20 @@ test('email verification status is unchanged when the email address is unchanged
 
 test('user master can not be deleted', function () {
     $master = User::factory()->create([
-        'id' => 1,
+        'is_master' => true,
     ]);
 
-    $this->actingAs($master)
-        ->withoutExceptionHandling()
+    $this
+        ->actingAs($master)
         ->delete(route('profile.destroy'), [
             'password' => 'password',
         ]);
-})->throws(\Exception::class);
+
+    expect($master->fresh())->not->toBeNull();
+});
 
 test('common user can delete their account', function () {
-    $user = User::factory()->create([
-        'id' => 2,
-    ]);
+    $user = User::factory()->create();
 
     $response = $this
         ->actingAs($user)

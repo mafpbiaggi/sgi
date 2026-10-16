@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             'password' => 'master',
             'email_verified_at' => null,
             'remember_token' => null,
+            'is_master' => true,
         ]);
     }
 }

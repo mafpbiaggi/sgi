@@ -35,6 +35,7 @@ class UserControllerTest extends TestCase
             'name' => 'teste',
             'email' => 'email@email',
             'password' => 'password',
+            'is_master' => false,
         ], $overrides);
     }
 
@@ -44,6 +45,7 @@ class UserControllerTest extends TestCase
             'name' => 'user_store',
             'email' => 'user_store@teste.com.br',
             'password' => 'user_store_password',
+            'is_master' => false,
         ]);
 
         $this->post(route('users.store'), $data)

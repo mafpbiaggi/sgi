@@ -18,6 +18,7 @@ return new class extends Migration
             $table->dateTime('email_verified_at', precision: 0)->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->boolean('is_master')->default(false)->index();
             $table->dateTime('created_at', precision: 0);
             $table->dateTime('updated_at', precision: 0);
         });
