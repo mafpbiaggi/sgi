@@ -7,13 +7,13 @@ export default function Create() {
         name: '',
     });
 
-    function submit(event: React.FormEvent<HTMLFormElement>) {
+    function submit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault();
         post(store().url);
     }
 
     return (
-        <div className="px-20 py-10">
+        <div className="space-y-6 p-6">
             <h1 className="mb-6 text-2xl font-semibold">Nova permissão</h1>
 
             <form onSubmit={submit} className="space-y-4">
@@ -23,7 +23,9 @@ export default function Create() {
                     </label>
                     <input
                         id="name"
+                        name="name"
                         type="text"
+                        required
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
                         className="mt-1 w-full rounded-md border p-2"

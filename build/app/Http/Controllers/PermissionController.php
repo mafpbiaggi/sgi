@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StorePermissionRequest;
-use App\Http\Requests\UpdatePermissionRequest;
+use App\Http\Requests\PermissionStoreRequest;
+use App\Http\Requests\PermissionUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -11,6 +11,9 @@ use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
 {
+    /**
+     * Show the permission's page.
+     */
     public function index(): Response
     {
         $this->authorize('permissions.index');
@@ -22,6 +25,9 @@ class PermissionController extends Controller
         ]);
     }
 
+    /**
+     * Show the permission's create page.
+     */
     public function create(): Response
     {
         $this->authorize('permissions.create');
@@ -29,17 +35,27 @@ class PermissionController extends Controller
         return Inertia::render('permissions/create');
     }
 
-    public function store(StorePermissionRequest $request): RedirectResponse
+    /**
+     * stores the permission information.
+     */
+    public function store(PermissionStoreRequest $request): RedirectResponse
     {
         $this->authorize('permissions.store');
 
-        Permission::create(['name' => $request->validated('name')]);
-
-        return redirect()
-            ->route('permissions.index')
-            ->with('success', 'Permissão criada com sucesso.');
+        return $this->withToastFeedback(
+            action: function () use ($request) {
+                Permission::create($request->safe()->all());
+            },
+            successMessage: __('Permissão cadastrada.'),
+            errorMessage: __('Permissão não pôde ser cadastrado.'),
+            redirectRoute: 'permissions.index',
+            errorRoute: 'permissions.create',
+        );
     }
 
+    /**
+     * Show the permission's edit page.
+     */
     public function edit(Permission $permission): Response
     {
         $this->authorize('permissions.edit');
@@ -49,25 +65,39 @@ class PermissionController extends Controller
         ]);
     }
 
-    public function update(UpdatePermissionRequest $request, Permission $permission): RedirectResponse
+    /**
+     * Update the permissions information.
+     */
+    public function update(PermissionUpdateRequest $request, Permission $permission): RedirectResponse
     {
         $this->authorize('permissions.update');
 
-        $permission->update(['name' => $request->validated('name')]);
-
-        return redirect()
-            ->route('permissions.index')
-            ->with('success', 'Permissão atualizada com sucesso.');
+        return $this->withToastFeedback(
+            action: function () use ($request, $permission) {
+                $permission->update($request->safe()->all());
+            },
+            successMessage: __('Permissão editada.'),
+            errorMessage: __('Permissão não pôde ser edatada.'),
+            redirectRoute: 'permissions.index',
+            errorRoute: 'permissions.edit',
+        );
     }
 
+    /**
+     * Delete the permission.
+     */
     public function destroy(Permission $permission): RedirectResponse
     {
         $this->authorize('permissions.destroy');
 
-        $permission->delete();
-
-        return redirect()
-            ->route('permissions.index')
-            ->with('success', 'Permissão excluída com sucesso.');
+        return $this->withToastFeedback(
+            action: function () use ($permission) {
+                $permission->delete();
+            },
+            successMessage: __('Permissão deletada.'),
+            errorMessage: __('Permissão não pôde ser deletada.'),
+            redirectRoute: 'permissions.index',
+            errorRoute: 'permissions.index',
+        );
     }
 }

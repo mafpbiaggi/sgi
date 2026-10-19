@@ -25,10 +25,11 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->configureDefaults();
-        Gate::before(function ($user, $ability) {
-          if ($user->hasRole('super-admin')) {
+        Gate::before(function ($user) {
+          if ($user->is_master) {
               return true;
           }
+          return false;
       });
     }
 

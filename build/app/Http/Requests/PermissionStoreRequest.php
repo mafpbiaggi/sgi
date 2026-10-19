@@ -2,12 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Concerns\PermissionValidationRules;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class StorePermissionRequest extends FormRequest
+class PermissionStoreRequest extends FormRequest
 {
+    use PermissionValidationRules;
+    
     /**
      * Get the validation rules that apply to the request.
      *
@@ -15,8 +17,6 @@ class StorePermissionRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => ['required', 'string', 'max:255', Rule::unique('permissions', 'name')],
-        ];
+        return $this->nameRules();
     }
 }

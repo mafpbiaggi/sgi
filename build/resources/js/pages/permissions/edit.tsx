@@ -16,13 +16,13 @@ export default function Edit({ permission }: Props) {
         name: permission.name,
     });
 
-    function submit(event: React.FormEvent<HTMLFormElement>) {
+    function submit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault();
         put(update(permission.id).url);
     }
 
     return (
-        <div className="px-20 py-10">
+        <div className="space-y-6 p-6">
             <h1 className="mb-6 text-2xl font-semibold">Editar permissão</h1>
 
             <form onSubmit={submit} className="space-y-4">
@@ -32,10 +32,12 @@ export default function Edit({ permission }: Props) {
                     </label>
                     <input
                         id="name"
+                        name="name"
                         type="text"
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
                         className="mt-1 w-full rounded-md border p-2"
+                        placeholder="ex: users.create"
                     />
                     <InputError message={errors.name} />
                 </div>
