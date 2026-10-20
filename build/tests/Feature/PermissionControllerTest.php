@@ -58,10 +58,11 @@ test('renders the permission create page', function () {
 
 test('renders the permission edit page', function () {
     $user = TestUtils::createUser();
+    $permission = TestUtils::createPermission();
 
     $response = $this
         ->actingAs($user)
-        ->get(route('permissions.create'));
+        ->get(route('permissions.edit', $permission->id));
 
     $response->assertOk();
 });
