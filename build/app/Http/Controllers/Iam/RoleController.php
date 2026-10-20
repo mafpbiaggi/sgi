@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Iam;
 
-use App\Http\Requests\RoleStoreRequest;
-use App\Http\Requests\RoleUpdateRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Iam\RoleStoreRequest;
+use App\Http\Requests\Iam\RoleUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -21,7 +22,7 @@ class RoleController extends Controller
 
         $roles = Role::withCount('permissions')->orderBy('id')->paginate(15);
 
-        return Inertia::render('roles/index', [
+        return Inertia::render('iam/roles/index', [
             'roles' => $roles,
         ]);
     }
@@ -35,7 +36,7 @@ class RoleController extends Controller
 
         $permissions = Permission::orderBy('name')->get(['id', 'name']);
 
-        return Inertia::render('roles/create', [
+        return Inertia::render('iam/roles/create', [
             'permissions' => $permissions,
         ]);
     }
@@ -68,7 +69,7 @@ class RoleController extends Controller
 
         $permissions = Permission::orderBy('name')->get(['id', 'name']);
 
-        return Inertia::render('roles/edit', [
+        return Inertia::render('iam/roles/edit', [
             'role' => $role->load('permissions'),
             'permissions' => $permissions,
         ]);

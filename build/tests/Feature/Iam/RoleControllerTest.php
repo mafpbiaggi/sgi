@@ -27,7 +27,7 @@ test('paginates the role index page', function () {
         ->assertOk()
         ->assertInertia(
             fn(Assert $page) => $page
-                ->component('roles/index')
+                ->component('iam/roles/index')
                 ->has('roles.data', 15)
                 ->where('roles.current_page', 1)
                 ->where('roles.last_page', 2)
@@ -40,7 +40,7 @@ test('paginates the role index page', function () {
         ->assertOk()
         ->assertInertia(
             fn(Assert $page) => $page
-                ->component('roles/index')
+                ->component('iam/roles/index')
                 ->has('roles.data', 1)
                 ->where('roles.current_page', 2)
         );

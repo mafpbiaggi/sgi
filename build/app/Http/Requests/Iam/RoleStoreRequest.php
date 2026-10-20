@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Iam;
 
 use Spatie\Permission\Models\Role;
 use App\Concerns\NameValidationRules;
@@ -8,12 +8,11 @@ use App\Concerns\PermissionValidationRules;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-
-class RoleUpdateRequest extends FormRequest
+class RoleStoreRequest extends FormRequest
 {
     use NameValidationRules;
     use PermissionValidationRules;
-    
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -21,10 +20,8 @@ class RoleUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        $role = $this->route('role');
-
         return [
-            'name' => $this->uniqueNameRules(Role::class, $role->id),
+            'name' => $this->uniqueNameRules(Role::class),
             'permissions' => $this->permissionRules(),
             'permissions.*' => $this->assignPermissionRules(),
         ];

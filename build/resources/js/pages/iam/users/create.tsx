@@ -1,7 +1,7 @@
 import { Link, useForm } from '@inertiajs/react';
 import InputError from '@/components/input-error';
 import PasswordInput from '@/components/password-input';
-import { store, index } from '@/actions/App/Http/Controllers/UserController';
+import { store, index } from '@/actions/App/Http/Controllers/Iam/UserController';
 
 type Role = {
     id: number;

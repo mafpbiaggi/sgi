@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Iam;
 
-use App\Http\Requests\PermissionStoreRequest;
-use App\Http\Requests\PermissionUpdateRequest;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Iam\PermissionStoreRequest;
+use App\Http\Requests\Iam\PermissionUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -20,7 +21,7 @@ class PermissionController extends Controller
 
         $permissions = Permission::orderBy('id')->paginate(15);
 
-        return Inertia::render('permissions/index', [
+        return Inertia::render('iam/permissions/index', [
             'permissions' => $permissions,
         ]);
     }
@@ -32,7 +33,7 @@ class PermissionController extends Controller
     {
         $this->authorize('permissions.create');
 
-        return Inertia::render('permissions/create');
+        return Inertia::render('iam/permissions/create');
     }
 
     /**
@@ -60,7 +61,7 @@ class PermissionController extends Controller
     {
         $this->authorize('permissions.edit');
 
-        return Inertia::render('permissions/edit', [
+        return Inertia::render('iam/permissions/edit', [
             'permission' => $permission,
         ]);
     }

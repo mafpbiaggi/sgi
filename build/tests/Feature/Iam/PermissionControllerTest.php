@@ -27,7 +27,7 @@ test('paginates the permission index page', function () {
         ->assertOk()
         ->assertInertia(
             fn(Assert $page) => $page
-                ->component('permissions/index')
+                ->component('iam/permissions/index')
                 ->has('permissions.data', 15)
                 ->where('permissions.current_page', 1)
                 ->where('permissions.last_page', 2)
@@ -40,7 +40,7 @@ test('paginates the permission index page', function () {
         ->assertOk()
         ->assertInertia(
             fn(Assert $page) => $page
-                ->component('permissions/index')
+                ->component('iam/permissions/index')
                 ->has('permissions.data', 1)
                 ->where('permissions.current_page', 2)
         );

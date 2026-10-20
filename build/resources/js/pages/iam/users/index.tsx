@@ -1,5 +1,5 @@
 import { Link, router } from '@inertiajs/react';
-import { create, edit, destroy } from '@/actions/App/Http/Controllers/UserController';
+import { create, edit, destroy } from '@/actions/App/Http/Controllers/Iam/UserController';
 import { ArrowLeft, ArrowRight, Trash } from 'lucide-react';
 
 type Role = {

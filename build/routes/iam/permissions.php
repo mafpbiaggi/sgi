@@ -1,0 +1,9 @@
+<?php
+
+use App\Http\Controllers\Iam\PermissionController;
+use Illuminate\Support\Facades\Route;
+
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::resource('permissions', PermissionController::class)
+        ->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+});

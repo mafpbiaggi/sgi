@@ -1,11 +1,10 @@
 import { Link, router } from '@inertiajs/react';
-import { create, edit, destroy } from '@/actions/App/Http/Controllers/RoleController';
+import { create, edit, destroy } from '@/actions/App/Http/Controllers/Iam/PermissionController';
 import { ArrowLeft, ArrowRight, Trash } from 'lucide-react';
 
-type Role = {
+type Permission = {
     id: number;
     name: string;
-    permissions_count: number;
 };
 
 type PaginationLink = {
@@ -15,8 +14,8 @@ type PaginationLink = {
 };
 
 type Props = {
-    readonly roles: {
-        data: Role[];
+    readonly permissions: {
+        data: Permission[];
         current_page: number;
         last_page: number;
         links: PaginationLink[];
@@ -24,7 +23,7 @@ type Props = {
 };
 
 function handleDelete(id: number) {
-    if (confirm('Deseja realmente excluir este grupo?')) {
+    if (confirm('Deseja realmente excluir esta permissão?')) {
         router.delete(destroy(id).url);
     }
 }
@@ -33,17 +32,17 @@ function handleEdit(id: number) {
     return router.visit(edit(id).url);
 }
 
-export default function Index({ roles }: Props) {
+export default function Index({ permissions }: Props) {
     return (
         <div className="space-y-6 p-6">
             <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-semibold">Grupos</h1>
+                <h1 className="text-2xl font-semibold">Permissões</h1>
 
                 <Link
                     href={create().url}
                     className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
                 >
-                    Novo grupo
+                    Nova permissão
                 </Link>
             </div>
 
@@ -53,21 +52,19 @@ export default function Index({ roles }: Props) {
                         <tr>
                             <th className="p-4 text-left">ID</th>
                             <th className="p-4 text-left">Nome</th>
-                            <th className="p-4 text-left">Permissões</th>
                             <th className="p-4 text-right"></th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        {roles.data.map((role) => (
-                            <tr key={role.id} className="border-t">
-                                <td onClick={() => handleEdit(role.id)} className="cursor-pointer p-5">{role.id}</td>
-                                <td onClick={() => handleEdit(role.id)} className="cursor-pointer p-5">{role.name}</td>
-                                <td onClick={() => handleEdit(role.id)} className="cursor-pointer p-5">{role.permissions_count}</td>
-                                <td className="space-x-3 p-5 text-right">
+                        {permissions.data.map((permission) => (
+                            <tr key={permission.id} className="border-t">
+                                <td onClick={() => handleEdit(permission.id)} className="cursor-pointer p-5">{permission.id}</td>
+                                <td onClick={() => handleEdit(permission.id)} className="cursor-pointer p-5">{permission.name}</td>
+                                <td className="cursor-pointer space-x-3 p-5 text-right">
                                     <button
                                         type="button"
-                                        onClick={() => handleDelete(role.id)}
+                                        onClick={() => handleDelete(permission.id)}
                                         className="cursor-pointer rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
                                     >
                                         <Trash className="h-4 w-4" />
@@ -80,9 +77,9 @@ export default function Index({ roles }: Props) {
             </div>
             <div className="text-center">
                 <div className="inline-flex items-center gap-3">
-                    {roles.current_page > 1 && (
+                    {permissions.current_page > 1 && (
                         <Link
-                            href={roles.links[0].url ?? '#'}
+                            href={permissions.links[0].url ?? '#'}
                             preserveScroll
                             className="rounded-md border px-3 py-1.5 text-sm"
                         >
@@ -91,12 +88,12 @@ export default function Index({ roles }: Props) {
                     )}
 
                     <span className="text-sm">
-                        {roles.current_page} de {roles.last_page}
+                        {permissions.current_page} de {permissions.last_page}
                     </span>
 
-                    {roles.current_page < roles.last_page && (
+                    {permissions.current_page < permissions.last_page && (
                         <Link
-                            href={roles.links.at(-1)?.url ?? '#'}
+                            href={permissions.links.at(-1)?.url ?? '#'}
                             preserveScroll
                             className="rounded-md border px-3 py-1.5 text-sm"
                         >

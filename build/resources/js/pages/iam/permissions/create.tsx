@@ -1,29 +1,20 @@
 import { Link, useForm } from '@inertiajs/react';
 import InputError from '@/components/input-error';
-import { update, index } from '@/actions/App/Http/Controllers/PermissionController';
+import { store, index } from '@/actions/App/Http/Controllers/Iam/PermissionController';
 
-type Permission = {
-    id: number;
-    name: string;
-};
-
-type Props = {
-    readonly permission: Permission;
-};
-
-export default function Edit({ permission }: Props) {
-    const { data, setData, put, processing, errors } = useForm({
-        name: permission.name,
+export default function Create() {
+    const { data, setData, post, processing, errors } = useForm({
+        name: '',
     });
 
     function submit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault();
-        put(update(permission.id).url);
+        post(store().url);
     }
 
     return (
         <div className="space-y-6 p-6">
-            <h1 className="mb-6 text-2xl font-semibold">Editar permissão</h1>
+            <h1 className="mb-6 text-2xl font-semibold">Nova permissão</h1>
 
             <form onSubmit={submit} className="space-y-4">
                 <div>
@@ -34,6 +25,7 @@ export default function Edit({ permission }: Props) {
                         id="name"
                         name="name"
                         type="text"
+                        required
                         value={data.name}
                         onChange={(e) => setData('name', e.target.value)}
                         className="mt-1 w-full rounded-md border p-2"

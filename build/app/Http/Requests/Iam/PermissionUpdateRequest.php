@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Iam;
 
 use Spatie\Permission\Models\Permission;
 use App\Concerns\NameValidationRules;

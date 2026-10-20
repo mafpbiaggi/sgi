@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Iam;
 
 use App\Concerns\NameValidationRules;
 use App\Concerns\ProfileValidationRules;
@@ -9,7 +9,7 @@ use App\Concerns\RoleValidationRules;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UserUpdateRequest extends FormRequest
+class UserStoreRequest extends FormRequest
 {
     use NameValidationRules;
     use ProfileValidationRules;
@@ -21,15 +21,12 @@ class UserUpdateRequest extends FormRequest
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
-
     public function rules(): array
     {
-        $user = $this->route('user');
-        
         return [
             'name' => $this->nameRules(),
-            'email' => $this->emailRules($user->id),
-            'password' => $this->updatePasswordRules(),
+            'email' => $this->emailRules(),
+            'password' => $this->passwordRules(),
             'roles' => $this->roleRules(),
             'roles.*' => $this->assignRoleRules(),
         ];

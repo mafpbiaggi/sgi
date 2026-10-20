@@ -1,25 +1,32 @@
 import { Link, useForm } from '@inertiajs/react';
 import InputError from '@/components/input-error';
-import { store, index } from '@/actions/App/Http/Controllers/RoleController';
+import { update, index } from '@/actions/App/Http/Controllers/Iam/RoleController';
 
 type Permission = {
     id: number;
     name: string;
 };
 
+type Role = {
+    id: number;
+    name: string;
+    permissions: Permission[];
+};
+
 type Props = {
+    readonly role: Role;
     readonly permissions: Permission[];
 };
 
-export default function Create({ permissions }: Props) {
-    const { data, setData, post, processing, errors } = useForm({
-        name: '',
-        permissions: [] as string[],
+export default function Edit({ role, permissions }: Props) {
+    const { data, setData, put, processing, errors } = useForm({
+        name: role.name,
+        permissions: role.permissions.map((p) => p.name),
     });
 
     function submit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault();
-        post(store().url);
+        put(update(role.id).url);
     }
 
     function togglePermission(name: string) {
@@ -31,7 +38,7 @@ export default function Create({ permissions }: Props) {
 
     return (
         <div className="space-y-6 p-6">
-            <h1 className="mb-6 text-2xl font-semibold">Novo grupo</h1>
+            <h1 className="mb-6 text-2xl font-semibold">Editar grupo</h1>
 
             <form onSubmit={submit} className="space-y-6">
                 <div>

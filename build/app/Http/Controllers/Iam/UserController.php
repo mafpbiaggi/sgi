@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Iam;
 
-use App\Concerns\HandlesToastFeedback;
+use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Http\Requests\UserStoreRequest;
-use App\Http\Requests\UserUpdateRequest;
+use App\Http\Requests\Iam\UserStoreRequest;
+use App\Http\Requests\Iam\UserUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -13,8 +13,6 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
-    use HandlesToastFeedback;
-
     /**
      * Show the user's page.
      */
@@ -24,7 +22,7 @@ class UserController extends Controller
 
         $users = User::with('roles')->orderBy('id')->paginate(15);
 
-        return Inertia::render('users/index', [
+        return Inertia::render('iam/users/index', [
             'users' => $users,
         ]);
     }
@@ -38,7 +36,7 @@ class UserController extends Controller
 
         $roles = Role::orderBy('name')->get(['id', 'name']);
 
-        return Inertia::render('users/create', [
+        return Inertia::render('iam/users/create', [
             'roles' => $roles,
         ]);
     }
@@ -71,7 +69,7 @@ class UserController extends Controller
 
         $roles = Role::orderBy('name')->get(['id', 'name']);
 
-        return Inertia::render('users/edit', [
+        return Inertia::render('iam/users/edit', [
             'user'  => $user->load('roles'),
             'roles' => $roles,
         ]);

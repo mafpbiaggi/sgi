@@ -27,7 +27,7 @@ test('paginates the user index page', function () {
         ->assertOk()
         ->assertInertia(
             fn(Assert $page) => $page
-                ->component('users/index')
+                ->component('iam/users/index')
                 ->has('users.data', 15)
                 ->where('users.current_page', 1)
                 ->where('users.last_page', 2)
@@ -40,7 +40,7 @@ test('paginates the user index page', function () {
         ->assertOk()
         ->assertInertia(
             fn(Assert $page) => $page
-                ->component('users/index')
+                ->component('iam/users/index')
                 ->has('users.data', 2)
                 ->where('users.current_page', 2)
         );
