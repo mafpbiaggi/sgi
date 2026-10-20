@@ -122,25 +122,39 @@ test('deletes a permission', function () {
 
 test('validates fields for permission creation', function () {
     $user = TestUtils::createUser();
-    $invalidValues = TestUtils::permissionsInvalidValues();
+    $existingPermission = TestUtils::createPermission();
 
-    $response = $this
-        ->actingAs($user)
-        ->post(route('permissions.store'), $invalidValues);
+    $invalidValues = array_merge(
+        ['name' => $existingPermission->name],
+        TestUtils::permissionsInvalidValues(),
+    );
 
-    $response->assertSessionHasErrors('name');
+    foreach ($invalidValues as $key => $value) {
+        $response = $this
+            ->actingAs($user)
+            ->post(route('permissions.store'), [$key => $value]);
+
+        $response->assertSessionHasErrors($key);
+    }
 });
 
 test('validates fields for permission update', function () {
     $user = TestUtils::createUser();
-    $permission = TestUtils::createPermission();
-    $invalidValues = TestUtils::permissionsInvalidValues();
+    $existingPermission = TestUtils::createPermission();
+    $toUpdate = TestUtils::createRole('other-role');
 
-    $response = $this
-        ->actingAs($user)
-        ->put(route('permissions.update', $permission), $invalidValues);
+    $invalidValues = array_merge(
+        ['name' => $existingPermission->name],
+        TestUtils::permissionsInvalidValues(),
+    );
 
-    $response->assertSessionHasErrors('name');
+    foreach ($invalidValues as $key => $value) {
+        $response = $this
+            ->actingAs($user)
+            ->put(route('permissions.update', $toUpdate->id), [$key => $value]);
+
+        $response->assertSessionHasErrors($key);
+    }
 });
 
 test('forbids permission actions without an assigned role', function () {

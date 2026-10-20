@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Spatie\Permission\Models\Permission;
 use App\Concerns\NameValidationRules;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -17,6 +18,8 @@ class PermissionUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        return ['name' => $this->nameRules()];
+        $permission = $this->route('permission');
+
+        return ['name' => $this->uniqueNameRules(Permission::class, $permission->id)];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Spatie\Permission\Models\Role;
 use App\Concerns\NameValidationRules;
 use App\Concerns\PermissionValidationRules;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -20,7 +21,7 @@ class RoleStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => $this->uniqueNameRules(),
+            'name' => $this->uniqueNameRules(Role::class),
             'permissions' => $this->permissionRules(),
             'permissions.*' => $this->assignPermissionRules(),
         ];

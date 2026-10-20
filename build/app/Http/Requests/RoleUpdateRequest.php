@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Spatie\Permission\Models\Role;
 use App\Concerns\NameValidationRules;
 use App\Concerns\PermissionValidationRules;
 use Illuminate\Contracts\Validation\ValidationRule;
@@ -23,7 +24,7 @@ class RoleUpdateRequest extends FormRequest
         $role = $this->route('role');
 
         return [
-            'name' => $this->uniqueNameRules($role->id),
+            'name' => $this->uniqueNameRules(Role::class, $role->id),
             'permissions' => $this->permissionRules(),
             'permissions.*' => $this->assignPermissionRules(),
         ];
