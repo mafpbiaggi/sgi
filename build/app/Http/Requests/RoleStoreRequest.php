@@ -2,12 +2,16 @@
 
 namespace App\Http\Requests;
 
+use App\Concerns\NameValidationRules;
+use App\Concerns\PermissionValidationRules;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class StoreRoleRequest extends FormRequest
+class RoleStoreRequest extends FormRequest
 {
+    use NameValidationRules;
+    use PermissionValidationRules;
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -16,9 +20,9 @@ class StoreRoleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'          => ['required', 'string', 'max:255', Rule::unique('roles', 'name')],
-            'permissions'   => ['nullable', 'array'],
-            'permissions.*' => ['string', 'exists:permissions,name'],
+            'name' => $this->uniqueNameRules(),
+            'permissions' => $this->permissionRules(),
+            'permissions.*' => $this->assignPermissionRules(),
         ];
     }
 }

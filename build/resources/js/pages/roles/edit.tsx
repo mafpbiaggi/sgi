@@ -24,7 +24,7 @@ export default function Edit({ role, permissions }: Props) {
         permissions: role.permissions.map((p) => p.name),
     });
 
-    function submit(event: React.FormEvent<HTMLFormElement>) {
+    function submit(event: React.SubmitEvent<HTMLFormElement>) {
         event.preventDefault();
         put(update(role.id).url);
     }
@@ -37,7 +37,7 @@ export default function Edit({ role, permissions }: Props) {
     }
 
     return (
-        <div className="px-20 py-10">
+        <div className="space-y-6 p-6">
             <h1 className="mb-6 text-2xl font-semibold">Editar grupo</h1>
 
             <form onSubmit={submit} className="space-y-6">

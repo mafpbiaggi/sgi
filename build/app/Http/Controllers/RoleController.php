@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreRoleRequest;
-use App\Http\Requests\UpdateRoleRequest;
+use App\Http\Requests\RoleStoreRequest;
+use App\Http\Requests\RoleUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -12,6 +12,9 @@ use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
+    /**
+     * Show the role's page.
+     */
     public function index(): Response
     {
         $this->authorize('roles.index');
@@ -23,6 +26,9 @@ class RoleController extends Controller
         ]);
     }
 
+    /**
+     * Show the role's create page.
+     */
     public function create(): Response
     {
         $this->authorize('roles.create');
@@ -34,50 +40,76 @@ class RoleController extends Controller
         ]);
     }
 
-    public function store(StoreRoleRequest $request): RedirectResponse
+    /**
+     * stores the role information.
+     */
+    public function store(RoleStoreRequest $request): RedirectResponse
     {
         $this->authorize('roles.store');
 
-        $role = Role::create(['name' => $request->validated('name')]);
-        $role->syncPermissions($request->validated('permissions', []));
-
-        return redirect()
-            ->route('roles.index')
-            ->with('success', 'Grupo criado com sucesso.');
+        return $this->withToastFeedback(
+            action: function () use ($request) {
+                $role = Role::create($request->safe()->except('permissions'));
+                $role->syncPermissions($request->validated('permissions', []));
+            },
+            successMessage: __('Grupo cadastrado.'),
+            errorMessage: __('Grupo não pôde ser cadastrado.'),
+            redirectRoute: 'roles.index',
+            errorRoute: 'roles.create',
+        );
     }
 
+    /**
+     * Show the role's edit page.
+     */
     public function edit(Role $role): Response
     {
         $this->authorize('roles.edit');
-   
+
         $permissions = Permission::orderBy('name')->get(['id', 'name']);
 
         return Inertia::render('roles/edit', [
-            'role'        => $role->load('permissions'),
+            'role' => $role->load('permissions'),
             'permissions' => $permissions,
         ]);
     }
 
-    public function update(UpdateRoleRequest $request, Role $role): RedirectResponse
+    /**
+     * Update the role information.
+     */
+    public function update(RoleUpdateRequest $request, Role $role): RedirectResponse
     {
         $this->authorize('roles.update');
 
-        $role->update(['name' => $request->validated('name')]);
-        $role->syncPermissions($request->validated('permissions', []));
+        $data = $request->safe()->except('permissions');
 
-        return redirect()
-            ->route('roles.index')
-            ->with('success', 'Grupo atualizado com sucesso.');
+        return $this->withToastFeedback(
+            action: function () use ($request, $role, $data) {
+                $role->update($data);
+                $role->syncPermissions($request->validated('permissions', []));
+            },
+            successMessage: __('Grupo editado.'),
+            errorMessage: __('Grupo não pôde ser editado.'),
+            redirectRoute: 'roles.index',
+            errorRoute: 'roles.edit',
+        );
     }
 
+    /**
+     * Delete the role.
+     */
     public function destroy(Role $role): RedirectResponse
     {
         $this->authorize('roles.destroy');
 
-        $role->delete();
-
-        return redirect()
-            ->route('roles.index')
-            ->with('success', 'Grupo excluído com sucesso.');
+        return $this->withToastFeedback(
+            action: function () use ($role) {
+                $role->delete();
+            },
+            successMessage: __('Grupo deletado.'),
+            errorMessage: __('Grupo não pôde ser deletado.'),
+            redirectRoute: 'roles.index',
+            errorRoute: 'roles.index',
+        );
     }
 }
