@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Concerns\NameValidationRules;
 use App\Concerns\ProfileValidationRules;
 use App\Concerns\PasswordValidationRules;
 use App\Concerns\RoleValidationRules;
@@ -10,6 +11,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class UserUpdateRequest extends FormRequest
 {
+    use NameValidationRules;
     use ProfileValidationRules;
     use PasswordValidationRules;
     use RoleValidationRules;
@@ -29,7 +31,7 @@ class UserUpdateRequest extends FormRequest
             'email' => $this->emailRules($user->id),
             'password' => $this->updatePasswordRules(),
             'roles' => $this->roleRules(),
-            'roles.*' => $this->nameRoleRules(),
+            'roles.*' => $this->assignRoleRules(),
         ];
     }
 }

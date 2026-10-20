@@ -16,12 +16,12 @@ trait RoleValidationRules
         return ['nullable', 'array'];
     }
 
-        /**
+    /**
      * Get the validation roles used to validate user.
      *
      * @return array<int, ValidationRule|array<mixed>|string>
      */
-    protected function nameRoleRules(): array
+    protected function assignRoleRules(): array
     {
         return ['string', 'exists:roles,name'];
     }

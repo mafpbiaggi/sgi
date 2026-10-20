@@ -58,10 +58,11 @@ test('renders the user create page', function () {
 
 test('renders the user edit page', function () {
     $user = TestUtils::createUser();
+    $toTest = TestUtils::createUser(false);
 
     $response = $this
         ->actingAs($user)
-        ->get(route('users.create'));
+        ->get(route('users.edit', $toTest->id));
 
     $response->assertOk();
 });

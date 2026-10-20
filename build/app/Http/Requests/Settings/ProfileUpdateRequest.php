@@ -2,12 +2,14 @@
 
 namespace App\Http\Requests\Settings;
 
+use App\Concerns\NameValidationRules;
 use App\Concerns\ProfileValidationRules;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProfileUpdateRequest extends FormRequest
 {
+    use NameValidationRules;
     use ProfileValidationRules;
 
     /**
@@ -17,6 +19,9 @@ class ProfileUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        return $this->profileRules($this->user()->id);
+        return [
+            'name' => $this->nameRules(),
+            'email' => $this->emailRules($this->user()->id),
+        ];
     }
 }

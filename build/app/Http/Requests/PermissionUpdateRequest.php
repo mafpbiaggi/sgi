@@ -2,13 +2,13 @@
 
 namespace App\Http\Requests;
 
-use App\Concerns\PermissionValidationRules;
+use App\Concerns\NameValidationRules;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PermissionUpdateRequest extends FormRequest
 {
-    use PermissionValidationRules;
+    use NameValidationRules;
 
     /**
      * Get the validation rules that apply to the request.
@@ -17,6 +17,6 @@ class PermissionUpdateRequest extends FormRequest
      */
     public function rules(): array
     {
-        return $this->nameRules($this->permission->id);
+        return ['name' => $this->nameRules()];
     }
 }
