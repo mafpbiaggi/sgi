@@ -47,7 +47,7 @@ class PermissionController extends Controller
                 Permission::create($request->safe()->all());
             },
             successMessage: __('Permissão cadastrada.'),
-            errorMessage: __('Permissão não pôde ser cadastrado.'),
+            errorMessage: __('Permissão não pôde ser cadastrada.'),
             redirectRoute: 'permissions.index',
             errorRoute: 'permissions.create',
         );
@@ -77,7 +77,7 @@ class PermissionController extends Controller
                 $permission->update($request->safe()->all());
             },
             successMessage: __('Permissão editada.'),
-            errorMessage: __('Permissão não pôde ser edatada.'),
+            errorMessage: __('Permissão não pôde ser editada.'),
             redirectRoute: 'permissions.index',
             errorRoute: 'permissions.edit',
         );
