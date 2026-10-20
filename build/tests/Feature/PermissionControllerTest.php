@@ -1,34 +1,11 @@
 <?php
 
-use App\Models\User;
 use Spatie\Permission\Models\Permission;
 use Inertia\Testing\AssertableInertia as Assert;
-
-function createUser(?bool $is_master = true): User
-{
-    return User::factory()->create([
-        'is_master' => $is_master ?? false,
-    ]);
-}
-
-function createPermission(?string $data = null): Permission
-{
-    if ($data === null) {
-        $data = "test.default";
-    }
-
-    return Permission::create([
-        'name' => $data,
-    ]);
-}
-
-function generateInvalidValues(): array
-{
-    return ['name' => str_repeat('a', 256)];
-}
+use Tests\Feature\TestUtils;
 
 test('renders the permission index page', function () {
-    $user = createUser();
+    $user = TestUtils::createUser();
 
     $response = $this
         ->actingAs($user)
@@ -38,10 +15,10 @@ test('renders the permission index page', function () {
 });
 
 test('paginates the permission index page', function () {
-    $user = createUser(true);
+    $user = TestUtils::createUser(true);
 
     for ($i = 0; $i <= 15; $i++) {
-        createPermission("permission.$i");
+        TestUtils::createPermission("permission.$i");
     }
 
     $this
@@ -70,7 +47,7 @@ test('paginates the permission index page', function () {
 });
 
 test('renders the permission create page', function () {
-    $user = createUser();
+    $user = TestUtils::createUser();
 
     $response = $this
         ->actingAs($user)
@@ -80,7 +57,7 @@ test('renders the permission create page', function () {
 });
 
 test('renders the permission edit page', function () {
-    $user = createUser();
+    $user = TestUtils::createUser();
 
     $response = $this
         ->actingAs($user)
@@ -90,7 +67,7 @@ test('renders the permission edit page', function () {
 });
 
 test('creates a permission', function () {
-    $user = createUser();
+    $user = TestUtils::createUser();
 
     $response = $this
         ->actingAs($user)
@@ -109,8 +86,8 @@ test('creates a permission', function () {
 });
 
 test('updates a permission', function () {
-    $user = createUser();
-    $permission = createPermission();
+    $user = TestUtils::createUser();
+    $permission = TestUtils::createPermission();
 
     $response = $this
         ->actingAs($user)
@@ -128,8 +105,8 @@ test('updates a permission', function () {
 });
 
 test('deletes a permission', function () {
-    $user = createUser();
-    $permission = createPermission();
+    $user = TestUtils::createUser();
+    $permission = TestUtils::createPermission();
 
     $response = $this
         ->actingAs($user)
@@ -143,8 +120,8 @@ test('deletes a permission', function () {
 });
 
 test('validates fields for permission creation', function () {
-    $user = createUser();
-    $invalidValues = generateInvalidValues();
+    $user = TestUtils::createUser();
+    $invalidValues = TestUtils::permissionsInvalidValues();
 
     $response = $this
         ->actingAs($user)
@@ -154,9 +131,9 @@ test('validates fields for permission creation', function () {
 });
 
 test('validates fields for permission update', function () {
-    $user = createUser();
-    $permission = createPermission();
-    $invalidValues = generateInvalidValues();
+    $user = TestUtils::createUser();
+    $permission = TestUtils::createPermission();
+    $invalidValues = TestUtils::permissionsInvalidValues();
 
     $response = $this
         ->actingAs($user)
@@ -166,8 +143,8 @@ test('validates fields for permission update', function () {
 });
 
 test('forbids permission actions without an assigned role', function () {
-    $user = createUser(false);
-    $permission = createPermission();
+    $user = TestUtils::createUser(false);
+    $permission = TestUtils::createPermission();
 
     $dataset = [
         'permissions.index' => 'get',

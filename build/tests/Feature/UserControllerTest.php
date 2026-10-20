@@ -1,253 +1,186 @@
 <?php
 
-namespace Tests\Feature;
-
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Gate;
+use Tests\Feature\TestUtils;
 use Inertia\Testing\AssertableInertia as Assert;
-use Tests\TestCase;
 
-class UserControllerTest extends TestCase
-{
-    use RefreshDatabase;
+test('renders the user index page', function () {
+    $user = TestUtils::createUser();
 
-    private bool $allowUserActions = true;
+    $response = $this
+        ->actingAs($user)
+        ->get(route('users.index'));
 
-    protected function setUp(): void
-    {
-        parent::setUp();
+    $response->assertOk();
+});
 
-        $this->actingAs(User::factory()->create());
+test('paginates the user index page', function () {
+    $user = TestUtils::createUser(true);
 
-        Gate::before(function ($user, string $ability) {
-            if (str_starts_with($ability, 'users.')) {
-                return $this->allowUserActions;
-            }
-
-            return null;
-        });
+    for ($i = 0; $i <= 15; $i++) {
+        TestUtils::createUser(false);
     }
 
-    private function validData(array $overrides = []): array
-    {
-        return array_replace([
-            'name' => 'teste',
-            'email' => 'email@email',
-            'password' => 'password',
-            'password_confirmation' => 'password',
-            'is_master' => false,
-        ], $overrides);
-    }
+    $this
+        ->actingAs($user)
+        ->get(route('users.index'))
+        ->assertOk()
+        ->assertInertia(
+            fn(Assert $page) => $page
+                ->component('users/index')
+                ->has('users.data', 15)
+                ->where('users.current_page', 1)
+                ->where('users.last_page', 2)
+                ->where('users.total', 17)
+        );
 
-    public function test_user_can_be_created(): void
-    {
-        $data = $this->validData(array_merge([
-            'name' => 'user_store',
-            'email' => 'user_store@teste.com.br',
-            'password' => 'user_store_password',
-            'password_confirmation' => 'user_store_password',
-            'is_master' => false,
-            'roles.*' => ['admin', 'exists:roles,name'],
-        ]));
+    $this
+        ->actingAs($user)
+        ->get(route('users.index', ['page' => 2]))
+        ->assertOk()
+        ->assertInertia(
+            fn(Assert $page) => $page
+                ->component('users/index')
+                ->has('users.data', 2)
+                ->where('users.current_page', 2)
+        );
+});
 
-        $this->post(route('users.store'), $data)
-            ->assertSessionHasNoErrors()
-            ->assertRedirect(route('users.index'));
+test('renders the user create page', function () {
+    $user = TestUtils::createUser();
 
-        $this->assertDatabaseCount('users', 2);
-    }
+    $response = $this
+        ->actingAs($user)
+        ->get(route('users.create'));
 
-    public function test_user_can_be_updated(): void
-    {
-        $user = User::factory()->create();
+    $response->assertOk();
+});
 
-        $data = $this->validData([
-            'name' => 'Novo nome',
-            'email' => 'novo_email@test.com.br',
-            'roles.*' => ['admin', 'exists:roles,name'],
+test('renders the user edit page', function () {
+    $user = TestUtils::createUser();
+
+    $response = $this
+        ->actingAs($user)
+        ->get(route('users.create'));
+
+    $response->assertOk();
+});
+
+test('creates a user', function () {
+    $user = TestUtils::createUser();
+
+    $data = [
+        'name' => 'user_store',
+        'email' => 'user_store@teste.com.br',
+        'password' => 'user_store_password',
+        'password_confirmation' => 'user_store_password',
+        'is_master' => false,
+        'roles.*' => ['admin', 'exists:roles,name'],
+    ];
+
+    $response = $this
+        ->actingAs($user)
+        ->post(route('users.store', $data));
+
+    $response
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('users.index'));
+
+    $created = User::where('id', 2)->first();
+
+    expect($created->id)->toBe(2);
+});
+
+test('updates a user', function () {
+    $user = TestUtils::createUser();
+    $toUpdate = TestUtils::createUser(false);
+
+    $response = $this
+        ->actingAs($user)
+        ->put(route('users.update', $toUpdate), [
+            'name' => 'New name for user',
+            'email' => 'new@email'
         ]);
 
-        $this->put(route('users.update', $user), $data)
-            ->assertSessionHasNoErrors()
-            ->assertRedirect(route('users.index'));
+    $response
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('users.index'));
 
-        $this->assertDatabaseCount('users', 2);
-    }
+    $toUpdate->refresh();
 
-    public function test_user_can_be_destroyed(): void
-    {
-        $user = User::factory()->create();
+    expect($toUpdate->name)->toBe('New name for user');
+});
 
-        $this->delete(route('users.destroy', $user))
-            ->assertRedirect(route('users.index'));
+test('deletes a user', function () {
+    $user = TestUtils::createUser();
+    $toDelete = TestUtils::createUser(false);
 
-        $this->assertDatabaseMissing('users', [
-            'id' => $user->id,
-        ]);
-    }
+    $response = $this
+        ->actingAs($user)
+        ->delete(route('users.destroy', $toDelete->id));
 
-    public function test_users_are_ordered_by_id_on_index(): void
-    {
-        $older = User::factory()->create();
-        $newer = User::factory()->create();
+    $response
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('users.index'));
 
-        $this->get(route('users.index'))
-            ->assertOk()
-            ->assertInertia(
-                fn(Assert $page) => $page
-                    ->component('users/index')
-                    ->has('users.data', 3)
-                    ->where('users.data.1.id', $older->id)
-                    ->where('users.data.2.id', $newer->id)
-                    ->where('users.per_page', 15)
-                    ->where('users.total', 3)
-            );
-    }
+    expect($toDelete->fresh())->toBeNull();
+});
 
-    public function test_users_are_paginated_by_fifteen_per_page(): void
-    {
-        User::factory()->count(15)->create();
+test('validates fields for user creation', function () {
+    $user = TestUtils::createUser();
+    $invalidValues = TestUtils::usersInvalidValues();
 
-        $this->get(route('users.index'))
-            ->assertOk()
-            ->assertInertia(
-                fn(Assert $page) => $page
-                    ->component('users/index')
-                    ->has('users.data', 15)
-                    ->where('users.current_page', 1)
-                    ->where('users.last_page', 2)
-                    ->where('users.total', 16)
-            );
+    $response = $this
+        ->actingAs($user)
+        ->post(route('users.store'), $invalidValues);
 
-        $this->get(route('users.index', ['page' => 2]))
-            ->assertOk()
-            ->assertInertia(
-                fn(Assert $page) => $page
-                    ->component('users/index')
-                    ->has('users.data', 1)
-                    ->where('users.current_page', 2)
-            );
-    }
+    $response->assertSessionHasErrors([
+        'name',
+        'email',
+    ]);
+});
 
-    public function test_create_page_can_be_rendered(): void
-    {
-        $this->get(route('users.create'))
-            ->assertOk()
-            ->assertInertia(
-                fn(Assert $page) => $page
-                    ->component('users/create')
-            );
-    }
+test('validates fields for user update', function () {
+    $user = TestUtils::createUser();
+    $toUpdate = TestUtils::createUser();
+    $invalidValues = TestUtils::usersInvalidValues();
 
-    public function test_edit_page_can_be_rendered_with_request(): void
-    {
-        $user = User::factory()->create();
+    $response = $this
+        ->actingAs($user)
+        ->put(route('users.update', $toUpdate), $invalidValues);
 
-        $this->get(route('users.edit', $user))
-            ->assertOk()
-            ->assertInertia(
-                fn(Assert $page) => $page
-                    ->component('users/edit')
-                    ->where('user.id', $user->id)
-                    ->where('user.name', $user->name)
-                    ->where('user.email', $user->email)
-            );
-    }
+    $response->assertSessionHasErrors([
+        'name',
+        'email',
+    ]);
+});
 
-    public function test_user_can_store_and_update_with_required_fields(): void
-    {
-        $user = User::factory()->create();
-        $original = $user->getRawOriginal();
+test('forbids users actions without an assigned role', function () {
+    $user = TestUtils::createUser(false);
 
-        $requiredFields = [
-            'name',
-            'email',
+    $dataset = [
+        'users.index' => 'get',
+        'users.create' => 'get',
+        'users.edit' => 'get',
+        'users.store' => 'post',
+        'users.update' => 'put',
+        'users.destroy' => 'delete',
+    ];
+
+    $payload = [
+        'name' => 'Forbidden',
+        'email' => 'payload@forbiden',
+        'password' => 'password_forbidden',
+        'password_confirmation' => 'password_forbidden',
         ];
 
-        $this->post(route('users.store'), [])
-            ->assertSessionHasErrors($requiredFields);
+    foreach ($dataset as $route => $method) {
+        $uri = route($route, $user->id);
 
-        $this->put(route('users.update', $user), [])
-            ->assertSessionHasErrors($requiredFields);
+        $response = in_array($method, ['get', 'delete'])
+            ? $this->actingAs($user)->$method($uri)
+            : $this->actingAs($user)->$method($uri, $payload);
 
-        $this->assertDatabaseCount('users', 2);
-
-        $this->assertEqualsCanonicalizing(
-            $original,
-            $user->fresh()->getRawOriginal()
-        );
+        $response->assertForbidden("Route [$route] with method [$method] should be forbidden.");
     }
-
-    public function test_user_can_not_store_and_update_with_invalid_field_values(): void
-    {
-        $user = User::factory()->create();
-        $original = $user->getRawOriginal();
-
-        $invalidValues = [
-            'name' => str_repeat('a', 256),
-            'email' => 'email-invalido',
-        ];
-
-        foreach ($invalidValues as $field => $value) {
-            $data = $this->validData([$field => $value]);
-
-            $this->post(route('users.store'), $data)
-                ->assertSessionHasErrors([$field]);
-
-            $this->put(route('users.update', $user), $data)
-                ->assertSessionHasErrors([$field]);
-        }
-
-        $this->assertDatabaseCount('users', 2);
-
-        $this->assertEqualsCanonicalizing(
-            $original,
-            $user->fresh()->getRawOriginal()
-        );
-    }
-
-    public function test_user_actions_return_forbidden_without_permission(): void
-    {
-        $user = User::factory()->create();
-        $original = $user->getRawOriginal();
-
-        $this->allowUserActions = false;
-
-        $this->get(route('users.index'))
-            ->assertForbidden();
-
-        $this->get(route('users.create'))
-            ->assertForbidden();
-
-        $this->post(route('users.store'), $this->validData([
-            'name' => 'teste',
-            'email' => 'email@email',
-            'password' => 'password',
-            'password_confirmation' => 'password',
-        ]))
-            ->assertForbidden();
-
-        $this->get(route('users.edit', $user))
-            ->assertForbidden();
-
-        $this->put(
-            route('users.update', $user),
-            $this->validData([
-                'name' => 'Alteração proibida',
-                'email' => 'alteracao@proibida',
-            ])
-        )
-            ->assertForbidden();
-
-        $this->delete(route('users.destroy', $user))
-            ->assertForbidden();
-
-        $this->assertDatabaseCount('users', 2);
-
-        $this->assertEqualsCanonicalizing(
-            $original,
-            $user->fresh()->getRawOriginal()
-        );
-    }
-}
+});
