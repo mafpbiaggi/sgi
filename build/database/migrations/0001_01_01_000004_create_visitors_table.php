@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('visitors', function (Blueprint $table) {
             $table->id();
-            $table->string('name', length: 50);
+            $table->string('name', length: 255);
             $table->integer('age');
             $table->string('phone', length: 15);
-            $table->string('email', length: 30);
+            $table->string('email', length: 255);
             $table->date('visit_date');
             $table->string('attends_church', length: 70)->nullable();
             $table->string('prayer_request', length: 70)->nullable();

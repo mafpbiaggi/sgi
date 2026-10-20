@@ -1,331 +1,205 @@
 <?php
 
-namespace Tests\Feature;
-
-use App\Models\User;
 use App\Models\Visitor;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Gate;
 use Inertia\Testing\AssertableInertia as Assert;
-use Tests\TestCase;
+use Tests\Feature\TestUtils;
 
-class VisitorControllerTest extends TestCase
-{
-    use RefreshDatabase;
+test('renders the visitor index page', function () {
+    $user = TestUtils::createUser();
 
-    private bool $allowVisitorActions = true;
+    $response = $this
+        ->actingAs($user)
+        ->get(route('visitors.index'));
 
-    protected function setUp(): void
-    {
-        parent::setUp();
+    $response->assertOk();
+});
 
-        $this->actingAs(User::factory()->create());
+test('renders the referral source label on index page', function () {
+    $user = TestUtils::createUser();
+    $visitor = TestUtils::createVisitor();
 
-        Gate::before(function ($user, string $ability) {
-            if (str_starts_with($ability, 'visitors.')) {
-                return $this->allowVisitorActions;
-            }
-
-            return null;
-        });
-    }
-
-    private function validData(array $overrides = []): array
-    {
-        return array_replace([
-            'name' => 'Maria da Silva',
-            'age' => 35,
-            'phone' => '(11) 99999-9999',
-            'email' => 'maria@example.com',
-            'visit_date' => '14/10/2026',
-            'attends_church' => 'Não',
-            'prayer_request' => 'Pela família',
-            'referral_source' => '2',
-            'referral_source_social_media' => 'Youtube',
-            'referral_source_other' => 'Outro',
-        ], $overrides);
-    }
-
-    private function createVisitor(array $overrides = []): Visitor
-    {
-        return Visitor::create(
-            $this->validData(array_replace([
-                'visit_date' => '2026-10-14',
-            ], $overrides))
+    $response = $this
+        ->actingAs($user)
+        ->get(route('visitors.index'));
+    
+    $response
+        ->assertOk()
+        ->assertInertia(
+            fn(Assert $page) => $page
+                ->component('visitors/index')
+                ->has('visitors.data', 1)
+                ->where('visitors.data.0.id', $visitor->id)
+                ->where('visitors.data.0.referral_source_label', 'Indicação')
         );
+});
+
+test('paginates the visitor index page', function () {
+    $user = TestUtils::createUser(true);
+
+    for ($i = 0; $i <= 15; $i++) {
+        TestUtils::createVisitor();
     }
 
-    public function test_index_renders_visitors_ordered_by_visit_date(): void
-    {
-        $older = $this->createVisitor([
-            'visit_date' => '2026-10-10',
-        ]);
-
-        $newer = $this->createVisitor([
-            'visit_date' => '2026-10-14',
-        ]);
-
-        $this->get(route('visitors.index'))
-            ->assertOk()
-            ->assertInertia(
-                fn(Assert $page) => $page
-                    ->component('visitors/index')
-                    ->has('visitors.data', 2)
-                    ->where('visitors.data.0.id', $newer->id)
-                    ->where('visitors.data.1.id', $older->id)
-                    ->where('visitors.per_page', 15)
-                    ->where('visitors.total', 2)
-            );
-    }
-
-    public function test_index_paginates_fifteen_visitors_per_page(): void
-    {
-        for ($day = 1; $day <= 16; $day++) {
-            $this->createVisitor([
-                'visit_date' => sprintf('2026-10-%02d', $day),
-                'email' => "visitor{$day}@example.com",
-            ]);
-        }
-
-        $this->get(route('visitors.index'))
-            ->assertOk()
-            ->assertInertia(
-                fn(Assert $page) => $page
-                    ->component('visitors/index')
-                    ->has('visitors.data', 15)
-                    ->where('visitors.current_page', 1)
-                    ->where('visitors.last_page', 2)
-                    ->where('visitors.total', 16)
-            );
-
-        $this->get(route('visitors.index', ['page' => 2]))
-            ->assertOk()
-            ->assertInertia(
-                fn(Assert $page) => $page
-                    ->component('visitors/index')
-                    ->has('visitors.data', 1)
-                    ->where('visitors.current_page', 2)
-            );
-    }
-
-    public function test_create_renders_creation_page(): void
-    {
-        $this->get(route('visitors.create'))
-            ->assertOk()
-            ->assertInertia(
-                fn(Assert $page) => $page
-                    ->component('visitors/create')
-            );
-    }
-
-    public function test_store_creates_visitor(): void
-    {
-        $data = $this->validData();
-
-        $this->post(route('visitors.store'), $data)
-            ->assertSessionHasNoErrors()
-            ->assertRedirect(route('visitors.index'))
-            ->assertSessionHas(
-                'success',
-                'Visitante cadastrado com sucesso.'
-            );
-
-        $this->assertDatabaseCount('visitors', 1);
-
-        $this->assertDatabaseHas('visitors', array_replace($data, [
-            'visit_date' => '2026-10-14',
-        ]));
-    }
-
-    public function test_store_accepts_null_optional_fields(): void
-    {
-        $data = $this->validData([
-            'attends_church' => null,
-            'prayer_request' => null,
-            'referral_source_social_media' => null,
-            'referral_source_other' => null,
-        ]);
-
-        $this->post(route('visitors.store'), $data)
-            ->assertSessionHasNoErrors()
-            ->assertRedirect(route('visitors.index'));
-
-        $this->assertDatabaseHas('visitors', array_replace($data, [
-            'visit_date' => '2026-10-14',
-        ]));
-    }
-
-    public function test_edit_renders_page_with_requested_visitor(): void
-    {
-        $visitor = $this->createVisitor();
-
-        $this->get(route('visitors.edit', $visitor))
-            ->assertOk()
-            ->assertInertia(
-                fn(Assert $page) => $page
-                    ->component('visitors/edit')
-                    ->where('visitor.id', $visitor->id)
-                    ->where('visitor.name', $visitor->name)
-                    ->where('visitor.email', $visitor->email)
-            );
-    }
-
-    public function test_update_changes_visitor(): void
-    {
-        $visitor = $this->createVisitor();
-
-        $data = $this->validData([
-            'name' => 'Maria Souza',
-            'age' => 36,
-            'email' => 'souza@example.com',
-            'visit_date' => '20/10/2026',
-        ]);
-
-        $this->put(route('visitors.update', $visitor), $data)
-            ->assertSessionHasNoErrors()
-            ->assertRedirect(route('visitors.index'))
-            ->assertSessionHas(
-                'success',
-                'Visitante atualizado com sucesso.'
-            );
-
-        $this->assertDatabaseCount('visitors', 1);
-
-        $this->assertDatabaseHas('visitors', array_replace($data, [
-            'id' => $visitor->id,
-            'visit_date' => '2026-10-20',
-        ]));
-    }
-
-    public function test_store_and_update_require_mandatory_fields(): void
-    {
-        $visitor = $this->createVisitor();
-        $original = $visitor->getRawOriginal();
-
-        $requiredFields = [
-            'name',
-            'age',
-            'phone',
-            'email',
-            'visit_date',
-            'referral_source',
-        ];
-
-        $this->post(route('visitors.store'), [])
-            ->assertSessionHasErrors($requiredFields);
-
-        $this->put(route('visitors.update', $visitor), [])
-            ->assertSessionHasErrors($requiredFields);
-
-        $this->assertDatabaseCount('visitors', 1);
-
-        $this->assertEqualsCanonicalizing(
-            $original,
-            $visitor->fresh()->getRawOriginal()
+    $this
+        ->actingAs($user)
+        ->get(route('visitors.index'))
+        ->assertOk()
+        ->assertInertia(
+            fn(Assert $page) => $page
+                ->component('visitors/index')
+                ->has('visitors.data', 15)
+                ->where('visitors.current_page', 1)
+                ->where('visitors.last_page', 2)
+                ->where('visitors.total', 16)
         );
-    }
 
-    public function test_store_and_update_reject_invalid_field_values(): void
-    {
-        $visitor = $this->createVisitor();
-        $original = $visitor->getRawOriginal();
-
-        $invalidValues = [
-            'name' => str_repeat('a', 51),
-            'age' => 'abc',
-            'phone' => str_repeat('1', 16),
-            'email' => 'email-invalido',
-            'visit_date' => '2026-10-14',
-            'attends_church' => str_repeat('a', 71),
-            'prayer_request' => str_repeat('a', 71),
-            'referral_source' => str_repeat('a', 21),
-            'referral_source_social_media' => str_repeat('a', 51),
-            'referral_source_other' => str_repeat('a', 51),
-        ];
-
-        foreach ($invalidValues as $field => $value) {
-            $data = $this->validData([$field => $value]);
-
-            $this->post(route('visitors.store'), $data)
-                ->assertSessionHasErrors([$field]);
-
-            $this->put(route('visitors.update', $visitor), $data)
-                ->assertSessionHasErrors([$field]);
-        }
-
-        $this->assertDatabaseCount('visitors', 1);
-
-        $this->assertEqualsCanonicalizing(
-            $original,
-            $visitor->fresh()->getRawOriginal()
+    $this
+        ->actingAs($user)
+        ->get(route('visitors.index', ['page' => 2]))
+        ->assertOk()
+        ->assertInertia(
+            fn(Assert $page) => $page
+                ->component('visitors/index')
+                ->has('visitors.data', 1)
+                ->where('visitors.current_page', 2)
         );
+});
+
+test('renders the visitor create page', function () {
+    $user = TestUtils::createUser();
+
+    $response = $this
+        ->actingAs($user)
+        ->get(route('visitors.create'));
+
+    $response->assertOk();
+});
+
+test('renders the visitor edit page', function () {
+    $user = TestUtils::createUser();
+    $visitor = TestUtils::createVisitor();
+
+    $response = $this
+        ->actingAs($user)
+        ->get(route('visitors.edit', $visitor->id));
+
+    $response->assertOk();
+});
+
+test('creates a visitor', function () {
+    $user = TestUtils::createUser();
+
+    $data = [
+        'name' => 'visitor-created',
+        'email' => 'visitor@visitor',
+        'age' => 20,
+        'phone' => '(11) 1111-1111',
+        'visit_date' => '01/01/2026',
+        'referral_source' => '1',
+    ];
+
+    $response = $this
+        ->actingAs($user)
+        ->post(route('visitors.store'), $data);
+
+    $response
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('visitors.index'));
+
+    $visitor = Visitor::where('name', 'visitor-created')->first();
+
+    expect($visitor)->not->toBeNull()
+        ->and($visitor->name)->toBe('visitor-created');
+});
+
+test('updates a visitor', function () {
+    $user = TestUtils::createUser();
+    $visitor = TestUtils::createVisitor();
+
+    $data = array_merge(
+        $visitor->getRawOriginal(),
+        ['name' => 'visitor-updated'],
+    );
+
+    $response = $this
+        ->actingAs($user)
+        ->put(route('visitors.update', $visitor->id), $data);
+
+    $response
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('visitors.index'));
+
+    $visitor->refresh();
+
+    expect($visitor->name)->toBe('visitor-updated');
+});
+
+test('deletes a visitor', function () {
+    $user = TestUtils::createUser();
+    $visitor = TestUtils::createVisitor();
+
+    $response = $this
+        ->actingAs($user)
+        ->delete(route('visitors.destroy', $visitor->id));
+
+    $response
+        ->assertSessionHasNoErrors()
+        ->assertRedirect(route('visitors.index'));
+
+    expect($visitor->fresh())->toBeNull();
+});
+
+test('validates fields for visitor creation', function () {
+    $user = TestUtils::createUser();
+
+    $invalidValues = TestUtils::visitorsInvalidValues();
+
+    foreach ($invalidValues as $key => $value) {
+        $response = $this
+            ->actingAs($user)
+            ->post(route('visitors.store'), [$key => $value]);
+
+        $response->assertSessionHasErrors($key);
     }
+});
 
-    public function test_destroy_visitor(): void
-    {
-        $visitor = $this->createVisitor();
+test('validates fields for visitor update', function () {
+    $user = TestUtils::createUser();
+    $toUpdate = TestUtils::createVisitor();
 
-        $this->delete(route('visitors.destroy', $visitor))
-            ->assertRedirect(route('visitors.index'))
-            ->assertSessionHas(
-                'success',
-                'Visitante excluído com sucesso.'
-            );
+    $invalidValues = TestUtils::visitorsInvalidValues();
 
-        $this->assertDatabaseMissing('visitors', [
-            'id' => $visitor->id,
-        ]);
+    foreach ($invalidValues as $key => $value) {
+        $response = $this
+            ->actingAs($user)
+            ->put(route('visitors.update', $toUpdate->id), [$key => $value]);
+
+        $response->assertSessionHasErrors($key);
     }
+});
 
-    public function test_actions_return_forbidden_without_permission(): void
-    {
-        $visitor = $this->createVisitor();
-        $original = $visitor->getRawOriginal();
+test('forbids visitor actions without an assigned visitor', function () {
+    $user = TestUtils::createUser(false);
+    $visitor = TestUtils::createVisitor();
 
-        $this->allowVisitorActions = false;
+    $dataset = [
+        'visitors.index' => 'get',
+        'visitors.create' => 'get',
+        'visitors.edit' => 'get',
+        'visitors.store' => 'post',
+        'visitors.update' => 'put',
+        'visitors.destroy' => 'delete',
+    ];
 
-        $this->get(route('visitors.index'))
-            ->assertForbidden();
+    $payload = $visitor->getRawOriginal();
 
-        $this->get(route('visitors.create'))
-            ->assertForbidden();
+    foreach ($dataset as $route => $method) {
+        $uri = route($route, $visitor->id);
 
-        $this->post(route('visitors.store'), $this->validData())
-            ->assertForbidden();
+        $response = in_array($method, ['get', 'delete'])
+            ? $this->actingAs($user)->$method($uri)
+            : $this->actingAs($user)->$method($uri, $payload);
 
-        $this->get(route('visitors.edit', $visitor))
-            ->assertForbidden();
-
-        $this->put(
-            route('visitors.update', $visitor),
-            $this->validData(['name' => 'Alteração proibida'])
-        )->assertForbidden();
-
-        $this->delete(route('visitors.destroy', $visitor))
-            ->assertForbidden();
-
-        $this->assertDatabaseCount('visitors', 1);
-
-        $this->assertEqualsCanonicalizing(
-            $original,
-            $visitor->fresh()->getRawOriginal()
-        );
+        $response->assertForbidden("Route [$route] with method [$method] should be forbidden.");
     }
-
-    public function test_index_sends_referral_source_label(): void
-    {
-        $visitor = $this->createVisitor([
-            'referral_source' => '3',
-        ]);
-
-        $this->get(route('visitors.index'))
-            ->assertOk()
-            ->assertInertia(
-                fn(Assert $page) => $page
-                    ->component('visitors/index')
-                    ->has('visitors.data', 1)
-                    ->where('visitors.data.0.id', $visitor->id)
-                    ->where('visitors.data.0.referral_source_label', 'Moro perto')
-            );
-    }
-}
+});

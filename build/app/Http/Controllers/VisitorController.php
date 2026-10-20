@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Visitor;
-use App\Http\Requests\StoreVisitorRequest;
-use App\Http\Requests\UpdateVisitorRequest;
+use App\Http\Requests\VisitorStoreRequest;
+use App\Http\Requests\VisitorUpdateRequest;
 use App\Helpers\DateHelper;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
@@ -12,6 +12,9 @@ use Inertia\Response;
 
 class VisitorController extends Controller
 {
+    /**
+     * Show the visitor's page.
+     */
     public function index(): Response
     {
         $this->authorize('visitors.index');
@@ -23,6 +26,9 @@ class VisitorController extends Controller
         ]);
     }
 
+    /**
+     * Show the visitor's create page.
+     */
     public function create(): Response
     {
         $this->authorize('visitors.create');
@@ -30,19 +36,30 @@ class VisitorController extends Controller
         return Inertia::render('visitors/create');
     }
 
-    public function store(StoreVisitorRequest $request): RedirectResponse
+    /**
+     * Stores the visitor information.
+     */
+    public function store(VisitorStoreRequest $request): RedirectResponse
     {
         $this->authorize('visitors.store');
 
-        $request['visit_date'] = DateHelper::toDatabaseDate($request->input('visit_date'));
-
-        Visitor::create($request->all());
-
-        return redirect()
-            ->route('visitors.index')
-            ->with('success', 'Visitante cadastrado com sucesso.');
+        return $this->withToastFeedback(
+            action: function () use ($request) {
+                $data = $request->safe()->merge([
+                    'visit_date' => DateHelper::toDatabaseDate($request->input('visit_date')),
+                ])->all();
+                Visitor::create($data);
+            },
+            successMessage: __('Visitante cadastrado.'),
+            errorMessage: __('Visitante não pôde ser cadastrado.'),
+            redirectRoute: 'visitors.index',
+            errorRoute: 'visitors.create',
+        );
     }
 
+    /**
+     * Show the visitor's edit page.
+     */
     public function edit(Visitor $visitor): Response
     {
         $this->authorize('visitors.edit');
@@ -52,27 +69,43 @@ class VisitorController extends Controller
         ]);
     }
 
-    public function update(UpdateVisitorRequest $request, Visitor $visitor): RedirectResponse
+    /**
+     * Update the visitor information.
+     */
+    public function update(VisitorUpdateRequest $request, Visitor $visitor): RedirectResponse
     {
         $this->authorize('visitors.update');
 
-        $request['visit_date'] = DateHelper::toDatabaseDate($request->input('visit_date'));
-
-        $visitor->update($request->all());
-
-        return redirect()
-            ->route('visitors.index')
-            ->with('success', 'Visitante atualizado com sucesso.');
+        return $this->withToastFeedback(
+            action: function () use ($request, $visitor) {
+                $data = $request->safe()->merge([
+                    'visit_date' => DateHelper::toDatabaseDate($request->input('visit_date')),
+                ])->all();
+                $visitor->update($data);
+            },
+            successMessage: __('Visitante editado.'),
+            errorMessage: __('Visitante não pôde ser editado.'),
+            redirectRoute: 'visitors.index',
+            errorRoute: 'visitors.edit',
+        );
     }
 
+    /**
+     * Delete the visitor.
+     */
     public function destroy(Visitor $visitor): RedirectResponse
     {
         $this->authorize('visitors.destroy');
+        
+        return $this->withToastFeedback(
+            action: function () use ($visitor) {
 
-        $visitor->delete();
-
-        return redirect()
-            ->route('visitors.index')
-            ->with('success', 'Visitante excluído com sucesso.');
+                $visitor->delete();
+            },
+            successMessage: __('Visitante deletado.'),
+            errorMessage: __('Visitante não pôde ser deletado.'),
+            redirectRoute: 'visitors.index',
+            errorRoute: 'visitors.index',
+        );
     }
 }
