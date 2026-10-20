@@ -41,8 +41,6 @@ class VisitorController extends Controller
      */
     public function store(VisitorStoreRequest $request): RedirectResponse
     {
-        $this->authorize('visitors.store');
-
         return $this->withToastFeedback(
             action: function () use ($request) {
                 $data = $request->safe()->merge([
@@ -74,14 +72,12 @@ class VisitorController extends Controller
      */
     public function update(VisitorUpdateRequest $request, Visitor $visitor): RedirectResponse
     {
-        $this->authorize('visitors.update');
-
         return $this->withToastFeedback(
             action: function () use ($request, $visitor) {
                 $data = $request->safe()->merge([
                     'visit_date' => DateHelper::toDatabaseDate($request->input('visit_date')),
                 ])->all();
-                $visitor->update($data);
+                return $visitor->update($data);
             },
             successMessage: __('Visitante editado.'),
             errorMessage: __('Visitante não pôde ser editado.'),
@@ -99,8 +95,7 @@ class VisitorController extends Controller
         
         return $this->withToastFeedback(
             action: function () use ($visitor) {
-
-                $visitor->delete();
+                return $visitor->delete();
             },
             successMessage: __('Visitante deletado.'),
             errorMessage: __('Visitante não pôde ser deletado.'),

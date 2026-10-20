@@ -26,11 +26,8 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->configureDefaults();
         Gate::before(function ($user) {
-          if ($user->is_master) {
-              return true;
-          }
-          return false;
-      });
+            return $user->is_master ? true : null;
+        });
     }
 
     /**
@@ -44,14 +41,15 @@ class AppServiceProvider extends ServiceProvider
             app()->isProduction(),
         );
 
-        Password::defaults(fn (): ?Password => app()->isProduction()
-            ? Password::min(12)
+        Password::defaults(
+            fn(): ?Password => app()->isProduction()
+                ? Password::min(12)
                 ->mixedCase()
                 ->letters()
                 ->numbers()
                 ->symbols()
                 ->uncompromised()
-            : null,
+                : null,
         );
     }
 }

@@ -46,8 +46,6 @@ class UserController extends Controller
      */
     public function store(UserStoreRequest $request): RedirectResponse
     {
-        $this->authorize('users.store');
-
         return $this->withToastFeedback(
             action: function () use ($request) {
                 $user = User::create($request->safe()->except('roles'));
@@ -80,8 +78,6 @@ class UserController extends Controller
      */
     public function update(UserUpdateRequest $request, User $user): RedirectResponse
     {
-        $this->authorize('users.update');
-
         $data = $request->safe()->except('roles');
 
         if (empty($data['password'])) {
@@ -90,8 +86,10 @@ class UserController extends Controller
 
         return $this->withToastFeedback(
             action: function () use ($request, $user, $data) {
-                $user->update($data);
+                $updated = $user->update($data);
                 $user->syncRoles($request->validated('roles', []));
+
+                return $updated;
             },
             successMessage: __('Usuário editado.'),
             errorMessage: __('Usuário não pôde ser editado.'),
@@ -109,7 +107,7 @@ class UserController extends Controller
 
         return $this->withToastFeedback(
             action: function () use ($user) {
-                $user->delete();
+                return $user->delete();
             },
             successMessage: __('Usuário deletado.'),
             errorMessage: __('Usuário não pôde ser deletado.'),

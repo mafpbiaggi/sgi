@@ -11,14 +11,20 @@ class VisitorUpdateRequest extends FormRequest
     use VisitorValidationRules;
 
     /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return $this->user()->can('visitors.update');
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
     public function rules(): array
     {
-        $visitor = $this->route('visitor');
-
-        return $this->visitorRules($visitor->id);
+        return $this->visitorRules();
     }
 }

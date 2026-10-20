@@ -156,6 +156,18 @@ test('validates fields for user update', function () {
     ]);
 });
 
+test('does not delete the master user and shows an error toast', function () {
+    $user = TestUtils::createUser(true);
+    $master = User::factory()->create();
+    $master->forceFill(['is_master' => true])->save();
+
+    $this->actingAs($user)
+        ->delete(route('users.destroy', $master))
+        ->assertRedirect(route('users.index'));
+
+    expect(User::find($master->id))->not->toBeNull();
+});
+
 test('forbids users actions without an assigned role', function () {
     $user = TestUtils::createUser(false);
 

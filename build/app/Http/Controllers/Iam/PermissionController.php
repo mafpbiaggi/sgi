@@ -37,12 +37,10 @@ class PermissionController extends Controller
     }
 
     /**
-     * stores the permission information.
+     * Stores the permission information.
      */
     public function store(PermissionStoreRequest $request): RedirectResponse
     {
-        $this->authorize('permissions.store');
-
         return $this->withToastFeedback(
             action: function () use ($request) {
                 Permission::create($request->safe()->all());
@@ -71,11 +69,9 @@ class PermissionController extends Controller
      */
     public function update(PermissionUpdateRequest $request, Permission $permission): RedirectResponse
     {
-        $this->authorize('permissions.update');
-
         return $this->withToastFeedback(
             action: function () use ($request, $permission) {
-                $permission->update($request->safe()->all());
+                return $permission->update($request->safe()->all());
             },
             successMessage: __('Permissão editada.'),
             errorMessage: __('Permissão não pôde ser editada.'),
@@ -93,7 +89,7 @@ class PermissionController extends Controller
 
         return $this->withToastFeedback(
             action: function () use ($permission) {
-                $permission->delete();
+                return $permission->delete();
             },
             successMessage: __('Permissão deletada.'),
             errorMessage: __('Permissão não pôde ser deletada.'),

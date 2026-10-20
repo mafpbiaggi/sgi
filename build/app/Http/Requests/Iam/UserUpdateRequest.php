@@ -17,6 +17,14 @@ class UserUpdateRequest extends FormRequest
     use RoleValidationRules;
 
     /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return $this->user()->can('users.update');
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, ValidationRule|array<mixed>|string>
@@ -25,7 +33,7 @@ class UserUpdateRequest extends FormRequest
     public function rules(): array
     {
         $user = $this->route('user');
-        
+
         return [
             'name' => $this->nameRules(),
             'email' => $this->emailRules($user->id),

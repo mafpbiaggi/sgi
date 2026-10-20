@@ -106,7 +106,7 @@ class TestUtils
             'visit_date' => TestUtils::invalidDateValue(),
             'attends_church' => str_repeat('a', 71),
             'prayer_request' => str_repeat('a', 71),
-            'referral_source' => str_repeat('a', 2),
+            'referral_source' => '9',
             'referral_source_social_media' => str_repeat('a', 51),
             'referral_source_other' => str_repeat('a', 51),
         ];

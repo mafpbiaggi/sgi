@@ -42,12 +42,10 @@ class RoleController extends Controller
     }
 
     /**
-     * stores the role information.
+     * Stores the role information.
      */
     public function store(RoleStoreRequest $request): RedirectResponse
     {
-        $this->authorize('roles.store');
-
         return $this->withToastFeedback(
             action: function () use ($request) {
                 $role = Role::create($request->safe()->except('permissions'));
@@ -80,14 +78,14 @@ class RoleController extends Controller
      */
     public function update(RoleUpdateRequest $request, Role $role): RedirectResponse
     {
-        $this->authorize('roles.update');
-
         $data = $request->safe()->except('permissions');
 
         return $this->withToastFeedback(
             action: function () use ($request, $role, $data) {
-                $role->update($data);
+                $updated = $role->update($data);
                 $role->syncPermissions($request->validated('permissions', []));
+
+                return $updated;
             },
             successMessage: __('Grupo editado.'),
             errorMessage: __('Grupo não pôde ser editado.'),
@@ -105,7 +103,7 @@ class RoleController extends Controller
 
         return $this->withToastFeedback(
             action: function () use ($role) {
-                $role->delete();
+                return $role->delete();
             },
             successMessage: __('Grupo deletado.'),
             errorMessage: __('Grupo não pôde ser deletado.'),

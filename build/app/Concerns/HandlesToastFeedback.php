@@ -4,6 +4,7 @@ namespace App\Concerns;
 
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Wraps a controller action in a try/catch and flashes a toast
@@ -28,9 +29,14 @@ trait HandlesToastFeedback
     protected function withToastFeedback(\Closure $action, string $successMessage, string $errorMessage, string $redirectRoute, ?string $errorRoute = null): RedirectResponse
     {
         try {
-            $action();
+            $result = DB::transaction(fn() => $action());
         } catch (\Throwable $e) {
             report($e);
+            Inertia::flash('toast', ['type' => 'error', 'message' => $errorMessage]);
+            return to_route($errorRoute ?? $redirectRoute);
+        }
+
+        if ($result === false) {
             Inertia::flash('toast', ['type' => 'error', 'message' => $errorMessage]);
             return to_route($errorRoute ?? $redirectRoute);
         }

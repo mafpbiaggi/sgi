@@ -5,26 +5,26 @@ namespace App\Concerns;
 use App\Concerns\DateValidationRules;
 use App\Concerns\NameValidationRules;
 use App\Concerns\PhoneValidationRules;
-use Carbon\Traits\Date;
+use App\Enums\ReferralSource;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Validation\Rule;
 
 trait VisitorValidationRules
 {
     use DateValidationRules;
     use NameValidationRules;
     use PhoneValidationRules;
-    use ProfileValidationRules;
 
     /**
      * Get the validation rules used to validate user profiles.
      *
      * @return array<string, array<int, ValidationRule|array<mixed>|string>>
      */
-    protected function visitorRules(?int $visitorId = null): array
+    protected function visitorRules(): array
     {
         return [
             'name' => $this->visitorNameRules(),
-            'email' => $this->visitorEmailRules($visitorId),
+            'email' => $this->visitorEmailRules(),
             'age' => $this->visitorAgeRules(),
             'phone' => $this->visitorPhoneRules(),
             'visit_date' => $this->visitorVisitDateRules(),
@@ -51,9 +51,9 @@ trait VisitorValidationRules
      *
      * @return array<int, ValidationRule|array<mixed>|string>
      */
-    protected function visitorEmailRules(?int $visitorId = null): array
+    protected function visitorEmailRules(): array
     {
-        return $this->emailRules($visitorId);
+        return ['required','string', 'email', 'max:255'];
     }
 
     /**
@@ -63,7 +63,7 @@ trait VisitorValidationRules
      */
     protected function visitorAgeRules(): array
     {
-        return ['required', 'integer'];
+        return ['required', 'integer', 'min:1', 'max:150'];
     }
 
     /**
@@ -113,7 +113,7 @@ trait VisitorValidationRules
      */
     protected function visitorReferralSourceRules(): array
     {
-        return ['required', 'string', 'max:1'];
+        return ['required', Rule::enum(ReferralSource::class)];
     }
 
     /**

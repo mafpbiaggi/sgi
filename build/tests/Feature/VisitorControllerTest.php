@@ -21,7 +21,7 @@ test('renders the referral source label on index page', function () {
     $response = $this
         ->actingAs($user)
         ->get(route('visitors.index'));
-    
+
     $response
         ->assertOk()
         ->assertInertia(
@@ -152,7 +152,7 @@ test('deletes a visitor', function () {
 test('validates fields for visitor creation', function () {
     $user = TestUtils::createUser();
 
-    $invalidValues = TestUtils::visitorsInvalidValues();
+     $invalidValues = TestUtils::visitorsInvalidValues();
 
     foreach ($invalidValues as $key => $value) {
         $response = $this
