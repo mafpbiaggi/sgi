@@ -75,7 +75,7 @@ jobs:
           EOF
 
       - name: Start containers
-        run: docker compose -f docker/docker-compose.yaml up -d
+        run: docker compose -f docker/docker-compose.yml up -d
 
       - name: Wait for database container
         run: bash tests/wait_container ${{ github.event.repository.name }}_db
