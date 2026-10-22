@@ -55,9 +55,12 @@ jobs:
         run: docker pull $IMAGE
 
       - name: Generate Laravel application key for tests
-        run: echo "APP_KEY='base64:$(openssl rand -base64 32)'" >> "GITHUB_ENV"
+        id: gen_key
+        run: echo "key='base64:$(openssl rand -base64 32)'" >> "GITHUB_OUTPUT"
 
       - name: Create .env file for tests
+        env:
+          APP_KEY: ${{ steps.gen_key.outputs.key }}
         run: |
           cat > docker/.env <<EOF
           IMAGE_NAME=${IMAGE}
