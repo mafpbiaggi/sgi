@@ -54,22 +54,25 @@ jobs:
         if: inputs.artifact_name == 'none'
         run: docker pull $IMAGE
 
+      - name: Generate Laravel application key for tests
+        run: echo "APP_KEY='base64:$(openssl rand -base64 32)'" >> "GITHUB_ENV"
+
       - name: Create .env file for tests
         run: |
-          APP_KEY="base64:$(openssl rand -base64 32)"
-          printf '%s\n' \
-            'IMAGE_NAME=${IMAGE}' \
-            'DB_CONNECTION=mariadb' \
-            'DB_HOST=sgi_db' \
-            'DB_PORT=3306' \
-            'DB_DATABASE=sgi_test' \
-            'DB_USERNAME=test' \
-            'DB_PASSWORD=test' \
-            'DB_ROOT_PASSWORD=test' \
-            'APP_NAME=TEST' \
-            'APP_KEY=${APP_KEY}' \
-            'VITE_APP_NAME=${APP_NAME}' \
-            'PORT_MAPPING=80' > docker/.env
+          cat > docker/.env <<EOF
+          IMAGE_NAME=${IMAGE}
+          DB_CONNECTION=mariadb
+          DB_HOST=sgi_db
+          DB_PORT=3306
+          DB_DATABASE=sgi_test
+          DB_USERNAME=test
+          DB_PASSWORD=test
+          DB_ROOT_PASSWORD=test
+          APP_NAME=TEST
+          APP_KEY=${APP_KEY}
+          VITE_APP_NAME=TEST
+          PORT_MAPPING=80
+          EOF
 
       - name: Start containers
         run: docker compose -f docker/docker-compose.yaml up -d
