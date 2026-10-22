@@ -2,7 +2,7 @@
 set -euo pipefail
 
 CONTAINER="${1:-}"
-MAX_ATTEMPTS="${2:-10}"
+MAX_ATTEMPTS="${2:-20}"
 INTERVAL="${3:-5}"
 
 if [[ -z "$CONTAINER" ]]; then
@@ -28,4 +28,4 @@ echo "--------------------------------------------------------------------"
 docker logs --tail 100 "$CONTAINER" 2>&1 || true
 echo "--------------------------------------------------------------------"
 docker inspect --format '{{json .State.Health}}' "$CONTAINER" 2>/dev/null || true
-exit 
+exit 1

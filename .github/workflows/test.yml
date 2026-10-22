@@ -55,12 +55,9 @@ jobs:
         run: docker pull $IMAGE
 
       - name: Generate Laravel application key for tests
-        id: gen_key
-        run: echo "key='base64:$(openssl rand -base64 32)'" >> "GITHUB_OUTPUT"
+        run: echo "APP_KEY=base64:$(openssl rand -base64 32)" >> "GITHUB_ENV"
 
       - name: Create .env file for tests
-        env:
-          APP_KEY: ${{ steps.gen_key.outputs.key }}
         run: |
           cat > docker/.env <<EOF
           IMAGE_NAME=${IMAGE}
@@ -91,4 +88,6 @@ jobs:
 
       - name: Clean up temporary resources
         if: always()
-        run: docker rm -f ${{ github.event.repository.name }} || true
+        run: | 
+          docker rm -f ${{ github.event.repository.name }}_db || true
+          docker rm -f ${{ github.event.repository.name }}_app || true
