@@ -24,8 +24,8 @@ export default defineConfig({
             presets: [reactCompilerPreset()],
         }),
         tailwindcss(),
-        wayfinder({
-            formVariants: true,
+        process.env.SKIP_WAYFINDER ? null : wayfinder({
+            formVariants: true 
         }),
     ]),
     server: {
