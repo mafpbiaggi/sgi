@@ -55,11 +55,10 @@ jobs:
         run: docker pull $IMAGE
 
       - name: Generate Laravel application key for tests
-        run: echo "APP_KEY=base64:$(openssl rand -base64 32)" >> "GITHUB_ENV"
+        run: echo "APP_KEY=base64:$(openssl rand -base64 32)" >> "$GITHUB_ENV"
 
       - name: Create .env file for tests
         run: |
-          echo $APP_KEY
           printf '%s\n' \
                       'IMAGE_NAME=${IMAGE}' \
                       'DB_CONNECTION=mariadb' \
@@ -73,10 +72,12 @@ jobs:
                       'APP_KEY=${APP_KEY}' \
                       'VITE_APP_NAME=TEST' \
                       'PORT_MAPPING=80' > docker/.env
-
+      
+      - name: debug .env
+        run: echo docker/.env
+        
       - name: Start containers
         run: |
-          echo $APP_KEY
           docker compose -f docker/docker-compose.yml up -d
 
       - name: Wait for database container
