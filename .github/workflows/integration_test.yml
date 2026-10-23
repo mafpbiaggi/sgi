@@ -1,4 +1,4 @@
-name: Integration-Test
+name: Integration test
 
 on:
   workflow_call:

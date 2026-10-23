@@ -18,10 +18,17 @@ concurrency:
 jobs:
   changes:
     uses: ./.github/workflows/changes.yml
-    
-  build:
+
+  integration:
     needs: changes
     if: needs.changes.outputs.changed == 'true'
+    name: test
+    uses: ./.github/workflows/integration_test.yml
+    permissions:
+      contents: read
+
+  build:
+    needs: integration
     uses: ./.github/workflows/build.yml
   
   scan:
@@ -31,9 +38,10 @@ jobs:
       image: ${{ github.event.repository.name }}:${{ needs.build.outputs.tag }}
       artifact_name: ${{ needs.build.outputs.artifact }}
 
-  test:
+  environment:
     needs: [ build, scan ]
-    uses: ./.github/workflows/test.yml
+    name: test
+    uses: ./.github/workflows/environment_test.yml
     with:
       image: ${{ github.event.repository.name }}:${{ needs.build.outputs.tag }}
       artifact_name: ${{ needs.build.outputs.artifact }}

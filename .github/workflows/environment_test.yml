@@ -1,4 +1,4 @@
-name: Environment-Test
+name: Environment test
 
 on:
   workflow_call:
