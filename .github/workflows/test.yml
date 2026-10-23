@@ -35,8 +35,8 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v6.1.0
       
-      - name: Install PHP
-        uses: shivammathur/setup-php@v2.40.0
+      - name: Setup PHP
+        uses: shivammathur/setup-php@2.40.0
         with:
           php-version: '8.5.12'
           extensions: pdo_mysql zip bcmath intl
