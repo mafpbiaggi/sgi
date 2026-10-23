@@ -43,13 +43,12 @@ jobs:
           coverage: none
 
       - name: Install PHP dependencies
-        run: composer install --no-dev --no-interaction --no-progress --no-scripts --no-autoloader --prefer-dist
+        run: composer install --no-interaction --no-progress --no-scripts --no-autoloader --prefer-dist
 
       - name: Install Node
         uses: actions/setup-node@v7.1.0
         with:
           node-version: '24.12'
-          cache: npm
 
       - name: Build frontend assets
         run: |
