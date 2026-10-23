@@ -12,7 +12,13 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  integration:
+    uses: ./.github/workflows/integration.yml
+    permissions:
+      contents: read
+
   build:
+    needs: integration
     uses: ./.github/workflows/build.yml
     permissions:
       contents: read
