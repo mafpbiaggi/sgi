@@ -15,4 +15,14 @@ trait PhoneValidationRules
     {
         return ['required', 'string', 'max:15'];
     }
+
+    /**
+     * Get the validation rule used to validate field names.
+     *
+     * @return array<int, ValidationRule|array<mixed>|string>
+     */
+    protected function nullablePhoneRules(): array
+    {
+        return ['nullable', 'string', 'max:15'];
+    }
 }

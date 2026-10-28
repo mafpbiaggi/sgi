@@ -15,4 +15,14 @@ trait DateValidationRules
     {
         return ['required', 'date_format:d/m/Y'];
     }
+
+    /**
+     * Get the validation rule used to validate field date.
+     *
+     * @return array<int, ValidationRule|array<mixed>|string>
+     */
+    protected function nullableDateRules(): array
+    {
+        return ['nullable', 'date_format:d/m/Y'];
+    }
 }
