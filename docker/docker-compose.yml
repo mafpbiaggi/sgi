@@ -1,0 +1,51 @@
+services:
+  sgi_db:
+    image: mariadb:12.2
+    container_name: sgi_db
+    environment:
+      - TZ=America/Sao_Paulo
+      - MARIADB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
+      - MARIADB_DATABASE=${DB_DATABASE}
+      - MARIADB_USER=${DB_USERNAME}
+      - MARIADB_PASSWORD=${DB_PASSWORD}
+    volumes:
+      - sgi_db:/var/lib/mysql
+    ports:
+      - 3306:3306
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: "no"
+    networks:
+      - sgi
+
+  sgi_app:
+    image: ${IMAGE_NAME}
+    container_name: sgi_app
+    env_file:
+      - .env
+    ports:
+      - ${PORT_MAPPING}:80
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS -o /dev/null http://localhost/up"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: "no"
+    networks:
+      - sgi
+    depends_on:
+      sgi_db:
+        condition: service_healthy
+
+networks:
+  sgi:
+    name: sgi
+
+volumes:
+  sgi_db:
+    name: sgi_db

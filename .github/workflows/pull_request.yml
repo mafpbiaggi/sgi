@@ -12,7 +12,14 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  integration:
+    name: test
+    uses: ./.github/workflows/integration_test.yml
+    permissions:
+      contents: read
+
   build:
+    needs: integration
     uses: ./.github/workflows/build.yml
     permissions:
       contents: read
@@ -26,9 +33,10 @@ jobs:
     permissions:
       contents: read
 
-  test:
+  environment:
     needs: [ build, scan ]
-    uses: ./.github/workflows/test.yml
+    name: test
+    uses: ./.github/workflows/environment_test.yml
     with:
       image: ${{ github.event.repository.name }}:${{ needs.build.outputs.tag }}
       artifact_name: ${{ needs.build.outputs.artifact }}

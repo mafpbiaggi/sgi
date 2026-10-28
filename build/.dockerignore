@@ -1,0 +1,56 @@
+# Docker
+.dockerignore
+
+# Git
+.gitignore
+.gitattributes
+
+# Editor
+.editorconfig
+
+# GitHub
+/.github
+
+# AI Agents
+/.fleet
+/.idea
+/.nova
+/.vscode
+/.zed
+/.agents
+/.amp
+/.claude
+/.cursor
+/.factory
+/.grok
+/.junie
+/.kiro
+/.pi
+/.mcp.json
+/AGENTS.md
+/CLAUDE.md
+
+# macOS
+.DS_Store
+
+/vendor
+/public/build
+/public/hot
+
+/bootstrap/cache/*
+!/bootstrap/cache/.gitignore
+
+node_modules
+
+# Log
+*.log
+
+# Storage
+/public/storage
+/storage
+
+# Env Files
+.env*
+
+# Tests
+tests
