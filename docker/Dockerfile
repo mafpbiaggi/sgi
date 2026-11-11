@@ -5,7 +5,7 @@
 # =============================================================================
 FROM php:8.5.12-apache AS base
 COPY --from=ghcr.io/mlocati/php-extension-installer:2 /usr/bin/install-php-extensions /usr/local/bin/
-RUN install-php-extensions pdo_mysql zip bcmath intl
+RUN install-php-extensions pdo_mysql zip bcmath intl gd
 
 # =============================================================================
 # Stage 1: dependências PHP + geração do Wayfinder
