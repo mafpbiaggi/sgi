@@ -14,4 +14,12 @@ enum MembershipStatus: int
             self::NonCommunicant => 'Não comungante',
         };
     }
+
+    public static function options(): array
+    {
+        return array_map(
+            fn(self $case) => ['value' => $case->value, 'label' => $case->label()],
+            self::cases(),
+        );
+    }
 }

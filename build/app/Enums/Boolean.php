@@ -14,4 +14,12 @@ enum Boolean: int
             self::True => 'Sim',
         };
     }
+
+    public static function options(): array
+    {
+        return array_map(
+            fn(self $case) => ['value' => $case->value, 'label' => $case->label()],
+            self::cases(),
+        );
+    }
 }

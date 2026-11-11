@@ -30,4 +30,12 @@ enum EducationalLevel: int
             self::Postdoctoral => 'Pós-Doutorado',
         };
     }
+
+    public static function options(): array
+    {
+        return array_map(
+            fn(self $case) => ['value' => $case->value, 'label' => $case->label()],
+            self::cases(),
+        );
+    }
 }

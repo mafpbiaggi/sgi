@@ -1,5 +1,5 @@
 import { Link } from '@inertiajs/react';
-import { LayoutGrid, FileCog, User, UserPen, Users, BookUser, ShieldCheck } from 'lucide-react';
+import { LayoutGrid, FileCog, User, UserPen, Users, BookUser, ShieldCheck, FileText } from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
@@ -43,6 +43,15 @@ const mainNavItems: NavItem[] = [
         href: '/visitors',
         icon: UserPen,
     },
+    {
+        title: 'Relatórios',
+        href: '#',
+        icon: FileText,
+        children: [
+            { title: 'Membros', href: '/reports/members', icon: BookUser },
+        ],
+    },
+
 ];
 
 const footerNavItems: NavItem[] = [];

@@ -18,3 +18,4 @@ require __DIR__ . '/settings.php';
 require __DIR__ . '/iam/permissions.php';
 require __DIR__ . '/iam/roles.php';
 require __DIR__ . '/iam/users.php';
+require __DIR__ . '/reports/members.php';
