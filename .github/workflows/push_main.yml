@@ -47,7 +47,7 @@ jobs:
       artifact_name: ${{ needs.build.outputs.artifact }}
 
   publish:
-    needs: [ build, test ]
+    needs: [ build, environment ]
     permissions:
       contents: read
       packages: write
