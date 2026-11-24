@@ -5,8 +5,8 @@ export default function AppLayout({
     breadcrumbs = [],
     children,
 }: {
-    breadcrumbs?: BreadcrumbItem[];
-    children: React.ReactNode;
+    readonly breadcrumbs?: BreadcrumbItem[];
+    readonly children: React.ReactNode;
 }) {
     return (
         <AppLayoutTemplate breadcrumbs={breadcrumbs}>

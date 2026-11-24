@@ -4,10 +4,10 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 export default function AlertError({
     errors,
     title,
-}: {
+}: Readonly<{
     errors: string[];
     title?: string;
-}) {
+}>) {
     return (
         <Alert variant="destructive">
             <AlertCircleIcon />

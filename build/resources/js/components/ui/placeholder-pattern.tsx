@@ -1,7 +1,7 @@
 import { useId } from 'react';
 
 interface PlaceholderPatternProps {
-    className?: string;
+    readonly className?: string;
 }
 
 export function PlaceholderPattern({ className }: PlaceholderPatternProps) {

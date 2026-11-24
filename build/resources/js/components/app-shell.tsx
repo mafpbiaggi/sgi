@@ -4,8 +4,8 @@ import { SidebarProvider } from '@/components/ui/sidebar';
 import type { AppVariant } from '@/types';
 
 type Props = {
-    children: ReactNode;
-    variant?: AppVariant;
+    readonly children: ReactNode;
+    readonly variant?: AppVariant;
 };
 
 export function AppShell({ children, variant = 'sidebar' }: Props) {

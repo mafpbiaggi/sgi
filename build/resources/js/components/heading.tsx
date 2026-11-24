@@ -3,9 +3,9 @@ export default function Heading({
     description,
     variant = 'default',
 }: {
-    title: string;
-    description?: string;
-    variant?: 'default' | 'small';
+    readonly title: string;
+    readonly description?: string;
+    readonly variant?: 'default' | 'small';
 }) {
     return (
         <header className={variant === 'small' ? '' : 'mb-8 space-y-0.5'}>

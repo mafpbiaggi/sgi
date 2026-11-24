@@ -36,7 +36,7 @@ import { dashboard } from '@/routes';
 import type { BreadcrumbItem, NavItem } from '@/types';
 
 type Props = {
-    breadcrumbs?: BreadcrumbItem[];
+    readonly breadcrumbs?: BreadcrumbItem[];
 };
 
 const mainNavItems: NavItem[] = [

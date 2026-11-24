@@ -13,7 +13,7 @@ import type { BreadcrumbItem as BreadcrumbItemType } from '@/types';
 export function Breadcrumbs({
     breadcrumbs,
 }: {
-    breadcrumbs: BreadcrumbItemType[];
+    readonly breadcrumbs: BreadcrumbItemType[];
 }) {
     return (
         <>

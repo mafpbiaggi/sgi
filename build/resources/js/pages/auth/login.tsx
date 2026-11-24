@@ -11,8 +11,8 @@ import { store } from '@/routes/login';
 import { request } from '@/routes/password';
 
 type Props = {
-    status?: string;
-    canResetPassword: boolean;
+    readonly status?: string;
+    readonly canResetPassword: boolean;
 };
 
 export default function Login({ status, canResetPassword }: Props) {
