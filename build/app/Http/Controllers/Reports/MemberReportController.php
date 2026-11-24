@@ -20,28 +20,22 @@ use Symfony\Component\HttpFoundation\Response as HttpResponse;
 
 class MemberReportController extends Controller
 {
+    /**
+     * Show the member's report page.
+     */
     public function index(): Response
     {
         $this->authorize('members_report.index');
 
-        $options = [
-            'membership_status_options' => MembershipStatus::options(),
-            'membership_type_options' => MembershipType::options(),
-            'gender_options' => Gender::options(),
-            'marital_status_options' => MaritalStatus::options(),
-            'educational_level_options' => EducationalLevel::options(),
-            'is_under_discipline_options' => Boolean::options(),
-            'is_baptized_options' => Boolean::options(),
-            'has_professed_faith_options' => Boolean::options(),
-            'birth_month_options' => Month::options(),
-        ];
-
         return Inertia::render('reports/members_report/index', [
-            'options' => $options,
+            'options' => $this->getOptions(),
             'csrfToken' => csrf_token(),
         ]);
     }
 
+    /**
+    * Generate PDF report.
+    */
     public function generate(MemberReportCreateRequest $request): HttpResponse
     {
         $members = Member::with('currentAdmission')
@@ -68,5 +62,23 @@ class MemberReportController extends Controller
 
         $pdf = PDF::loadView('pdf.report_members', $data);
         return $pdf->stream('report.pdf');
+    }
+    
+    /**
+    * Get option fields to send to view.
+    */
+    public function getOptions(): array
+    {
+        return [
+            'membership_status_options' => MembershipStatus::options(),
+            'membership_type_options' => MembershipType::options(),
+            'gender_options' => Gender::options(),
+            'marital_status_options' => MaritalStatus::options(),
+            'educational_level_options' => EducationalLevel::options(),
+            'is_under_discipline_options' => Boolean::options(),
+            'is_baptized_options' => Boolean::options(),
+            'has_professed_faith_options' => Boolean::options(),
+            'birth_month_options' => Month::options(),
+        ];
     }
 }
