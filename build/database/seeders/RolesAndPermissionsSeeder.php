@@ -38,6 +38,14 @@ class RolesAndPermissionsSeeder extends Seeder
             'visitors.edit',
             'visitors.update',
             'visitors.destroy',
+            'members.index',
+            'members.create',
+            'members.store',
+            'members.edit',
+            'members.update',
+            'members.destroy',
+            'members_report.index',
+            'members_report.generate',
         ];
 
         foreach ($defaultPermissions as $permission) {
