@@ -7,6 +7,7 @@ use App\Models\MemberAdmission;
 use App\Http\Requests\MemberStoreRequest;
 use App\Http\Requests\MemberUpdateRequest;
 use App\Helpers\DateHelper;
+use App\Helpers\RequestHelper;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -74,10 +75,11 @@ class MemberController extends Controller
                     ],
                 ])->all();
 
-                $admissionData = $data['admission'];
+                $admissionData = RequestHelper::sanitize($data['admission']);
                 unset($data['admission']);
 
-                $member = Member::create($data);
+                $sanitized = RequestHelper::sanitize($data);
+                $member = Member::create($sanitized);
 
                 $admission = new MemberAdmission($admissionData);
                 $admission->user_id = $request->user()->id;
@@ -122,10 +124,11 @@ class MemberController extends Controller
                     ],
                 ])->all();
 
-                $admissionData = $data['admission'];
+                $admissionData = RequestHelper::sanitize($data['admission']);
                 unset($data['admission']);
-
-                $member->update($data);
+                
+                $sanitized = RequestHelper::sanitize($data);
+                $member->update($sanitized);
 
                 $current = $member->currentAdmission;
 

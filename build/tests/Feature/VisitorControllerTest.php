@@ -106,10 +106,10 @@ test('creates a visitor', function () {
         ->assertSessionHasNoErrors()
         ->assertRedirect(route('visitors.index'));
 
-    $visitor = Visitor::where('name', 'visitor-created')->first();
+    $visitor = Visitor::where('name', 'VISITOR-CREATED')->first();
 
     expect($visitor)->not->toBeNull()
-        ->and($visitor->name)->toBe('visitor-created');
+        ->and($visitor->name)->toBe('VISITOR-CREATED');
 });
 
 test('updates a visitor', function () {
@@ -131,7 +131,7 @@ test('updates a visitor', function () {
 
     $visitor->refresh();
 
-    expect($visitor->name)->toBe('visitor-updated');
+    expect($visitor->name)->toBe('VISITOR-UPDATED');
 });
 
 test('deletes a visitor', function () {

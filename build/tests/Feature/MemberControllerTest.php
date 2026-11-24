@@ -80,10 +80,10 @@ test('creates a member with its admission', function () {
         ->assertSessionHasNoErrors()
         ->assertRedirect(route('members.index'));
 
-    $member = Member::with('currentAdmission')->where('name', 'member-created')->first();
+    $member = Member::with('currentAdmission')->where('name', 'MEMBER-CREATED')->first();
 
     expect($member)->not->toBeNull()
-        ->and($member->name)->toBe('member-created')
+        ->and($member->name)->toBe('MEMBER-CREATED')
         ->and($member->currentAdmission->admission_order)->toBe('C001')
         ->and($member->currentAdmission->user_id)->toBe($user->id);
 });
@@ -121,7 +121,7 @@ test('updates a member', function () {
 
     $member->refresh();
 
-    expect($member->name)->toBe('member-updated');
+    expect($member->name)->toBe('MEMBER-UPDATED');
 });
 
 test('creates a new admission when membership_type changes', function () {

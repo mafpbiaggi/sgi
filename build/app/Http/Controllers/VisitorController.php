@@ -6,6 +6,7 @@ use App\Models\Visitor;
 use App\Http\Requests\VisitorStoreRequest;
 use App\Http\Requests\VisitorUpdateRequest;
 use App\Helpers\DateHelper;
+use App\Helpers\RequestHelper;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -46,7 +47,8 @@ class VisitorController extends Controller
                 $data = $request->safe()->merge([
                     'visit_date' => DateHelper::toDatabaseDate($request->input('visit_date')),
                 ])->all();
-                Visitor::create($data);
+                $sanitized = RequestHelper::sanitize($data);
+                Visitor::create($sanitized);
             },
             successMessage: __('Visitante cadastrado.'),
             errorMessage: __('Visitante não pôde ser cadastrado.'),
@@ -77,7 +79,8 @@ class VisitorController extends Controller
                 $data = $request->safe()->merge([
                     'visit_date' => DateHelper::toDatabaseDate($request->input('visit_date')),
                 ])->all();
-                return $visitor->update($data);
+                $sanitized = RequestHelper::sanitize($data);
+                return $visitor->update($sanitized);
             },
             successMessage: __('Visitante editado.'),
             errorMessage: __('Visitante não pôde ser editado.'),
