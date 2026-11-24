@@ -17,11 +17,18 @@ type Visitor = {
   referral_source_other: string;
 }
 
-type Props = {
-  readonly visitor: Visitor;
+type SelectOption = {
+  value: string; label: string
 };
 
-export default function Edit({ visitor }: Props) {
+type Props = {
+  readonly visitor: Visitor;
+  readonly options: {
+    referral_source_options: SelectOption[];
+  };
+};
+
+export default function Edit({ visitor, options }: Props) {
   const { data, setData, put, processing, errors } = useForm({
     visit_date: visitor.visit_date,
     name: visitor.name,
@@ -145,11 +152,9 @@ export default function Edit({ visitor }: Props) {
               className="mt-1 w-full rounded-md border p-2"
             >
               <option value="">Selecione</option>
-              <option value="1">Indicação</option>
-              <option value="2">Convite</option>
-              <option value="3">Moro perto</option>
-              <option value="4">Redes sociais</option>
-              <option value="5">Outro</option>
+              {options.referral_source_options.map((opt) => (
+                <option key={opt.value} value={opt.value}>{opt.label}</option>
+              ))}
             </select>
             <InputError message={errors.referral_source} />
           </div>

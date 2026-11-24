@@ -3,8 +3,17 @@ import InputError from '@/components/input-error';
 import { store, index } from '@/actions/App/Http/Controllers/VisitorController';
 import { maskDate, maskPhone } from "@/lib/masks";
 
+type SelectOption = {
+  value: string; label: string
+};
 
-export default function Create() {
+type Props = {
+  readonly options: {
+    referral_source_options: SelectOption[];
+  };
+};
+
+export default function Create({ options }: Props) {
   const { data, setData, post, processing, errors } = useForm({
     name: '',
     age: '',
@@ -128,11 +137,9 @@ export default function Create() {
               className="mt-1 w-full rounded-md border p-2"
             >
               <option value="">Selecione</option>
-              <option value="1">Indicação</option>
-              <option value="2">Convite</option>
-              <option value="3">Moro perto</option>
-              <option value="4">Redes sociais</option>
-              <option value="5">Outro</option>
+              {options.referral_source_options.map((opt) => (
+                <option key={opt.value} value={opt.value}>{opt.label}</option>
+              ))}
             </select>
             <InputError message={errors.referral_source} />
           </div>

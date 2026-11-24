@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\ReferralSource;
 use App\Models\Visitor;
 use App\Http\Requests\VisitorStoreRequest;
 use App\Http\Requests\VisitorUpdateRequest;
@@ -34,7 +35,9 @@ class VisitorController extends Controller
     {
         $this->authorize('visitors.create');
 
-        return Inertia::render('visitors/create');
+        return Inertia::render('visitors/create', [
+            'options' => $this->getOptions(),
+        ]);
     }
 
     /**
@@ -66,6 +69,7 @@ class VisitorController extends Controller
 
         return Inertia::render('visitors/edit', [
             'visitor' => $visitor,
+            'options' => $this->getOptions(),
         ]);
     }
 
@@ -105,5 +109,15 @@ class VisitorController extends Controller
             redirectRoute: 'visitors.index',
             errorRoute: 'visitors.index',
         );
+    }
+
+    /**
+     * Get option fields to send to view.
+     */
+    public function getOptions(): array
+    {
+        return [
+            'referral_source_options' => ReferralSource::options(),
+        ];
     }
 }

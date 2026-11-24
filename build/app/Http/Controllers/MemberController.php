@@ -2,6 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\MembershipStatus;
+use App\Enums\MembershipType;
+use App\Enums\AdmissionReason;
+use App\Enums\DismissalReason;
+use App\Enums\Gender;
+use App\Enums\MaritalStatus;
+use App\Enums\EducationalLevel;
+use App\Enums\Boolean;
 use App\Models\Member;
 use App\Models\MemberAdmission;
 use App\Http\Requests\MemberStoreRequest;
@@ -53,7 +61,9 @@ class MemberController extends Controller
     {
         $this->authorize('members.create');
 
-        return Inertia::render('members/create');
+        return Inertia::render('members/create', [
+            'options' => $this->getOptions(),
+        ]);
     }
 
     /**
@@ -102,6 +112,7 @@ class MemberController extends Controller
         return Inertia::render('members/edit', [
             'member' => $member->load('currentAdmission'),
             'admissions' => $member->admissions()->get(),
+            'options' => $this->getOptions(),
         ]);
     }
 
@@ -126,7 +137,7 @@ class MemberController extends Controller
 
                 $admissionData = RequestHelper::sanitize($data['admission']);
                 unset($data['admission']);
-                
+
                 $sanitized = RequestHelper::sanitize($data);
                 $member->update($sanitized);
 
@@ -191,5 +202,24 @@ class MemberController extends Controller
     {
         return Member::whereHas('currentAdmission', fn($q) => $q->where('membership_type', $membership_type))
             ->count();
+    }
+
+    /**
+     * Get option fields to send to view.
+     */
+    public function getOptions(): array
+    {
+        return [
+            'membership_type_options' => MembershipType::options(),
+            'membership_status_options' => MembershipStatus::options(),
+            'admission_reason_options' => AdmissionReason::options(),
+            'dismissal_reason_options' => DismissalReason::options(),
+            'gender_options' => Gender::options(),
+            'marital_status_options' => MaritalStatus::options(),
+            'educational_level_options' => EducationalLevel::options(),
+            'is_under_discipline_options' => Boolean::options(),
+            'is_baptized_options' => Boolean::options(),
+            'has_professed_faith_options' => Boolean::options(),
+        ];
     }
 }

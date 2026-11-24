@@ -67,14 +67,30 @@ type AdmissionHistory = {
   created_at: Value;
 };
 
+type SelectOption = {
+  value: string; label: string
+};
+
 type Props = {
   readonly member: Member;
   readonly admissions: AdmissionHistory[];
+  readonly options: {
+    membership_type_options: SelectOption[];
+    membership_status_options: SelectOption[];
+    admission_reason_options: SelectOption[];
+    dismissal_reason_options: SelectOption[];
+    gender_options: SelectOption[];
+    marital_status_options: SelectOption[];
+    educational_level_options: SelectOption[];
+    is_under_discipline_options: SelectOption[];
+    is_baptized_options: SelectOption[];
+    has_professed_faith_options: SelectOption[];
+  };
 };
 
 const str = (value: Value | undefined) => value?.toString() ?? '';
 
-export default function Edit({ member, admissions }: Props) {
+export default function Edit({ member, admissions, options }: Props) {
   const admission = member.current_admission;
 
   const { data, setData, put, processing, errors } = useForm({
@@ -152,9 +168,9 @@ export default function Edit({ member, admissions }: Props) {
                 className="mt-1 w-full rounded-md border p-2"
               >
                 <option value="">Selecione</option>
-                <option value="1">Ativo</option>
-                <option value="2">Rol separado</option>
-                <option value="3">Demitido</option>
+                {options.membership_type_options.map((opt) => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
               </select>
               <InputError message={errors['admission.membership_type']} />
             </div>
@@ -168,8 +184,9 @@ export default function Edit({ member, admissions }: Props) {
                 className="mt-1 w-full rounded-md border p-2"
               >
                 <option value="">Selecione</option>
-                <option value="1">Comungante</option>
-                <option value="2">Não comungante</option>
+                {options.membership_status_options.map((opt) => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
               </select>
               <InputError message={errors['admission.membership_status']} />
             </div>
@@ -183,8 +200,9 @@ export default function Edit({ member, admissions }: Props) {
                 className="mt-1 w-full rounded-md border p-2"
               >
                 <option value="">Selecione</option>
-                <option value="1">Sim</option>
-                <option value="0">Não</option>
+                {options.is_under_discipline_options.map((opt) => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
               </select>
               <InputError message={errors.is_under_discipline} />
             </div>
@@ -238,16 +256,9 @@ export default function Edit({ member, admissions }: Props) {
                 className="mt-1 w-full rounded-md border p-2"
               >
                 <option value="">Selecione</option>
-                <option value="1">Batismo</option>
-                <option value="2">Profissão de Fé</option>
-                <option value="3">Batismo e Profissão de Fé</option>
-                <option value="4">Transferência</option>
-                <option value="5">Transferência de Responsáveis</option>
-                <option value="6">Restauração</option>
-                <option value="7">Jurisdição Ex-ofício</option>
-                <option value="8">Jurisdição a Pedido</option>
-                <option value="9">Jurisdição sobre os Responsáveis</option>
-                <option value="10">Designação do Presbitério</option>
+                {options.admission_reason_options.map((opt) => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
               </select>
               <InputError message={errors['admission.admission_reason']} />
             </div>
@@ -292,10 +303,9 @@ export default function Edit({ member, admissions }: Props) {
                 className="mt-1 w-full rounded-md border p-2"
               >
                 <option value="">Selecione</option>
-                <option value="1">Transferência</option>
-                <option value="2">Falecimento</option>
-                <option value="3">Exclusão</option>
-                <option value="4">Ordenação</option>
+                {options.dismissal_reason_options.map((opt) => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
               </select>
               <InputError message={errors['admission.dismissal_reason']} />
             </div>
@@ -322,8 +332,9 @@ export default function Edit({ member, admissions }: Props) {
                 className="mt-1 w-full rounded-md border p-2"
               >
                 <option value="">Selecione</option>
-                <option value="1">Masculino</option>
-                <option value="2">Feminino</option>
+                {options.gender_options.map((opt) => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
               </select>
               <InputError message={errors.gender} />
             </div>
@@ -390,12 +401,9 @@ export default function Edit({ member, admissions }: Props) {
                 className="mt-1 w-full rounded-md border p-2"
               >
                 <option value="">Selecione</option>
-                <option value="1">Solteiro(a)</option>
-                <option value="2">Casado(a)</option>
-                <option value="3">Separado(a)</option>
-                <option value="4">Viúvo(a)</option>
-                <option value="5">Divorciado(a)</option>
-                <option value="6">União Estável</option>
+                {options.marital_status_options.map((opt) => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
               </select>
               <InputError message={errors.marital_status} />
             </div>
@@ -460,17 +468,10 @@ export default function Edit({ member, admissions }: Props) {
                 onChange={(e) => setData('educational_level', e.target.value)}
                 className="mt-1 w-full rounded-md border p-2"
               >
-              <option value="">Selecione</option>
-              <option value="1">Ensino Fundamental Incompleto</option>
-              <option value="2">Ensino Fundamental Completo</option>
-              <option value="3">Ensino Médio Incompleto</option>
-              <option value="4">Ensino Médio Completo</option>
-              <option value="5">Graduação Incompleta</option>
-              <option value="6">Graduação Completa</option>
-              <option value="7">Pós-Graduação</option>
-              <option value="8">Mestrado</option>
-              <option value="9">Doutorado</option>
-              <option value="10">Pós-Doutorado</option>
+                <option value="">Selecione</option>
+                {options.educational_level_options.map((opt) => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
               </select>
               <InputError message={errors.educational_level} />
             </div>
@@ -646,8 +647,9 @@ export default function Edit({ member, admissions }: Props) {
                 className="mt-1 w-full rounded-md border p-2"
               >
                 <option value="">Selecione</option>
-                <option value="1">Sim</option>
-                <option value="0">Não</option>
+                {options.is_baptized_options.map((opt) => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
               </select>
               <InputError message={errors.is_baptized} />
             </div>
@@ -701,8 +703,9 @@ export default function Edit({ member, admissions }: Props) {
                 className="mt-1 w-full rounded-md border p-2"
               >
                 <option value="">Selecione</option>
-                <option value="1">Sim</option>
-                <option value="0">Não</option>
+                {options.has_professed_faith_options.map((opt) => (
+                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                ))}
               </select>
               <InputError message={errors.has_professed_faith} />
             </div>
