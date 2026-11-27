@@ -22,7 +22,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6.1.0
+        uses: actions/checkout@v7.0.1
 
       - name: Get version for release tag
         id: release
@@ -45,7 +45,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6.1.0
+        uses: actions/checkout@v7.0.1
 
       - name: Prepare body file to release release_notes
         run: awk '/^## \[v/{n++; next} n==1' CHANGELOG.md | sed '/./,$!d' > /tmp/body.md
