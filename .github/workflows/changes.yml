@@ -14,7 +14,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6.1.0
+        uses: actions/checkout@v7.0.1
       
       - name: Define path change filter
         uses: dorny/paths-filter@v4.0.3

@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v6.1.0
+        uses: actions/checkout@v7.0.1
 
       - name: Set image tag
         id: set_image
@@ -44,7 +44,7 @@ jobs:
           docker save "$IMAGE" -o /tmp/image/image.tar
 
       - name: Upload image artifact
-        uses: actions/upload-artifact@v7.0.1
+        uses: actions/upload-artifact@v7.0.2
         with:
           name: image-${{ github.run_id }}
           path: /tmp/image/image.tar
