@@ -1,0 +1,118 @@
+<?php
+
+namespace App\Http\Controllers\Iam;
+
+use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Http\Requests\Iam\UserStoreRequest;
+use App\Http\Requests\Iam\UserUpdateRequest;
+use Illuminate\Http\RedirectResponse;
+use Inertia\Inertia;
+use Inertia\Response;
+use Spatie\Permission\Models\Role;
+
+class UserController extends Controller
+{
+    /**
+     * Show the user's page.
+     */
+    public function index(): Response
+    {
+        $this->authorize('users.index');
+
+        $users = User::with('roles')->orderBy('id')->paginate(15);
+
+        return Inertia::render('iam/users/index', [
+            'users' => $users,
+        ]);
+    }
+
+    /**
+     * Show the user's create page.
+     */
+    public function create(): Response
+    {
+        $this->authorize('users.create');
+
+        $roles = Role::orderBy('name')->get(['id', 'name']);
+
+        return Inertia::render('iam/users/create', [
+            'roles' => $roles,
+        ]);
+    }
+
+    /**
+     * Stores the user information.
+     */
+    public function store(UserStoreRequest $request): RedirectResponse
+    {
+        return $this->withToastFeedback(
+            action: function () use ($request) {
+                $user = User::create($request->safe()->except('roles'));
+                $user->syncRoles($request->validated('roles', []));
+            },
+            successMessage: __('Usuário cadastrado.'),
+            errorMessage: __('Usuário não pôde ser cadastrado.'),
+            redirectRoute: 'users.index',
+            errorRoute: 'users.create',
+        );
+    }
+
+    /**
+     * Show the user's edit page.
+     */
+    public function edit(User $user): Response
+    {
+        $this->authorize('users.edit');
+
+        $roles = Role::orderBy('name')->get(['id', 'name']);
+
+        return Inertia::render('iam/users/edit', [
+            'user'  => $user->load('roles'),
+            'roles' => $roles,
+        ]);
+    }
+
+    /**
+     * Update the user information.
+     */
+    public function update(UserUpdateRequest $request, User $user): RedirectResponse
+    {
+        $data = $request->safe()->except('roles');
+
+        if (empty($data['password'])) {
+            unset($data['password']);
+        }
+
+        return $this->withToastFeedback(
+            action: function () use ($request, $user, $data) {
+                $updated = $user->update($data);
+                $user->syncRoles($request->validated('roles', []));
+
+                return $updated;
+            },
+            successMessage: __('Usuário editado.'),
+            errorMessage: __('Usuário não pôde ser editado.'),
+            redirectRoute: 'users.index',
+            errorRoute: 'users.edit',
+        );
+    }
+
+    /**
+     * Delete the user.
+     */
+    public function destroy(User $user): RedirectResponse
+    {
+        $this->authorize('users.destroy');
+
+        return $this->withToastFeedback(
+            action: function () use ($user) {
+                return $user->delete();
+            },
+            successMessage: __('Usuário deletado.'),
+            errorMessage: __('Usuário não pôde ser deletado.'),
+            redirectRoute: 'users.index',
+            errorRoute: 'users.index',
+        );
+    }
+}
