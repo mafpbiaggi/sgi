@@ -2,6 +2,46 @@
 
 Todas as alterações relevantes deste projeto serão documentadas neste arquivo. O formato baseia-se no [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), e este projeto segue o [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v2.0.0]
+
+### Adicionado
+  - Migração completa do framework CakePHP 2.x para Laravel 13
+  - Novo frontend com React/TypeScript utilizando Inertia.js
+  - Sistema de autenticação com Laravel Fortify
+  - Interface de usuário responsiva com componentes UI
+  - Testes automatizados com Pest.php
+  - Módulo de gerenciamento de membros
+  - Módulo de gerenciamento de visitantes
+  - Módulo de relatórios de membros
+  - Módulo de gerenciamento de grupos e permissões
+  - Extensão PHP GD para manipulação de imagens
+  - RequestHelper para sanitização de dados
+  - Container Docker modernizado com multi-stage build
+  - Documentação auxiliar da aplicação e workflows de CI/CD
+  
+### Removido
+  - Framework CakePHP 2.x completo (lib/Cake)
+  - Plugins do CakePHP (Biblioteca, Patrimonio, Secretaria)
+  - Visualizações e controladores do CakePHP (app/Controller, app/Model, app/View)
+  - Configurações e rotas antigas do CakePHP
+  - Integração com Facebook e autenticação OAuth
+  - Módulos removidos da versão 1.4 (Escolaridades, Estados, Dons, Mapa de Membros)
+  - Estrutura de banco de dados schema.sql (substituído por migrations)
+  
+### Alterado
+  - Sistema de banco de dados com migrations Laravel
+  - Gerenciamento de dependências com Composer e npm/pnpm
+  - Centralização de opções dos selects em Enums
+  - Padronização de validações, testes e views em todos os módulos
+  
+### Corrigido
+  - Validação de nomes (campos obrigatórios)
+  - Mensagens de retorno em controllers de permissões
+  - Testes do módulo de usuários
+  - Mensagens de falha em operações de escrita (store, update, destroy)
+  - Workflows de CI/CD
+    - Variáveis de ambiente, dependência entre jobs e nomenclatura de arquivos
+
 ## [v1.4.1]
 
 ### Corrigido
@@ -160,3 +200,4 @@ testes
 [v1.3.0]: https://github.com/mafpbiaggi/sgi/releases/tag/v1.3.0
 [v1.3.1]: https://github.com/mafpbiaggi/sgi/releases/tag/v1.3.1
 [v1.4.0]: https://github.com/mafpbiaggi/sgi/releases/tag/v1.4.0
+[v2.0.0]: https://github.com/mafpbiaggi/sgi/releases/tag/v2.0.0
